@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import datetime, io, time, requests
+import datetime, io, time, requests, os
 import streamlit.components.v1 as components
 
 # =============================================================================
@@ -171,7 +171,14 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
-    strategy_choice = st.selectbox("量化策略模組", ["A. 營收趨勢增長型", "B. 股價強勢動能型", "C. 營收股價雙能型", "D. 法人籌碼吃貨型", "E. 股票轉折測試區"], label_visibility="collapsed")
+    strategy_choice = st.selectbox("量化策略模組", [
+        "A. 營收趨勢增長型", 
+        "B. 股價強勢動能型", 
+        "C. 營收股價雙能型", 
+        "D. 法人籌碼吃貨型", 
+        "E. 市場成本共振型", 
+        "F. 股票轉折測試區"
+    ], label_visibility="collapsed")
     
     st.markdown("""
     <div class='section-header-container'>
@@ -219,15 +226,24 @@ if not st.session_state['scan_completed']:
         logic_html = """
         <div class="logic-grid">
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日均量 > 1,000張 且 <span class="highlight">近60日總量 > 60,000張</span>。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">SAFE ZONE</span></div><div class="logic-label-zh">防護起漲區</div></div><div class="logic-desc">現價與季線乖離 <span class="highlight">不超過 20%</span>，堅決不追高。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">SAFE ZONE</span></div><div class="logic-label-zh">防護起漲區</div></div><div class="logic-desc">現價與季線乖離 <span class="highlight">不超過 15%</span>，堅決不追高。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">WHALE CHIP</span></div><div class="logic-label-zh">巨鯨級籌碼</div></div><div class="logic-desc">法人近 60 日淨買超必須大於 <span class="highlight">10,000 張</span>，確保重金護盤。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">STEP ACCUM</span></div><div class="logic-label-zh">階梯創高吃貨</div></div><div class="logic-desc">買超張數 <span class="highlight">60日 > 20日 > 5日</span>，且<span class="highlight">法人總持股</span>創近 60 日新高。</div></div>
+        </div>
+        """
+    elif "E." in strategy_choice:
+        logic_html = """
+        <div class="logic-grid">
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近60日平均日成交量需大於 <span class="highlight">500張</span>，過濾冷門股。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">VOL SPIKE</span></div><div class="logic-label-zh">倍量攻擊表態</div></div><div class="logic-desc">近20日內至少有一日成交量 <span class="highlight">大於季均量 2 倍</span>，確認主力進場。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">RESONANCE</span></div><div class="logic-label-zh">籌碼雙重共振</div></div><div class="logic-desc">季度大戶成本(AVWAP)與成交重心(POC)差距 <span class="highlight">≤ 5%</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮回踩買點</div></div><div class="logic-desc">現價與成本乖離 <span class="highlight">±5% 內</span>，且今日成交量小於 <span class="highlight">近5日均量</span>。</div></div>
         </div>
         """
     else:
         logic_html = """
         <div class="logic-grid">
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">策略A、B、C、D</span> 所篩選出的全體優質標的作為判斷樣本。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">策略A、B、C、D、E</span> 所篩選出的全體優質標的作為判斷樣本。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">轉折觸發</div></div><div class="logic-desc">鎖定 <span class="highlight">現價突破轉折值</span> 的標的，預判未來行情繼續延伸。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">營收動能</div></div><div class="logic-desc">追蹤 <span class="highlight">今年以來累積營收YoY(%)</span>，確保基本面支撐。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人籌碼</div></div><div class="logic-desc">觀察近 20 日 <span class="highlight">法人買賣超動向</span>，確認機構資金流向。</div></div>
@@ -258,6 +274,7 @@ if not st.session_state['scan_completed']:
         try:
             # 🚨 更改為直接讀取本地 CSV 檔案
             def fetch_and_rename(filepath):
+                if not os.path.exists(filepath): return pd.DataFrame()
                 d = pd.read_csv(filepath)
                 
                 rename_map = {
@@ -274,44 +291,56 @@ if not st.session_state['scan_completed']:
 
             df1 = fetch_and_rename("daily_result.csv")
             df2 = fetch_and_rename("momentum_result.csv")
-            df_d = fetch_and_rename("strategy_e_result.csv")
+            df_d = fetch_and_rename("strategy_d_result.csv")
+            df_e = fetch_and_rename("strategy_e_result.csv")
             
             if "A." in strategy_choice: 
                 df_f = df1
             elif "B." in strategy_choice: 
                 df_f = df2
             elif "C." in strategy_choice:
-                df_f = df1[df1['代號'].isin(df2['代號'])].copy()
+                if not df1.empty and not df2.empty:
+                    df_f = df1[df1['代號'].isin(df2['代號'])].copy()
+                else: df_f = pd.DataFrame()
             elif "D." in strategy_choice:
                 df_f = df_d
+            elif "E." in strategy_choice:
+                df_f = df_e
             else:
                 id_map = {}
-                for sid in df1['代號'].astype(str): 
-                    id_map.setdefault(sid, set()).add("A")
-                for sid in df2['代號'].astype(str): 
-                    id_map.setdefault(sid, set()).add("B")
+                if not df1.empty:
+                    for sid in df1['代號'].astype(str): id_map.setdefault(sid, set()).add("A")
+                if not df2.empty:
+                    for sid in df2['代號'].astype(str): id_map.setdefault(sid, set()).add("B")
+                
                 for sid, tags in id_map.items():
                     if "A" in tags and "B" in tags: tags.add("C")
-                for sid in df_d['代號'].astype(str): 
-                    id_map.setdefault(sid, set()).add("D")
-
-                df_combined = pd.concat([df1, df2, df_d], ignore_index=True).drop_duplicates(subset=['代號'])
                 
-                if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
-                    df_combined['現價_num'] = pd.to_numeric(df_combined['現價'], errors='coerce')
-                    df_combined['轉折_num'] = pd.to_numeric(df_combined['轉折值'], errors='coerce')
-                    df_f = df_combined[(df_combined['現價_num'] > df_combined['轉折_num']) & (df_combined['轉折_num'] > 0)].copy()
+                if not df_d.empty:
+                    for sid in df_d['代號'].astype(str): id_map.setdefault(sid, set()).add("D")
+                if not df_e.empty:
+                    for sid in df_e['代號'].astype(str): id_map.setdefault(sid, set()).add("E")
+
+                dfs_to_concat = [d for d in [df1, df2, df_d, df_e] if not d.empty]
+                if dfs_to_concat:
+                    df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
                     
-                    def remark_name(row):
-                        sid = str(row['代號'])
-                        tags = sorted(list(id_map.get(sid, set())))
-                        tag_str = ",".join(tags)
-                        return f"{row['名稱']} ({tag_str})"
-                    
-                    if not df_f.empty:
-                        df_f['名稱'] = df_f.apply(remark_name, axis=1)
-                    
-                    df_f = df_f.drop(columns=['現價_num', '轉折_num'])
+                    if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
+                        df_combined['現價_num'] = pd.to_numeric(df_combined['現價'], errors='coerce')
+                        df_combined['轉折_num'] = pd.to_numeric(df_combined['轉折值'], errors='coerce')
+                        df_f = df_combined[(df_combined['現價_num'] > df_combined['轉折_num']) & (df_combined['轉折_num'] > 0)].copy()
+                        
+                        def remark_name(row):
+                            sid = str(row['代號'])
+                            tags = sorted(list(id_map.get(sid, set())))
+                            tag_str = ",".join(tags) if tags else ""
+                            return f"{row['名稱']} ({tag_str})" if tag_str else row['名稱']
+                        
+                        if not df_f.empty:
+                            df_f['名稱'] = df_f.apply(remark_name, axis=1)
+                        
+                        df_f = df_f.drop(columns=['現價_num', '轉折_num'])
+                    else: df_f = pd.DataFrame()
                 else:
                     df_f = pd.DataFrame()
                 
@@ -337,9 +366,12 @@ else:
     
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
     
+    # 🌟 新增 E 策略專屬的欄位至 base_cols
     base_cols = [
         "代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", 
-        "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", "轉折值", "轉折乖離(%)"
+        "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", 
+        "季度成本(AVWAP)", "共振程度(%)", "20日內最大量(倍)",
+        "轉折值", "轉折乖離(%)"
     ]
         
     display_cols = [c for c in base_cols if c in df.columns]
@@ -363,7 +395,7 @@ else:
         </div>
     ''', unsafe_allow_html=True)
     
-    # 🚨 終極鎖定技：將代號與名稱合體，做為單一 Index 鎖定，這在手機上 100% 不會失效！
+    # 🚨 終極鎖定技：將代號與名稱合體
     if "代號" in display_cols and "名稱" in display_cols:
         df_for_display = df[display_cols].copy()
         df_for_display.insert(0, "代號 / 名稱", df_for_display["代號"].astype(str) + " " + df_for_display["名稱"])
@@ -384,11 +416,14 @@ else:
         "月營收YoY(%)": st.column_config.NumberColumn(width=115),
         "今年營收YoY(%)": st.column_config.NumberColumn(width=125),
         "20日法人買賣超(張)": st.column_config.NumberColumn(width=150),
+        "季度成本(AVWAP)": st.column_config.NumberColumn(width=115),
+        "共振程度(%)": st.column_config.NumberColumn(width=95),
+        "20日內最大量(倍)": st.column_config.NumberColumn(width=125),
         "轉折值": st.column_config.NumberColumn(width=85),
         "轉折乖離(%)": st.column_config.NumberColumn(width=95)
     }
 
-    format_dict = {c: "{:.2f}" for c in df_for_display.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅"])}
+    format_dict = {c: "{:.2f}" for c in df_for_display.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅", "最大量", "共振程度", "成本"])}
     for c in df_for_display.columns: 
         if "法人" in c or "買超" in c or "張" in c: format_dict[c] = "{:,.0f}"
 
