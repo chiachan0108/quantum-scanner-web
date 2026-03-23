@@ -178,7 +178,7 @@ if not st.session_state['scan_completed']:
         "C. 營收股價雙能型", 
         "D. 法人籌碼吃貨型", 
         "E. 市場區間精算型", 
-        "F. 股票轉折測試區"
+        "F. 趨勢轉折延伸型"
     ], label_visibility="collapsed")
     
     st.markdown("""
