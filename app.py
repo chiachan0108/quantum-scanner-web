@@ -176,7 +176,7 @@ if not st.session_state['scan_completed']:
         "B. 股價強勢動能型", 
         "C. 營收股價雙能型", 
         "D. 法人籌碼吃貨型", 
-        "E. 市場成本共振型", 
+        "E. 季度倍量攻擊共振型", 
         "F. 股票轉折測試區"
     ], label_visibility="collapsed")
     
@@ -272,7 +272,6 @@ if not st.session_state['scan_completed']:
             time.sleep(1.0)
 
         try:
-            # 🚨 更改為直接讀取本地 CSV 檔案
             def fetch_and_rename(filepath):
                 if not os.path.exists(filepath): return pd.DataFrame()
                 d = pd.read_csv(filepath)
@@ -299,8 +298,10 @@ if not st.session_state['scan_completed']:
             elif "B." in strategy_choice: 
                 df_f = df2
             elif "C." in strategy_choice:
+                # 🚨 強制進行嚴格交集：必須同時存在於 A(df1) 與 B(df2)
                 if not df1.empty and not df2.empty:
-                    df_f = df1[df1['代號'].isin(df2['代號'])].copy()
+                    intersection_ids = set(df1['代號']).intersection(set(df2['代號']))
+                    df_f = df1[df1['代號'].isin(intersection_ids)].copy()
                 else: df_f = pd.DataFrame()
             elif "D." in strategy_choice:
                 df_f = df_d
@@ -346,6 +347,7 @@ if not st.session_state['scan_completed']:
                 
             if not df_f.empty:
                 if '編號' in df_f.columns: df_f = df_f.drop(columns=['編號'])
+                # 計算所有策略的轉折乖離
                 if '現價' in df_f.columns and '轉折值' in df_f.columns:
                     p_num = pd.to_numeric(df_f['現價'], errors='coerce')
                     v_num = pd.to_numeric(df_f['轉折值'], errors='coerce')
@@ -366,15 +368,19 @@ else:
     
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
     
-    # 🌟 新增 E 策略專屬的欄位至 base_cols
+    # 🚨 終極鎖定版：嚴格對齊圖片中的 12 個欄位，確保不論切換到 A~F 任何策略，畫面絕對一模一樣
     base_cols = [
         "代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", 
         "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", 
-        "季度成本(AVWAP)", "共振程度(%)", "20日內最大量(倍)",
         "轉折值", "轉折乖離(%)"
     ]
         
-    display_cols = [c for c in base_cols if c in df.columns]
+    # 如果該策略的 CSV 本來沒有某個欄位 (例如 E 沒有法人)，自動補齊避免跑版
+    for col in base_cols:
+        if col not in df.columns:
+            df[col] = pd.NA
+
+    display_cols = base_cols
 
     avg_ret = 0.0
     if "漲幅(%)" in df.columns and len(df) > 0: avg_ret = pd.to_numeric(df["漲幅(%)"], errors='coerce').mean()
@@ -395,7 +401,7 @@ else:
         </div>
     ''', unsafe_allow_html=True)
     
-    # 🚨 終極鎖定技：將代號與名稱合體
+    # 🚨 將代號與名稱合體
     if "代號" in display_cols and "名稱" in display_cols:
         df_for_display = df[display_cols].copy()
         df_for_display.insert(0, "代號 / 名稱", df_for_display["代號"].astype(str) + " " + df_for_display["名稱"])
@@ -416,14 +422,11 @@ else:
         "月營收YoY(%)": st.column_config.NumberColumn(width=115),
         "今年營收YoY(%)": st.column_config.NumberColumn(width=125),
         "20日法人買賣超(張)": st.column_config.NumberColumn(width=150),
-        "季度成本(AVWAP)": st.column_config.NumberColumn(width=115),
-        "共振程度(%)": st.column_config.NumberColumn(width=95),
-        "20日內最大量(倍)": st.column_config.NumberColumn(width=125),
         "轉折值": st.column_config.NumberColumn(width=85),
         "轉折乖離(%)": st.column_config.NumberColumn(width=95)
     }
 
-    format_dict = {c: "{:.2f}" for c in df_for_display.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅", "最大量", "共振程度", "成本"])}
+    format_dict = {c: "{:.2f}" for c in df_for_display.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅"])}
     for c in df_for_display.columns: 
         if "法人" in c or "買超" in c or "張" in c: format_dict[c] = "{:,.0f}"
 
