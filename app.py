@@ -21,7 +21,7 @@ st.markdown("""
         -webkit-font-smoothing: antialiased; overscroll-behavior-y: none;
     }
 
-    /* 🚨 科技感自訂捲軸 (細節優化) */
+    /* 🚨 科技感自訂捲軸 */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); }
     ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.2); border-radius: 10px; }
@@ -117,7 +117,9 @@ st.markdown("""
     .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; }
     .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } 
     .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; }
-    .highlight { color: #ffffff !important; font-weight: 600 !important; }
+    
+    /* 🚨 更新重點：文字變更為高亮霓虹色 (Quantum Cyan) 加上微光效 */
+    .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
 
     .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; }
     .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
@@ -246,7 +248,7 @@ if not st.session_state['scan_completed']:
         <div class="logic-grid">
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc"><span class="highlight">全體上市櫃公司</span>，排除 ETF、ETN、存託憑證及下市黑名單。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日平均日成交量需大於 <span class="highlight">1,000張</span>，確保流動性安全無虞。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">STRENGTH</span></div><div class="logic-label-zh">相對強勢動能</div></div><div class="logic-desc">股價短中長期皆強勢，<span class="highlight">近20日、60日與240日報酬</span>超越大盤同期績效。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">STRENGTH</span></div><div class="logic-label-zh">相對強勢動能</div></div><div class="logic-desc">股價短中長期皆強勢，<span class="highlight">近20日、60日與240日報酬</span> 超越大盤同期績效。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">CASHFLOW</span></div><div class="logic-label-zh">法人資金流</div></div><div class="logic-desc">近 5、20 個交易日三大法人合計皆呈現 <span class="highlight">淨買超狀態</span>，具備機構短、中期資金護航實力。</div></div>
         </div>
         """
@@ -255,7 +257,7 @@ if not st.session_state['scan_completed']:
         <div class="logic-grid">
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">雙引擎交集</div></div><div class="logic-desc">抓出具備 <span class="highlight">營收創高成長</span> 與 <span class="highlight">技術強勢動能</span> 的交集標的。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">基本面護城河</div></div><div class="logic-desc"><span class="highlight">近1年累積營收</span> 創歷史同期新高，且今年以來累積 YoY > 20%。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TECHNICAL</span></div><div class="logic-label-zh">技術面爆發</div></div><div class="logic-desc"><span class="highlight">短、中、長期報酬</span>全數超越大盤同期績效。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TECHNICAL</span></div><div class="logic-label-zh">技術面爆發</div></div><div class="logic-desc"><span class="highlight">短、中、長期報酬</span> 全數超越大盤同期績效。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人雙重認同</div></div><div class="logic-desc">確保近 <span class="highlight">5、20 日三大法人皆為淨買超</span>，具備機構短、中期資金護航實力。</div></div>
         </div>
         """
@@ -265,7 +267,7 @@ if not st.session_state['scan_completed']:
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日均量 > 1,000張 且 <span class="highlight">近60日總量 > 60,000張</span>。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">SAFE ZONE</span></div><div class="logic-label-zh">防護起漲區</div></div><div class="logic-desc">現價與季線乖離 <span class="highlight">不超過 15%</span>，堅決不追高。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">WHALE CHIP</span></div><div class="logic-label-zh">巨鯨級籌碼</div></div><div class="logic-desc">法人近 60 日淨買超必須大於 <span class="highlight">10,000 張</span>，確保重金護盤。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">STEP ACCUM</span></div><div class="logic-label-zh">階梯創高吃貨</div></div><div class="logic-desc">買超張數 <span class="highlight">60日 > 20日 > 5日</span>，且<span class="highlight">法人總持股</span>創近 60 日新高。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">STEP ACCUM</span></div><div class="logic-label-zh">階梯創高吃貨</div></div><div class="logic-desc">買超張數 <span class="highlight">60日 > 20日 > 5日</span>，且 <span class="highlight">法人總持股</span> 創近 60 日新高。</div></div>
         </div>
         """
     elif "E." in strategy_choice:
@@ -306,7 +308,7 @@ if not st.session_state['scan_completed']:
                 </div>
             </div>
             ''', unsafe_allow_html=True)
-            time.sleep(0.5) # 微調縮短視覺等待時間
+            time.sleep(0.5) 
 
         try:
             def fetch_and_rename(filepath):
@@ -389,13 +391,11 @@ if not st.session_state['scan_completed']:
                     df_f['轉折乖離(%)'] = ((p_num - v_num) / v_num.replace(0, pd.NA) * 100).fillna(0).round(2)
                 df_f = df_f.reset_index(drop=True)
                 
-                # 🚀 觸發成功懸浮提示
                 st.session_state.update({'temp_df': df_f, 'selected_strategy': strategy_choice, 'scan_completed': True})
                 st.toast('量化矩陣資料載入成功！', icon='⚡')
                 st.rerun()
             else: 
                 p_placeholder.empty()
-                # 🚀 玻璃擬物風：科技感空值狀態
                 st.markdown('''
                     <div class="empty-state-glass">
                         <div class="empty-state-icon">📡</div>
@@ -474,7 +474,6 @@ else:
 
     styled_df = df_for_display.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-")
     
-    # 🚀 為表格外圍添加科技環境光暈
     st.markdown('<div class="dataframe-wrapper">', unsafe_allow_html=True)
     st.dataframe(styled_df, use_container_width=True, column_config=col_config)
     st.markdown('</div>', unsafe_allow_html=True)
