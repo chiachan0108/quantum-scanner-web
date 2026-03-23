@@ -118,7 +118,7 @@ st.markdown("""
     .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } 
     .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; }
     
-    /* 🚨 更新重點：文字變更為高亮霓虹色 (Quantum Cyan) 加上微光效 */
+    /* 文字高亮霓虹色 (Quantum Cyan) 加上微光效 */
     .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
 
     .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; }
@@ -215,7 +215,7 @@ if not st.session_state['scan_completed']:
         "B. 股價強勢動能型", 
         "C. 營收股價雙能型", 
         "D. 法人籌碼吃貨型", 
-        "E. 市場區間精算型", 
+        "E. 市場區間共振型", 
         "F. 趨勢轉折延伸型"
     ], label_visibility="collapsed")
     
@@ -273,10 +273,10 @@ if not st.session_state['scan_completed']:
     elif "E." in strategy_choice:
         logic_html = """
         <div class="logic-grid">
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近60日平均日成交量需大於 <span class="highlight">1,000張</span>，過濾冷門股。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">VOL SPIKE</span></div><div class="logic-label-zh">異常攻擊表態</div></div><div class="logic-desc">近20日內至少有一日成交量 <span class="highlight">大於季均量 3 倍</span>，確認主力進場。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">RESONANCE</span></div><div class="logic-label-zh">籌碼極致共振</div></div><div class="logic-desc">季度大戶成本(AVWAP)與成交重心(POC)差距 <span class="highlight">≤ 3%</span>。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮貼線買點</div></div><div class="logic-desc">現價與成本乖離 <span class="highlight">±3% 內</span>，且今日成交量小於 <span class="highlight">近5日均量</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近1季日平均日成交量需大於 <span class="highlight">1,000張</span>，確保流動性無虞。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">VOL SPIKE</span></div><div class="logic-label-zh">異常攻擊表態</div></div><div class="logic-desc">近1個月內至少有一日以上成交量 <span class="highlight">大於季均量 3 倍</span>，確認市場大量換手。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">RESONANCE</span></div><div class="logic-label-zh">籌碼極致共振</div></div><div class="logic-desc">季度市場加權成本價(AVWAP)，與成交區間重心價(POC)差距在 <span class="highlight">3%以內</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮沉澱買點</div></div><div class="logic-desc">現價與市場加權成本價(AVWAP)差距在 <span class="highlight">3% 內</span>，且今日成交量 <span class="highlight">小於近5日均量</span>。</div></div>
         </div>
         """
     else:
