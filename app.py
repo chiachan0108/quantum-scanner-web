@@ -21,21 +21,34 @@ st.markdown("""
         -webkit-font-smoothing: antialiased; overscroll-behavior-y: none;
     }
 
-    /* 🚨 隱藏右上角 Streamlit 預設選單、Fork 按鈕與 GitHub 連結 */
+    /* 🚨 科技感自訂捲軸 (細節優化) */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.5); }
+
+    /* 隱藏右上角 Streamlit 預設選單 */
     [data-testid="stHeader"] { visibility: hidden !important; display: none !important; }
     [data-testid="stToolbar"] { visibility: hidden !important; display: none !important; }
     [data-testid="stDecoration"] { visibility: hidden !important; display: none !important; }
     #MainMenu { visibility: hidden !important; display: none !important; }
 
+    /* 進場動畫設定 */
+    @keyframes fadeSlideUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-container { animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
     .pulse-dot-small { width: 8px; height: 8px; background-color: #00f2ff; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(0, 242, 255, 0.4); animation: breathing 2.5s infinite; flex-shrink: 0; }
     @keyframes breathing { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 242, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } }
 
-    .header-group { margin-top: -45px; margin-bottom: 5px; }
+    .header-group { margin-top: -45px; margin-bottom: 5px; animation: fadeSlideUp 0.4s ease-out forwards; }
     .main-title { font-family: 'JetBrains Mono', monospace !important; font-weight: 700; letter-spacing: -2px; background: linear-gradient(90deg, #00f2ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(2.0rem, 6vw, 3.5rem); line-height: 1.1; margin: 0; }
     .status-pill { display: inline-flex; align-items: center; white-space: nowrap; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: rgba(148, 163, 184, 0.9); margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; }
     .status-val { color: #ffffff; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-left: 6px; }
 
-    .section-header-container { margin-top: 25px; margin-bottom: 16px; display: flex; align-items: center; position: relative; }
+    .section-header-container { margin-top: 25px; margin-bottom: 16px; display: flex; align-items: center; position: relative; animation: fadeSlideUp 0.5s ease-out forwards; }
     .section-accent { width: 4px; height: 34px; background: linear-gradient(180deg, #00f2ff, #0072ff); border-radius: 4px; margin-right: 14px; box-shadow: 0 0 12px rgba(0, 242, 255, 0.4); }
     .section-header-text { display: flex; flex-direction: column; justify-content: center; }
     .section-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(0, 242, 255, 0.9); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; line-height: 1; }
@@ -45,8 +58,9 @@ st.markdown("""
     div[data-testid="stSelectbox"] label { display: none !important; }
     .stSelectbox [data-baseweb="select"] { 
         background-color: #161b2a !important; border: 1px solid rgba(0, 242, 255, 0.3) !important; 
-        border-radius: 10px !important; min-height: 56px !important; 
+        border-radius: 10px !important; min-height: 56px !important; transition: all 0.3s ease;
     }
+    .stSelectbox [data-baseweb="select"]:hover { border-color: rgba(0, 242, 255, 0.7) !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
     .stSelectbox [data-baseweb="select"] > div:first-child { padding: 0px 35px 0px 18px !important; display: flex !important; align-items: center !important; height: 100% !important; min-height: 56px !important; }
     .stSelectbox [data-baseweb="select"] div { background-color: transparent !important; font-weight: 600 !important; color: #ffffff !important; font-size: clamp(1.0rem, 4.0vw, 1.15rem) !important; line-height: normal !important; margin: 0 !important; display: flex !important; align-items: center !important; }
 
@@ -58,10 +72,11 @@ st.markdown("""
         text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important;
         letter-spacing: 2px; width: 100% !important; min-height: 62px !important; 
         font-size: 1.25rem !important; 
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s ease !important; position: relative;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative;
         padding: 0 !important; 
     }
-    .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 20px rgba(0, 242, 255, 0.3) !important; transform: translateY(-1px) !important; }
+    .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; }
+    .stButton > button:active { transform: translateY(1px) !important; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2) !important; }
 
     .stButton > button div[data-testid="stMarkdownContainer"] {
         display: flex !important; align-items: center !important; justify-content: center !important;
@@ -77,25 +92,40 @@ st.markdown("""
 
     .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; }
     @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } }
+    
+    /* 級聯延遲進場動畫 */
     .logic-item { 
-        background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; transition: 0.3s; height: 100%; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2);
+        opacity: 0; animation: fadeSlideUp 0.5s ease-out forwards;
     }
-    .logic-item::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), transparent); }
-    .logic-item:hover { border-color: rgba(0, 242, 255, 0.4); transform: translateY(-2px); }
+    .logic-item:nth-child(1) { animation-delay: 0.1s; }
+    .logic-item:nth-child(2) { animation-delay: 0.2s; }
+    .logic-item:nth-child(3) { animation-delay: 0.3s; }
+    .logic-item:nth-child(4) { animation-delay: 0.4s; }
+    .logic-item:nth-child(5) { animation-delay: 0.5s; }
+    .logic-item:nth-child(6) { animation-delay: 0.6s; }
+    .logic-item:nth-child(7) { animation-delay: 0.7s; }
+    .logic-item:nth-child(8) { animation-delay: 0.8s; }
+
+    .logic-item::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), transparent); transition: opacity 0.3s ease; opacity: 0.7; }
+    .logic-item:hover { border-color: rgba(0, 242, 255, 0.5); transform: translateY(-4px); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.4); }
+    .logic-item:hover::before { opacity: 1; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 1), transparent); }
+    
     .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
     .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; }
-    .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.03); }
+    .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); }
     .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; }
     .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } 
     .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; }
     .highlight { color: #ffffff !important; font-weight: 600 !important; }
 
-    .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.05) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; }
+    .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; }
     .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
     .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; }
 
-    .summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; }
-    .result-summary, .return-summary { display: flex; align-items: center; justify-content: center !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); padding: 0 12px; border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; white-space: nowrap; box-sizing: border-box; }
+    .summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; }
+    .result-summary, .return-summary { display: flex; align-items: center; justify-content: center !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); padding: 0 12px; border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; white-space: nowrap; box-sizing: border-box; transition: all 0.3s ease; }
+    .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); }
     .result-text { font-weight: 800; font-size: 0.9rem; color: #00f2ff; letter-spacing: 0.5px; transform: translateY(1.5px); line-height: 1; }
     .result-num { font-family: 'Inter', sans-serif; font-size: 1.15rem; margin: 0 8px; color: #ffffff; font-weight: 700; transform: translateY(1.5px); line-height: 1; }
     .return-val-up { font-family: 'Inter', sans-serif; font-size: 1.15rem; margin-left: 10px; color: #ff3333; font-weight: 900; transform: translateY(1.5px); line-height: 1; }
@@ -119,13 +149,20 @@ st.markdown("""
     @keyframes ritualRingInner { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
     @keyframes dataSyncFlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* 確保原生表格順暢渲染 */
-    [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; }
+    /* 表格光暈特效與進場動畫 */
+    .dataframe-wrapper { animation: fadeSlideUp 0.7s ease-out forwards; padding: 2px; border-radius: 14px; background: linear-gradient(180deg, rgba(0,242,255,0.15) 0%, rgba(0,0,0,0) 100%); }
+    [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); }
     [data-testid="stDataFrame"] div[data-testid="stTable"] { background-color: #0b0f19 !important; }
-    [data-testid="stDataFrame"] th { background-color: #161b2a !important; color: #94a3b8 !important; border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important; }
+    [data-testid="stDataFrame"] th { background-color: #161b2a !important; color: #94a3b8 !important; border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important; font-weight: 700 !important; }
     [data-testid="stDataFrame"] td { background-color: #0b0f19 !important; color: #ffffff !important; }
 
-    .disclaimer-wrapper { background-color: #0e121a; border: 1px solid rgba(0, 242, 255, 0.3) !important; border-radius: 8px; padding: 16px 16px 10px 16px !important; margin-top: 25px !important; margin-bottom: 35px !important; display: flex; flex-direction: column; gap: 10px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+    /* 玻璃擬物風：空值狀態 */
+    .empty-state-glass { padding: 40px; text-align: center; background: linear-gradient(135deg, rgba(0, 242, 255, 0.05) 0%, rgba(11, 15, 25, 0.8) 100%); border: 1px dashed rgba(0, 242, 255, 0.3); border-radius: 16px; margin-top: 30px; animation: fadeSlideUp 0.6s ease-out forwards; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .empty-state-icon { font-size: 48px; margin-bottom: 15px; opacity: 0.9; filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.4)); }
+    .empty-state-title { color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800; letter-spacing: 1px; }
+    .empty-state-desc { color: #94a3b8; font-size: 0.95rem; margin: 0; line-height: 1.6; }
+
+    .disclaimer-wrapper { background-color: #0e121a; border: 1px solid rgba(0, 242, 255, 0.2) !important; border-radius: 8px; padding: 16px 16px 10px 16px !important; margin-top: 35px !important; margin-bottom: 35px !important; display: flex; flex-direction: column; gap: 10px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); animation: fadeSlideUp 0.8s ease-out forwards; }
     .disclaimer-header { display: flex; align-items: center; margin-bottom: 0px !important; }
     .disclaimer-title { font-weight: 700; color: #ffffff; font-size: 14px !important; letter-spacing: 0.5px; margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: flex; align-items: center; } 
     .disclaimer-list { display: flex; flex-direction: column; gap: 6px !important; list-style: none; padding: 0 !important; padding-left: 18px !important; margin: 0 !important; } 
@@ -171,7 +208,6 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
-    # 🌟 選單更名為：E. 市場區間精算型
     strategy_choice = st.selectbox("量化策略模組", [
         "A. 營收趨勢增長型", 
         "B. 股價強勢動能型", 
@@ -233,7 +269,6 @@ if not st.session_state['scan_completed']:
         </div>
         """
     elif "E." in strategy_choice:
-        # 🌟 邏輯文字全面更新，契合 1000張、3倍量、3%共振、3%乖離的最新極端參數
         logic_html = """
         <div class="logic-grid">
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近60日平均日成交量需大於 <span class="highlight">1,000張</span>，過濾冷門股。</div></div>
@@ -264,14 +299,14 @@ if not st.session_state['scan_completed']:
                     <div class="core-ring"></div>
                 </div>
                 <div class="scanner-ritual-text-group">
-                    <div class="scanner-ritual-status">多因子量化篩選中...</div>
+                    <div class="scanner-ritual-status">多因子量化矩陣運算中...</div>
                     <div class="progress-bar-container">
                         <div class="progress-bar-fill" style="width: {progress}%;"></div>
                     </div>
                 </div>
             </div>
             ''', unsafe_allow_html=True)
-            time.sleep(1.0)
+            time.sleep(0.5) # 微調縮短視覺等待時間
 
         try:
             def fetch_and_rename(filepath):
@@ -353,11 +388,21 @@ if not st.session_state['scan_completed']:
                     v_num = pd.to_numeric(df_f['轉折值'], errors='coerce')
                     df_f['轉折乖離(%)'] = ((p_num - v_num) / v_num.replace(0, pd.NA) * 100).fillna(0).round(2)
                 df_f = df_f.reset_index(drop=True)
+                
+                # 🚀 觸發成功懸浮提示
                 st.session_state.update({'temp_df': df_f, 'selected_strategy': strategy_choice, 'scan_completed': True})
+                st.toast('量化矩陣資料載入成功！', icon='⚡')
                 st.rerun()
             else: 
                 p_placeholder.empty()
-                st.warning("💡 目前無符合標的。")
+                # 🚀 玻璃擬物風：科技感空值狀態
+                st.markdown('''
+                    <div class="empty-state-glass">
+                        <div class="empty-state-icon">📡</div>
+                        <div class="empty-state-title">TARGET NOT FOUND</div>
+                        <p class="empty-state-desc">全市場掃描完畢，目前無標的符合此嚴苛策略之濾網條件。</p>
+                    </div>
+                ''', unsafe_allow_html=True)
         except Exception as e: 
             p_placeholder.empty()
             st.error(f"⚠️ 資料讀取異常：請確認 CSV 檔案是否已成功傳送至此儲存庫。")
@@ -429,7 +474,10 @@ else:
 
     styled_df = df_for_display.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-")
     
+    # 🚀 為表格外圍添加科技環境光暈
+    st.markdown('<div class="dataframe-wrapper">', unsafe_allow_html=True)
     st.dataframe(styled_df, use_container_width=True, column_config=col_config)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown('''
         <div id="disclaimer-target" class="disclaimer-wrapper">
