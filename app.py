@@ -171,12 +171,13 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
+    # 🌟 選單更名為：E. 市場區間精算型
     strategy_choice = st.selectbox("量化策略模組", [
         "A. 營收趨勢增長型", 
         "B. 股價強勢動能型", 
         "C. 營收股價雙能型", 
         "D. 法人籌碼吃貨型", 
-        "E. 季度倍量攻擊共振型", 
+        "E. 市場區間精算型", 
         "F. 股票轉折測試區"
     ], label_visibility="collapsed")
     
@@ -232,12 +233,13 @@ if not st.session_state['scan_completed']:
         </div>
         """
     elif "E." in strategy_choice:
+        # 🌟 邏輯文字全面更新，契合 1000張、3倍量、3%共振、3%乖離的最新極端參數
         logic_html = """
         <div class="logic-grid">
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近60日平均日成交量需大於 <span class="highlight">500張</span>，過濾冷門股。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">VOL SPIKE</span></div><div class="logic-label-zh">倍量攻擊表態</div></div><div class="logic-desc">近20日內至少有一日成交量 <span class="highlight">大於季均量 2 倍</span>，確認主力進場。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">RESONANCE</span></div><div class="logic-label-zh">籌碼雙重共振</div></div><div class="logic-desc">季度大戶成本(AVWAP)與成交重心(POC)差距 <span class="highlight">≤ 5%</span>。</div></div>
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮回踩買點</div></div><div class="logic-desc">現價與成本乖離 <span class="highlight">±5% 內</span>，且今日成交量小於 <span class="highlight">近5日均量</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近60日平均日成交量需大於 <span class="highlight">1,000張</span>，過濾冷門股。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">VOL SPIKE</span></div><div class="logic-label-zh">異常攻擊表態</div></div><div class="logic-desc">近20日內至少有一日成交量 <span class="highlight">大於季均量 3 倍</span>，確認主力進場。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">RESONANCE</span></div><div class="logic-label-zh">籌碼極致共振</div></div><div class="logic-desc">季度大戶成本(AVWAP)與成交重心(POC)差距 <span class="highlight">≤ 3%</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮貼線買點</div></div><div class="logic-desc">現價與成本乖離 <span class="highlight">±3% 內</span>，且今日成交量小於 <span class="highlight">近5日均量</span>。</div></div>
         </div>
         """
     else:
@@ -298,7 +300,6 @@ if not st.session_state['scan_completed']:
             elif "B." in strategy_choice: 
                 df_f = df2
             elif "C." in strategy_choice:
-                # 🚨 強制進行嚴格交集：必須同時存在於 A(df1) 與 B(df2)
                 if not df1.empty and not df2.empty:
                     intersection_ids = set(df1['代號']).intersection(set(df2['代號']))
                     df_f = df1[df1['代號'].isin(intersection_ids)].copy()
@@ -347,7 +348,6 @@ if not st.session_state['scan_completed']:
                 
             if not df_f.empty:
                 if '編號' in df_f.columns: df_f = df_f.drop(columns=['編號'])
-                # 計算所有策略的轉折乖離
                 if '現價' in df_f.columns and '轉折值' in df_f.columns:
                     p_num = pd.to_numeric(df_f['現價'], errors='coerce')
                     v_num = pd.to_numeric(df_f['轉折值'], errors='coerce')
@@ -368,14 +368,12 @@ else:
     
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
     
-    # 🚨 終極鎖定版：嚴格對齊圖片中的 12 個欄位，確保不論切換到 A~F 任何策略，畫面絕對一模一樣
     base_cols = [
         "代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", 
         "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", 
         "轉折值", "轉折乖離(%)"
     ]
         
-    # 如果該策略的 CSV 本來沒有某個欄位 (例如 E 沒有法人)，自動補齊避免跑版
     for col in base_cols:
         if col not in df.columns:
             df[col] = pd.NA
@@ -401,7 +399,6 @@ else:
         </div>
     ''', unsafe_allow_html=True)
     
-    # 🚨 將代號與名稱合體
     if "代號" in display_cols and "名稱" in display_cols:
         df_for_display = df[display_cols].copy()
         df_for_display.insert(0, "代號 / 名稱", df_for_display["代號"].astype(str) + " " + df_for_display["名稱"])
