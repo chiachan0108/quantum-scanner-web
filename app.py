@@ -65,30 +65,23 @@ st.markdown("""
     .stSelectbox [data-baseweb="select"] > div:first-child > div { background-color: transparent !important; font-weight: 600 !important; color: #ffffff !important; font-size: clamp(1.0rem, 4.0vw, 1.15rem) !important; line-height: normal !important; margin: 0 !important; }
 
     /* ==========================================
-       🚨 選單 UI 終極修復：強制鎖定最大高度 350px 並啟用內部捲動，防止被向上推擠裁切
+       🚨 選單 UI 終極修復：解決底部選項(S)對齊時將選單向上推擠導致頂部(A)消失的問題
        ========================================== */
     div[data-baseweb="popover"] { 
         z-index: 999999 !important; 
     }
-    div[data-baseweb="popover"] > div {
-        max-height: 350px !important;
+    ul[role="listbox"] {
+        max-height: 280px !important; /* 嚴格限制絕對高度，阻斷對齊推擠效應 */
         overflow-y: auto !important;
-    }
-    div[data-baseweb="menu"] { 
         background-color: #111520 !important; 
         border: 1px solid rgba(0, 242, 255, 0.4) !important; 
-        border-radius: 8px !important; padding: 4px 0 !important; 
+        border-radius: 8px !important; 
+        padding: 4px 0 !important; 
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important; 
-        max-height: 350px !important; 
-        overflow-y: auto !important; 
     }
-    ul[role="listbox"] {
-        max-height: 350px !important;
-        overflow-y: auto !important;
-    }
-    div[data-baseweb="menu"] li { color: #e2e8f0 !important; font-weight: 500 !important; font-size: 1.05rem !important; transition: all 0.2s ease; padding-top: 12px !important; padding-bottom: 12px !important; }
-    div[data-baseweb="menu"] li:hover { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; }
-    div[data-baseweb="menu"] li[aria-selected="true"] { background: rgba(0, 242, 255, 0.15) !important; color: #00f2ff !important; font-weight: 800 !important; border-left: 3px solid #00f2ff !important; }
+    ul[role="listbox"] li { color: #e2e8f0 !important; font-weight: 500 !important; font-size: 1.05rem !important; transition: all 0.2s ease; padding-top: 12px !important; padding-bottom: 12px !important; }
+    ul[role="listbox"] li:hover { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; }
+    ul[role="listbox"] li[aria-selected="true"] { background: rgba(0, 242, 255, 0.15) !important; color: #00f2ff !important; font-weight: 800 !important; border-left: 3px solid #00f2ff !important; }
 
     .stButton > button { 
         background: rgba(0, 242, 255, 0.08) !important; 
