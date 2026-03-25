@@ -24,8 +24,8 @@ st.markdown("""
     /* 🚨 科技感自訂捲軸 */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); }
-    ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.2); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.6); }
 
     /* 隱藏右上角 Streamlit 預設選單 */
     [data-testid="stHeader"] { visibility: hidden !important; display: none !important; }
@@ -55,9 +55,6 @@ st.markdown("""
     .section-label-zh { font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: 1.5px; line-height: 1; }
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
-    /* ==========================================
-       🚨 選單 UI 終極修復：確保下拉清單不被遮擋與高度限制
-       ========================================== */
     div[data-testid="stSelectbox"] label { display: none !important; }
     .stSelectbox [data-baseweb="select"] { 
         background-color: #161b2a !important; border: 1px solid rgba(0, 242, 255, 0.3) !important; 
@@ -67,15 +64,27 @@ st.markdown("""
     .stSelectbox [data-baseweb="select"] > div:first-child { padding: 0px 35px 0px 18px !important; display: flex !important; align-items: center !important; height: 100% !important; min-height: 56px !important; }
     .stSelectbox [data-baseweb="select"] > div:first-child > div { background-color: transparent !important; font-weight: 600 !important; color: #ffffff !important; font-size: clamp(1.0rem, 4.0vw, 1.15rem) !important; line-height: normal !important; margin: 0 !important; }
 
-    /* 修復下拉選單 (Popover/Menu) 被遮擋與無法滾動問題 */
-    div[data-baseweb="popover"] { z-index: 999999 !important; }
+    /* ==========================================
+       🚨 選單 UI 終極修復：強制鎖定最大高度 350px 並啟用內部捲動，防止被向上推擠裁切
+       ========================================== */
+    div[data-baseweb="popover"] { 
+        z-index: 999999 !important; 
+    }
+    div[data-baseweb="popover"] > div {
+        max-height: 350px !important;
+        overflow-y: auto !important;
+    }
     div[data-baseweb="menu"] { 
         background-color: #111520 !important; 
         border: 1px solid rgba(0, 242, 255, 0.4) !important; 
         border-radius: 8px !important; padding: 4px 0 !important; 
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important; 
-        max-height: 45vh !important; /* 強制限制高度 */
-        overflow-y: auto !important; /* 強制啟動內部滾動條 */
+        max-height: 350px !important; 
+        overflow-y: auto !important; 
+    }
+    ul[role="listbox"] {
+        max-height: 350px !important;
+        overflow-y: auto !important;
     }
     div[data-baseweb="menu"] li { color: #e2e8f0 !important; font-weight: 500 !important; font-size: 1.05rem !important; transition: all 0.2s ease; padding-top: 12px !important; padding-bottom: 12px !important; }
     div[data-baseweb="menu"] li:hover { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; }
@@ -168,9 +177,7 @@ st.markdown("""
     @keyframes ritualRingInner { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
     @keyframes dataSyncFlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* ==========================================
-       🚨 強化手機端表格穩定度，防止滑動跳躍與誤觸回上一頁
-       ========================================== */
+    /* 強化手機端表格穩定度，防止滑動跳躍與誤觸回上一頁 */
     .dataframe-wrapper { animation: fadeSlideUp 0.7s ease-out forwards; padding: 2px; border-radius: 14px; background: linear-gradient(180deg, rgba(0,242,255,0.15) 0%, rgba(0,0,0,0) 100%); }
     [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); overscroll-behavior: contain !important; touch-action: pan-x pan-y !important; }
     [data-testid="stDataFrame"] div[data-testid="stTable"] { background-color: #0b0f19 !important; overscroll-behavior: contain !important; -webkit-overflow-scrolling: touch !important; }
@@ -214,11 +221,9 @@ def highlight_pivot_full_row(row):
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
 now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
 
-# 更新判斷邏輯為 20:30
 is_updated_time = (now_taipei.hour > 20) or (now_taipei.hour == 20 and now_taipei.minute >= 30)
 data_date = now_taipei.strftime('%Y/%m/%d') if is_updated_time else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
 
-# 更新顯示時間為 20:30
 st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:30</span></div></div>''', unsafe_allow_html=True)
 
 if not st.session_state['scan_completed']:
