@@ -43,10 +43,6 @@ st.markdown("""
     .pulse-dot-small { width: 8px; height: 8px; background-color: #00f2ff; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(0, 242, 255, 0.4); animation: breathing 2.5s infinite; flex-shrink: 0; }
     @keyframes breathing { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 242, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } }
 
-    /* 自定義紅色呼吸點 (免責聲明用) */
-    .pulse-dot-small-red { width: 8px; height: 8px; background-color: #ff3333; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(255, 51, 51, 0.4); animation: breathing-red 2.5s infinite; flex-shrink: 0; }
-    @keyframes breathing-red { 0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(255, 51, 51, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); } }
-
     .header-group { margin-top: -45px; margin-bottom: 5px; animation: fadeSlideUp 0.4s ease-out forwards; }
     .main-title { font-family: 'JetBrains Mono', monospace !important; font-weight: 700; letter-spacing: -2px; background: linear-gradient(90deg, #00f2ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(2.0rem, 6vw, 3.5rem); line-height: 1.1; margin: 0; }
     .status-pill { display: inline-flex; align-items: center; white-space: nowrap; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: rgba(148, 163, 184, 0.9); margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; }
@@ -60,61 +56,75 @@ st.markdown("""
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
     /* ==========================================
-       🚨 選單 UI 終極進化：青藍色霓虹設計，消除紅點和文字框限
+       🚨 選單 UI 終極修復：紅點變青藍色 & 質感科技外框
        ========================================== */
-    div[role="radiogroup"] {
+    /* 將選項拉開間距並設定為單行直列 */
+    .stRadio > div[role="radiogroup"] {
+        display: flex !important;
+        flex-direction: column !important;
         gap: 12px !important;
         margin-top: 10px !important;
         margin-bottom: 10px !important;
     }
     
-    /* 隱藏預設紅點 */
-    div[role="radiogroup"] > div > label > div:first-of-type {
-        display: none !important; /* 隱藏 Streamlit 的 radio 點容器 */
-    }
-    
-    /* 按鈕基礎玻璃質感樣式 ( label ) */
-    div[role="radiogroup"] > div > label {
-        background: linear-gradient(145deg, rgba(22, 27, 34, 0.8) 0%, rgba(11, 15, 25, 0.9) 100%) !important;
-        border: 1px solid rgba(0, 242, 255, 0.25) !important;
+    /* 整個策略選項的外框與背景 (基礎未選中) */
+    .stRadio > div[role="radiogroup"] label {
+        padding: 12px 20px !important;
         border-radius: 8px !important;
-        padding: 10px 18px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background: rgba(11, 15, 25, 0.6) !important;
         cursor: pointer !important;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        margin: 0 !important;
         display: flex !important;
         align-items: center !important;
+        width: 100% !important;
     }
     
     /* 懸停狀態 */
-    div[role="radiogroup"] > div > label:hover {
+    .stRadio > div[role="radiogroup"] label:hover {
         border-color: rgba(0, 242, 255, 0.4) !important;
         background: rgba(0, 242, 255, 0.05) !important;
-        transform: translateY(-2px);
     }
     
-    /* 選中狀態：霓虹框線、內陰影和文字顏色，消除奇怪文字框限和色塊不均 */
-    div[role="radiogroup"] > div:has(input[type="radio"]:checked) > label {
-        background: rgba(0, 242, 255, 0.12) !important;
+    /* 選中狀態：整個策略浮現青藍色質感光暈外框 */
+    .stRadio > div[role="radiogroup"] label:has(input[type="radio"]:checked) {
         border: 1px solid #00f2ff !important;
-        box-shadow: 0 0 20px rgba(0, 242, 255, 0.2), inset 0 0 10px rgba(0, 242, 255, 0.1) !important;
+        background: linear-gradient(145deg, rgba(0, 242, 255, 0.12) 0%, rgba(11, 15, 25, 0.9) 100%) !important;
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.25), inset 0 0 8px rgba(0, 242, 255, 0.1) !important;
         transform: translateY(-1px);
     }
     
-    /* 文字樣式调整，並清除奇怪框限 */
-    div[role="radiogroup"] > div > label > div:nth-of-type(2) p {
-        background-color: transparent !important; /* 清除奇怪文字框限 */
-        border: none !important; /* 清除奇怪文字框限 */
+    /* 強制將 Streamlit 預設的紅色單選點改成青藍色 (#00f2ff) */
+    .stRadio > div[role="radiogroup"] input[type="radio"]:checked + div {
+        background-color: #00f2ff !important;
+        border-color: #00f2ff !important;
+        box-shadow: 0 0 10px rgba(0, 242, 255, 0.6) !important;
+    }
+    .stRadio > div[role="radiogroup"] input[type="radio"]:checked + div > div {
+        background-color: #0b0f19 !important; /* 內部圓點深色，對比度佳 */
+    }
+    
+    /* 文字顏色與排版調整，清除內部自帶的背景 */
+    .stRadio > div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] p {
         color: #94a3b8 !important;
         font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
         font-weight: 600 !important;
         font-size: 1.05rem !important;
+        margin: 0 !important;
+        background: transparent !important;
     }
-    div[role="radiogroup"] > div:has(input[type="radio"]:checked) > label > div:nth-of-type(2) p {
+    
+    /* 選中時的文字發光 */
+    .stRadio > div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] p {
         color: #00f2ff !important;
         font-weight: 800 !important;
         text-shadow: 0 0 8px rgba(0, 242, 255, 0.5) !important;
     }
 
+    /* ==========================================
+       按鈕樣式 (含自動生成的雙菱形圖)
+       ========================================== */
     .stButton > button { 
         background: rgba(0, 242, 255, 0.08) !important; 
         color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; 
@@ -137,11 +147,12 @@ st.markdown("""
         display: flex !important; align-items: center !important; justify-content: center !important;
         margin: 0 !important; padding: 0 !important; line-height: 1 !important; transform: translate(-4px, 2px) !important;
     }
+    /* 自動在按鈕文字前面加上雙菱形圖，所以按鈕文字不要自己打符號 */
     .stButton > button div[data-testid="stMarkdownContainer"] p::before {
         content: ''; display: block !important; flex-shrink: 0 !important; width: 11px; height: 11px; background: rgba(0, 242, 255, 0.8); margin-right: 14px !important; transform: rotate(45deg); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); 
     }
 
-    .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; }
+    .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px;}
     @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } }
     
     /* 級聯延遲進場動畫 */
@@ -171,6 +182,10 @@ st.markdown("""
     
     /* 文字高亮霓虹色 (Quantum Cyan) 加上微光效 */
     .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
+
+    .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; }
+    .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+    .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; }
 
     .summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; }
     .result-summary, .return-summary { display: flex; align-items: center; justify-content: center !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); padding: 0 12px; border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; white-space: nowrap; box-sizing: border-box; transition: all 0.3s ease; }
@@ -223,79 +238,6 @@ st.markdown("""
     .design-tag { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 3px 8px 2px 8px; border-radius: 4px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 20px; box-sizing: border-box; }
     .design-email-tech { font-family: 'JetBrains Mono', monospace !important; color: #ffffff !important; font-size: 0.65rem !important; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.9; display: inline-flex; align-items: center; height: 20px; }
     @media (max-width: 768px) { .design-container { flex-direction: column; gap: 10px; } }
-
-    /* ==========================================
-       🚨 結果頁面：寬大有質感的策略活動面板 & 圖標式按鈕
-       ========================================== */
-    .active-strategy-panel {
-        background: linear-gradient(135deg, rgba(0, 242, 255, 0.08) 0%, rgba(11, 15, 25, 0.95) 100%);
-        border: 1px solid rgba(0, 242, 255, 0.35);
-        border-radius: 12px;
-        padding: 20px 25px;
-        margin-top: 25px;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    .panel-icon-left {
-        font-size: 30px;
-        opacity: 0.9;
-        filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5));
-    }
-    .panel-details-left {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-    .panel-label-left {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        color: rgba(0, 242, 255, 0.9);
-        letter-spacing: 2px;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-bottom: 5px;
-        line-height: 1;
-    }
-    .panel-title-left {
-        font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important;
-        color: #ffffff;
-        font-weight: 800;
-        line-height: 1.3;
-        margin: 0;
-        white-space: normal !important;
-        word-break: keep-all !important;
-    }
-
-    /* 定位 key="modify_strategy_btn_integrated" 的按鈕 */
-    #modify_strategy_btn_integrated button {
-        background: linear-gradient(145deg, rgba(0, 242, 255, 0.05) 0%, rgba(11, 15, 25, 0.95) 100%) !important;
-        border: 1px solid rgba(0, 242, 255, 0.4) !important;
-        color: #ffffff !important;
-        font-weight: 900 !important;
-        letter-spacing: 2px;
-        font-size: 1rem !important;
-        min-height: 50px !important;
-        border-radius: 8px !important;
-        box-shadow: 0 0 10px rgba(0, 242, 255, 0.15) !important;
-        animation: fadeSlideUp 0.6s ease-out forwards;
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-    }
-    #modify_strategy_btn_integrated button:hover {
-        border-color: rgba(0, 242, 255, 0.9) !important;
-        box-shadow: 0 0 20px rgba(0, 242, 255, 0.3) !important;
-    }
-
-    /* 確保手機端 columns 對齊 */
-    @media (max-width: 768px) {
-        #modify_strategy_btn_integrated {
-            margin-top: 15px; /* 為按鈕騰出空間 */
-        }
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -332,7 +274,7 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
-    # 🚨 採用 st.radio 水平排列，搭配上方 CSS 框選特效與青藍色霓虹樣式
+    # 採用 st.radio，搭配純淨的青藍色選項外框
     strategy_choice = st.radio("量化策略模組", [
         "A. 營收趨勢增長型", 
         "B. 股價強勢動能型", 
@@ -379,7 +321,7 @@ if not st.session_state['scan_completed']:
     elif "C." in strategy_choice:
         logic_html = """
         <div class="logic-grid">
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">雙引擎交集</div></div><div class="logic-desc">抓出具備<span class="highlight">營收創高成長</span>與<span class="highlight">技術強勢動能</span>的交集標的.</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">雙引擎交集</div></div><div class="logic-desc">抓出具備<span class="highlight">營收創高成長</span>與<span class="highlight">技術強勢動能</span>的交集標的。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">基本面護城河</div></div><div class="logic-desc"><span class="highlight">近1年累積營收</span>創歷史同期新高，且今年以來累積 YoY <span class="highlight">大於 20%</span>。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TECHNICAL</span></div><div class="logic-label-zh">技術面爆發</div></div><div class="logic-desc"><span class="highlight">短、中、長期報酬</span>全數超越大盤同期績效。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人雙重認同</div></div><div class="logic-desc">確保近 5、20 日三大法人皆為<span class="highlight">淨買超</span>，具備機構短、中期資金護航實力。</div></div>
@@ -423,6 +365,7 @@ if not st.session_state['scan_completed']:
         """
     st.markdown(logic_html, unsafe_allow_html=True)
 
+    # 確保按鈕只有純文字，不加其他表情符號，CSS會自動加入雙菱形
     if st.button("啟動AI量化篩選", use_container_width=True):
         p_placeholder = st.empty() 
         
@@ -547,7 +490,7 @@ if not st.session_state['scan_completed']:
             st.error(f"⚠️ 資料讀取異常：請確認 CSV 檔案是否已成功傳送至此儲存庫。")
 
 else:
-    # 🟢 觸發自動平滑滾動回頂部 (修復手機端跳轉，優化延遲以確保渲染後才滾動)
+    # 🟢 觸發自動平滑滾動回頂部 (修正延遲以確保手機端完全渲染後才滾動)
     components.html(
         """
         <script>
@@ -567,11 +510,9 @@ else:
     df = st.session_state['temp_df']
     strategy_choice = st.session_state['selected_strategy']
     
-    # 手機端 col2 靠右按鈕
-    col1, col2 = st.columns([6, 1])
-    with col2:
-        st.button("🔄 重新選取", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
-
+    # 確保按鈕只有純文字，不加其他表情符號，CSS會自動加入雙菱形
+    st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
+    
     base_cols = [
         "代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", 
         "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", 
@@ -592,7 +533,6 @@ else:
     ret_sign = "+" if avg_ret > 0 else ""
     avg_ret_str = f"{ret_sign}{avg_ret:.2f}"
 
-    # 頁面頂部質感策略面板
     st.markdown(f'''
         <div class="strategy-header-container">
             <div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
@@ -638,7 +578,7 @@ else:
     st.dataframe(styled_df, use_container_width=True, column_config=col_config)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # 復原藍色呼吸點
+    # 確保免責聲明的點是原始的 pulse-dot-small (青藍色)
     st.markdown('''
         <div id="disclaimer-target" class="disclaimer-wrapper">
             <div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div>
