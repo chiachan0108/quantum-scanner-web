@@ -194,9 +194,11 @@ def highlight_pivot_full_row(row):
 
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
 now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
-data_date = now_taipei.strftime('%Y/%m/%d') if now_taipei.hour >= 20 else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
+# 更新判斷邏輯為 21:00
+data_date = now_taipei.strftime('%Y/%m/%d') if now_taipei.hour >= 21 else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
 
-st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:00</span></div></div>''', unsafe_allow_html=True)
+# 更新顯示時間為 21:00
+st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 21:00</span></div></div>''', unsafe_allow_html=True)
 
 if not st.session_state['scan_completed']:
     st.markdown("""
