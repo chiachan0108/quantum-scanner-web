@@ -55,33 +55,67 @@ st.markdown("""
     .section-label-zh { font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: 1.5px; line-height: 1; }
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
-    div[data-testid="stSelectbox"] label { display: none !important; }
-    .stSelectbox [data-baseweb="select"] { 
-        background-color: #161b2a !important; border: 1px solid rgba(0, 242, 255, 0.3) !important; 
-        border-radius: 10px !important; min-height: 56px !important; transition: all 0.3s ease;
-    }
-    .stSelectbox [data-baseweb="select"]:hover { border-color: rgba(0, 242, 255, 0.7) !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
-    .stSelectbox [data-baseweb="select"] > div:first-child { padding: 0px 35px 0px 18px !important; display: flex !important; align-items: center !important; height: 100% !important; min-height: 56px !important; }
-    .stSelectbox [data-baseweb="select"] > div:first-child > div { background-color: transparent !important; font-weight: 600 !important; color: #ffffff !important; font-size: clamp(1.0rem, 4.0vw, 1.15rem) !important; line-height: normal !important; margin: 0 !important; }
-
     /* ==========================================
-       🚨 選單 UI 終極修復：解決底部選項(S)對齊時將選單向上推擠導致頂部(A)消失的問題
+       🚨 選單 UI 終極進化：以科技感膠囊按鈕 (Pills) 取代下拉選單，徹底根除遮擋與推擠問題
        ========================================== */
-    div[data-baseweb="popover"] { 
-        z-index: 999999 !important; 
+    div[role="radiogroup"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+        justify-content: flex-start !important;
+        margin-top: 8px !important;
     }
-    ul[role="listbox"] {
-        max-height: 280px !important; /* 嚴格限制絕對高度，阻斷對齊推擠效應 */
-        overflow-y: auto !important;
-        background-color: #111520 !important; 
-        border: 1px solid rgba(0, 242, 255, 0.4) !important; 
-        border-radius: 8px !important; 
-        padding: 4px 0 !important; 
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important; 
+    div[role="radiogroup"] > div {
+        margin: 0 !important;
     }
-    ul[role="listbox"] li { color: #e2e8f0 !important; font-weight: 500 !important; font-size: 1.05rem !important; transition: all 0.2s ease; padding-top: 12px !important; padding-bottom: 12px !important; }
-    ul[role="listbox"] li:hover { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; }
-    ul[role="listbox"] li[aria-selected="true"] { background: rgba(0, 242, 255, 0.15) !important; color: #00f2ff !important; font-weight: 800 !important; border-left: 3px solid #00f2ff !important; }
+    /* 隱藏預設單選圓圈 */
+    div[role="radiogroup"] > div > label > div:first-of-type {
+        display: none !important; 
+    }
+    /* 按鈕本體設計 */
+    div[role="radiogroup"] > div > label {
+        background: linear-gradient(145deg, rgba(22, 27, 34, 0.8) 0%, rgba(11, 15, 25, 0.9) 100%) !important;
+        border: 1px solid rgba(0, 242, 255, 0.25) !important;
+        border-radius: 8px !important;
+        padding: 10px 18px !important;
+        cursor: pointer !important;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    /* 按鈕文字 */
+    div[role="radiogroup"] > div > label > div:nth-of-type(2) {
+        margin-left: 0 !important; 
+        color: #94a3b8 !important;
+        font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.5px;
+    }
+    /* 懸停狀態 */
+    div[role="radiogroup"] > div > label:hover {
+        border-color: rgba(0, 242, 255, 0.7) !important;
+        background: rgba(0, 242, 255, 0.05) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 242, 255, 0.15) !important;
+    }
+    div[role="radiogroup"] > div > label:hover > div:nth-of-type(2) {
+        color: #ffffff !important;
+    }
+    /* 選中狀態 (霓虹高亮) */
+    div[role="radiogroup"] > div > label[data-checked="true"] {
+        background: rgba(0, 242, 255, 0.12) !important;
+        border: 1px solid #00f2ff !important;
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.2), inset 0 0 10px rgba(0, 242, 255, 0.1) !important;
+        transform: translateY(-1px);
+    }
+    div[role="radiogroup"] > div > label[data-checked="true"] > div:nth-of-type(2) {
+        color: #00f2ff !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 8px rgba(0, 242, 255, 0.5) !important;
+    }
 
     .stButton > button { 
         background: rgba(0, 242, 255, 0.08) !important; 
@@ -109,7 +143,7 @@ st.markdown("""
         content: ''; display: block !important; flex-shrink: 0 !important; width: 11px; height: 11px; background: rgba(0, 242, 255, 0.8); margin-right: 14px !important; transform: rotate(45deg); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); 
     }
 
-    .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; }
+    .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px; }
     @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } }
     
     /* 級聯延遲進場動畫 */
@@ -231,7 +265,8 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
-    strategy_choice = st.selectbox("量化策略模組", [
+    # 🚨 採用 st.radio 水平按鈕群取代 st.selectbox，徹底消滅下拉選單的遮擋問題
+    strategy_choice = st.radio("量化策略模組", [
         "A. 營收趨勢增長型", 
         "B. 股價強勢動能型", 
         "C. 營收股價雙能型", 
@@ -239,7 +274,7 @@ if not st.session_state['scan_completed']:
         "E. 市場區間共振型", 
         "F. 左側超跌優質型",
         "S. 趨勢轉折延伸型"
-    ], label_visibility="collapsed")
+    ], label_visibility="collapsed", horizontal=True)
     
     st.markdown("""
     <div class='section-header-container'>
