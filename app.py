@@ -56,9 +56,8 @@ st.markdown("""
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
     /* ==========================================
-       🚨 選單 UI 終極修復：紅點變青藍色 & 質感科技外框
+       🚨 選單 UI 終極修復：乾淨黑底、青綠光圈、徹底消滅紅點
        ========================================== */
-    /* 將選項拉開間距並設定為單行直列 */
     .stRadio > div[role="radiogroup"] {
         display: flex !important;
         flex-direction: column !important;
@@ -67,59 +66,79 @@ st.markdown("""
         margin-bottom: 10px !important;
     }
     
-    /* 整個策略選項的外框與背景 (基礎未選中) */
-    .stRadio > div[role="radiogroup"] label {
-        padding: 12px 20px !important;
-        border-radius: 8px !important;
+    /* 徹底隱藏預設紅點與圓圈 */
+    .stRadio div[role="radiogroup"] div[data-baseweb="radio"] {
+        display: none !important; 
+    }
+    
+    /* 卡片基礎樣式 (嚴格黑底) */
+    .stRadio div[role="radiogroup"] label {
+        background-color: #0b0f19 !important; /* 保持黑底 */
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        background: rgba(11, 15, 25, 0.6) !important;
-        cursor: pointer !important;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        border-radius: 8px !important;
+        padding: 14px 20px !important;
         margin: 0 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
         display: flex !important;
         align-items: center !important;
         width: 100% !important;
     }
     
-    /* 懸停狀態 */
-    .stRadio > div[role="radiogroup"] label:hover {
+    /* 懸停效果 */
+    .stRadio div[role="radiogroup"] label:hover {
         border-color: rgba(0, 242, 255, 0.4) !important;
-        background: rgba(0, 242, 255, 0.05) !important;
     }
     
-    /* 選中狀態：整個策略浮現青藍色質感光暈外框 */
-    .stRadio > div[role="radiogroup"] label:has(input[type="radio"]:checked) {
+    /* 選中狀態外框 (螢光青綠色，內部維持純黑底) */
+    .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) {
         border: 1px solid #00f2ff !important;
-        background: linear-gradient(145deg, rgba(0, 242, 255, 0.12) 0%, rgba(11, 15, 25, 0.9) 100%) !important;
-        box-shadow: 0 0 15px rgba(0, 242, 255, 0.25), inset 0 0 8px rgba(0, 242, 255, 0.1) !important;
-        transform: translateY(-1px);
+        background-color: #0b0f19 !important; 
+        box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important;
     }
     
-    /* 強制將 Streamlit 預設的紅色單選點改成青藍色 (#00f2ff) */
-    .stRadio > div[role="radiogroup"] input[type="radio"]:checked + div {
-        background-color: #00f2ff !important;
-        border-color: #00f2ff !important;
-        box-shadow: 0 0 10px rgba(0, 242, 255, 0.6) !important;
-    }
-    .stRadio > div[role="radiogroup"] input[type="radio"]:checked + div > div {
-        background-color: #0b0f19 !important; /* 內部圓點深色，對比度佳 */
-    }
-    
-    /* 文字顏色與排版調整，清除內部自帶的背景 */
-    .stRadio > div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] p {
+    /* 清除所有奇怪的背景色塊與多餘框限 */
+    .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"], 
+    .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
+        background: transparent !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
         color: #94a3b8 !important;
         font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
-        font-weight: 600 !important;
         font-size: 1.05rem !important;
-        margin: 0 !important;
-        background: transparent !important;
+        font-weight: 600 !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
     }
     
-    /* 選中時的文字發光 */
-    .stRadio > div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] p {
+    /* 自訂青藍色指示點 (取代原本的紅點，未選中為暗色) */
+    .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p::before {
+        content: '';
+        display: inline-block !important;
+        width: 8px !important;
+        height: 8px !important;
+        border-radius: 50% !important;
+        background-color: rgba(255, 255, 255, 0.15) !important;
+        margin-right: 15px !important;
+        transition: all 0.3s ease !important;
+        border: none !important;
+        transform: none !important; 
+        box-shadow: none !important;
+    }
+    
+    /* 自訂指示點 (選中狀態：青綠色發光點) */
+    .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p::before {
+        background-color: #00f2ff !important;
+        box-shadow: 0 0 8px #00f2ff, 0 0 15px #00f2ff !important;
+    }
+    
+    /* 選中狀態文字顏色發光 */
+    .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p {
         color: #00f2ff !important;
         font-weight: 800 !important;
-        text-shadow: 0 0 8px rgba(0, 242, 255, 0.5) !important;
+        text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important;
     }
 
     /* ==========================================
@@ -147,12 +166,12 @@ st.markdown("""
         display: flex !important; align-items: center !important; justify-content: center !important;
         margin: 0 !important; padding: 0 !important; line-height: 1 !important; transform: translate(-4px, 2px) !important;
     }
-    /* 自動在按鈕文字前面加上雙菱形圖，所以按鈕文字不要自己打符號 */
+    /* 自動在按鈕文字前面加上雙菱形圖 */
     .stButton > button div[data-testid="stMarkdownContainer"] p::before {
         content: ''; display: block !important; flex-shrink: 0 !important; width: 11px; height: 11px; background: rgba(0, 242, 255, 0.8); margin-right: 14px !important; transform: rotate(45deg); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); 
     }
 
-    .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px;}
+    .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px; }
     @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } }
     
     /* 級聯延遲進場動畫 */
@@ -274,7 +293,7 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
-    # 採用 st.radio，搭配純淨的青藍色選項外框
+    # 採用 st.radio，搭配 CSS 自動修飾的外框與自定義指示點
     strategy_choice = st.radio("量化策略模組", [
         "A. 營收趨勢增長型", 
         "B. 股價強勢動能型", 
@@ -365,7 +384,6 @@ if not st.session_state['scan_completed']:
         """
     st.markdown(logic_html, unsafe_allow_html=True)
 
-    # 確保按鈕只有純文字，不加其他表情符號，CSS會自動加入雙菱形
     if st.button("啟動AI量化篩選", use_container_width=True):
         p_placeholder = st.empty() 
         
@@ -490,7 +508,7 @@ if not st.session_state['scan_completed']:
             st.error(f"⚠️ 資料讀取異常：請確認 CSV 檔案是否已成功傳送至此儲存庫。")
 
 else:
-    # 🟢 觸發自動平滑滾動回頂部 (修正延遲以確保手機端完全渲染後才滾動)
+    # 🟢 觸發自動平滑滾動回頂部 (針對手機與網頁端優化)
     components.html(
         """
         <script>
