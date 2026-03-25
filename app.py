@@ -56,7 +56,7 @@ st.markdown("""
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
     /* ==========================================
-       🚨 選單 UI 終極修復：乾淨黑底、青綠光圈、徹底消滅紅點
+       🚨 選單 UI 終極修復：乾淨黑底、螢光藍點、徹底封殺紅點
        ========================================== */
     .stRadio > div[role="radiogroup"] {
         display: flex !important;
@@ -66,9 +66,15 @@ st.markdown("""
         margin-bottom: 10px !important;
     }
     
-    /* 徹底隱藏預設紅點與圓圈 */
-    .stRadio div[role="radiogroup"] div[data-baseweb="radio"] {
+    /* ⚠️ 絕對封殺所有原生的紅點與圓圈 ⚠️ */
+    .stRadio div[role="radiogroup"] input[type="radio"],
+    .stRadio div[role="radiogroup"] label > div:first-child,
+    .stRadio div[role="radiogroup"] div[data-baseweb="radio"] > div:first-child {
         display: none !important; 
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        position: absolute !important;
     }
     
     /* 卡片基礎樣式 (嚴格黑底) */
@@ -90,7 +96,7 @@ st.markdown("""
         border-color: rgba(0, 242, 255, 0.4) !important;
     }
     
-    /* 選中狀態外框 (螢光青綠色，內部維持純黑底) */
+    /* 選中狀態外框 (螢光青藍色，內部維持純黑底) */
     .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) {
         border: 1px solid #00f2ff !important;
         background-color: #0b0f19 !important; 
@@ -113,7 +119,7 @@ st.markdown("""
         width: 100% !important;
     }
     
-    /* 自訂青藍色指示點 (取代原本的紅點，未選中為暗色) */
+    /* 自訂螢光藍指示點 (未選中為暗色) */
     .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p::before {
         content: '';
         display: inline-block !important;
@@ -126,9 +132,10 @@ st.markdown("""
         border: none !important;
         transform: none !important; 
         box-shadow: none !important;
+        flex-shrink: 0 !important;
     }
     
-    /* 自訂指示點 (選中狀態：青綠色發光點) */
+    /* 自訂指示點 (選中狀態：螢光藍色發光點) */
     .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p::before {
         background-color: #00f2ff !important;
         box-shadow: 0 0 8px #00f2ff, 0 0 15px #00f2ff !important;
@@ -293,7 +300,7 @@ if not st.session_state['scan_completed']:
     </div>
     """, unsafe_allow_html=True)
     
-    # 採用 st.radio，搭配 CSS 自動修飾的外框與自定義指示點
+    # 採用 st.radio，搭配 CSS 自動修飾的外框與純淨青綠指示點
     strategy_choice = st.radio("量化策略模組", [
         "A. 營收趨勢增長型", 
         "B. 股價強勢動能型", 
@@ -508,18 +515,18 @@ if not st.session_state['scan_completed']:
             st.error(f"⚠️ 資料讀取異常：請確認 CSV 檔案是否已成功傳送至此儲存庫。")
 
 else:
-    # 🟢 觸發自動平滑滾動回頂部 (針對手機與網頁端優化)
+    # 🟢 觸發自動平滑滾動回頂部 (加入動態時間戳確保每次渲染皆強制執行)
     components.html(
-        """
-        <script>
-            setTimeout(function() {
+        f"""
+        <script id="scroll_{time.time()}">
+            setTimeout(function() {{
                 const parent = window.parent;
-                parent.scrollTo({top: 0, behavior: 'smooth'});
+                parent.scrollTo({{top: 0, behavior: 'smooth'}});
                 const appViews = parent.document.querySelectorAll('.stApp, [data-testid="stMainBlockContainer"], [data-testid="stAppViewContainer"]');
-                appViews.forEach(view => {
-                    view.scrollTo({top: 0, behavior: 'smooth'});
-                });
-            }, 300);
+                appViews.forEach(view => {{
+                    view.scrollTo({{top: 0, behavior: 'smooth'}});
+                }});
+            }}, 200);
         </script>
         """,
         height=0
@@ -596,7 +603,6 @@ else:
     st.dataframe(styled_df, use_container_width=True, column_config=col_config)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # 確保免責聲明的點是原始的 pulse-dot-small (青藍色)
     st.markdown('''
         <div id="disclaimer-target" class="disclaimer-wrapper">
             <div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div>
