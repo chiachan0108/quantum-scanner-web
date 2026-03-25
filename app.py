@@ -216,7 +216,8 @@ if not st.session_state['scan_completed']:
         "C. 營收股價雙能型", 
         "D. 法人籌碼吃貨型", 
         "E. 市場區間共振型", 
-        "F. 趨勢轉折延伸型"
+        "F. 左側超跌優質型",
+        "S. 趨勢轉折延伸型"
     ], label_visibility="collapsed")
     
     st.markdown("""
@@ -279,10 +280,19 @@ if not st.session_state['scan_completed']:
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮沉澱買點</div></div><div class="logic-desc">現價與市場加權成本價(AVWAP)差距在 <span class="highlight">3% 內</span>，且今日成交量 <span class="highlight">小於近5日均量</span>。</div></div>
         </div>
         """
+    elif "F." in strategy_choice:
+        logic_html = """
+        <div class="logic-grid">
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">OVERSOLD</span></div><div class="logic-label-zh">超跌位階</div></div><div class="logic-desc">現價低於半年高點打8折，且低於月線10%以上形成 <span class="highlight">負乖離</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">ACCUMULATE</span></div><div class="logic-label-zh">主力吸籌</div></div><div class="logic-desc">近20日至少2天爆2倍量，且近10日至少5天 <span class="highlight">穩定大於均量</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">REVENUE</span></div><div class="logic-label-zh">營收巔峰</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下 <span class="highlight">1990年以來同期新高</span>。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">GROWTH</span></div><div class="logic-label-zh">今年成長</div></div><div class="logic-desc">今年累計營收年增率 (YTD YoY) <span class="highlight">維持正成長不衰退</span>。</div></div>
+        </div>
+        """
     else:
         logic_html = """
         <div class="logic-grid">
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">策略A、B、C、D、E</span> 所篩選出的全體優質標的作為判斷樣本。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">策略A、B、C、D、E、F</span> 所篩選出的全體優質標的作為判斷樣本。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">轉折觸發</div></div><div class="logic-desc">鎖定 <span class="highlight">現價突破轉折值</span> 的標的，預判未來行情繼續延伸。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">營收動能</div></div><div class="logic-desc">追蹤 <span class="highlight">今年以來累積營收YoY(%)</span>，確保基本面支撐。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人籌碼</div></div><div class="logic-desc">觀察近 20 日 <span class="highlight">法人買賣超動向</span>，確認機構資金流向。</div></div>
@@ -331,6 +341,7 @@ if not st.session_state['scan_completed']:
             df2 = fetch_and_rename("momentum_result.csv")
             df_d = fetch_and_rename("strategy_d_result.csv")
             df_e = fetch_and_rename("strategy_e_result.csv")
+            df_squat = fetch_and_rename("strategy_squat_result.csv")
             
             if "A." in strategy_choice: 
                 df_f = df1
@@ -345,7 +356,9 @@ if not st.session_state['scan_completed']:
                 df_f = df_d
             elif "E." in strategy_choice:
                 df_f = df_e
-            else:
+            elif "F." in strategy_choice:
+                df_f = df_squat
+            elif "S." in strategy_choice:
                 id_map = {}
                 if not df1.empty:
                     for sid in df1['代號'].astype(str): id_map.setdefault(sid, set()).add("A")
@@ -359,8 +372,10 @@ if not st.session_state['scan_completed']:
                     for sid in df_d['代號'].astype(str): id_map.setdefault(sid, set()).add("D")
                 if not df_e.empty:
                     for sid in df_e['代號'].astype(str): id_map.setdefault(sid, set()).add("E")
+                if not df_squat.empty:
+                    for sid in df_squat['代號'].astype(str): id_map.setdefault(sid, set()).add("F")
 
-                dfs_to_concat = [d for d in [df1, df2, df_d, df_e] if not d.empty]
+                dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat] if not d.empty]
                 if dfs_to_concat:
                     df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
                     
