@@ -43,6 +43,10 @@ st.markdown("""
     .pulse-dot-small { width: 8px; height: 8px; background-color: #00f2ff; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(0, 242, 255, 0.4); animation: breathing 2.5s infinite; flex-shrink: 0; }
     @keyframes breathing { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 242, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } }
 
+    /* 自定義紅色呼吸點 (免責聲明用) */
+    .pulse-dot-small-red { width: 8px; height: 8px; background-color: #ff3333; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(255, 51, 51, 0.4); animation: breathing-red 2.5s infinite; flex-shrink: 0; }
+    @keyframes breathing-red { 0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(255, 51, 51, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); } }
+
     .header-group { margin-top: -45px; margin-bottom: 5px; animation: fadeSlideUp 0.4s ease-out forwards; }
     .main-title { font-family: 'JetBrains Mono', monospace !important; font-weight: 700; letter-spacing: -2px; background: linear-gradient(90deg, #00f2ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(2.0rem, 6vw, 3.5rem); line-height: 1.1; margin: 0; }
     .status-pill { display: inline-flex; align-items: center; white-space: nowrap; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: rgba(148, 163, 184, 0.9); margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; }
@@ -56,7 +60,7 @@ st.markdown("""
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
     /* ==========================================
-       🚨 選單 UI 終極進化：以科技感膠囊按鈕 (Pills) 取代下拉選單，徹底根除遮擋與推擠問題
+       🚨 選單 UI 終極進化：以科技感膠囊按鈕取代下拉選單，徹底根除遮擋問題
        ========================================== */
     div[role="radiogroup"] {
         display: flex !important;
@@ -83,11 +87,11 @@ st.markdown("""
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
         display: flex !important;
         align-items: center !important;
-        justify-content: center !important;
+        justify-content: flex-start !important; /* 靠左 */
     }
     /* 按鈕文字 */
     div[role="radiogroup"] > div > label > div:nth-of-type(2) {
-        margin-left: 0 !important; 
+        margin-left: 0 !important; /* 移除舊 margin */
         color: #94a3b8 !important;
         font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
         font-weight: 600 !important;
@@ -104,12 +108,25 @@ st.markdown("""
     div[role="radiogroup"] > div > label:hover > div:nth-of-type(2) {
         color: #ffffff !important;
     }
-    /* 選中狀態 (霓虹高亮) */
+    /* 選中狀態 (霓虹高亮 + 自定義藍點) */
     div[role="radiogroup"] > div > label[data-checked="true"] {
         background: rgba(0, 242, 255, 0.12) !important;
         border: 1px solid #00f2ff !important;
         box-shadow: 0 0 20px rgba(0, 242, 255, 0.2), inset 0 0 10px rgba(0, 242, 255, 0.1) !important;
         transform: translateY(-1px);
+    }
+    /* 🚨 紅點換藍點：選中狀態添加偽元素藍點 */
+    div[role="radiogroup"] > div > label[data-checked="true"]::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background-color: #00f2ff;
+        border-radius: 50%;
+        margin-right: 12px;
+        box-shadow: 0 0 8px rgba(0, 242, 255, 0.9), 0 0 15px rgba(0, 242, 255, 0.6);
+        display: inline-block;
+        vertical-align: middle;
+        animation: breathing 2.5s infinite; /* 使用現有的 breathing 動畫 */
     }
     div[role="radiogroup"] > div > label[data-checked="true"] > div:nth-of-type(2) {
         color: #00f2ff !important;
@@ -174,10 +191,6 @@ st.markdown("""
     /* 文字高亮霓虹色 (Quantum Cyan) 加上微光效 */
     .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
 
-    .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; }
-    .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-    .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; }
-
     .summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; }
     .result-summary, .return-summary { display: flex; align-items: center; justify-content: center !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); padding: 0 12px; border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; white-space: nowrap; box-sizing: border-box; transition: all 0.3s ease; }
     .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); }
@@ -229,6 +242,79 @@ st.markdown("""
     .design-tag { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 3px 8px 2px 8px; border-radius: 4px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 20px; box-sizing: border-box; }
     .design-email-tech { font-family: 'JetBrains Mono', monospace !important; color: #ffffff !important; font-size: 0.65rem !important; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.9; display: inline-flex; align-items: center; height: 20px; }
     @media (max-width: 768px) { .design-container { flex-direction: column; gap: 10px; } }
+
+    /* ==========================================
+       🚨 結果頁面：寬大有質感的策略活動面板 & 圖標式按鈕
+       ========================================== */
+    .active-strategy-panel {
+        background: linear-gradient(135deg, rgba(0, 242, 255, 0.08) 0%, rgba(11, 15, 25, 0.95) 100%);
+        border: 1px solid rgba(0, 242, 255, 0.35);
+        border-radius: 12px;
+        padding: 20px 25px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .panel-icon-left {
+        font-size: 30px;
+        opacity: 0.9;
+        filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5));
+    }
+    .panel-details-left {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .panel-label-left {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: rgba(0, 242, 255, 0.9);
+        letter-spacing: 2px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        line-height: 1;
+    }
+    .panel-title-left {
+        font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important;
+        color: #ffffff;
+        font-weight: 800;
+        line-height: 1.3;
+        margin: 0;
+        white-space: normal !important;
+        word-break: keep-all !important;
+    }
+
+    /* 定位 key="modify_strategy_btn_integrated" 的按鈕 */
+    #modify_strategy_btn_integrated button {
+        background: linear-gradient(145deg, rgba(0, 242, 255, 0.05) 0%, rgba(11, 15, 25, 0.95) 100%) !important;
+        border: 1px solid rgba(0, 242, 255, 0.4) !important;
+        color: #ffffff !important;
+        font-weight: 900 !important;
+        letter-spacing: 2px;
+        font-size: 1rem !important;
+        min-height: 50px !important;
+        border-radius: 8px !important;
+        box-shadow: 0 0 10px rgba(0, 242, 255, 0.15) !important;
+        animation: fadeSlideUp 0.6s ease-out forwards;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    #modify_strategy_btn_integrated button:hover {
+        border-color: rgba(0, 242, 255, 0.9) !important;
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.3) !important;
+    }
+
+    /* 確保手機端 columns 對齊 */
+    @media (max-width: 768px) {
+        #modify_strategy_btn_integrated {
+            margin-top: 15px; /* 為按鈕騰出空間 */
+        }
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -312,7 +398,7 @@ if not st.session_state['scan_completed']:
     elif "C." in strategy_choice:
         logic_html = """
         <div class="logic-grid">
-            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">雙引擎交集</div></div><div class="logic-desc">抓出具備<span class="highlight">營收創高成長</span>與<span class="highlight">技術強勢動能</span>的交集標的。</div></div>
+            <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">雙引擎交集</div></div><div class="logic-desc">抓出具備<span class="highlight">營收創高成長</span>與<span class="highlight">技術強勢動能</span>的交集標的.</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">基本面護城河</div></div><div class="logic-desc"><span class="highlight">近1年累積營收</span>創歷史同期新高，且今年以來累積 YoY <span class="highlight">大於 20%</span>。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TECHNICAL</span></div><div class="logic-label-zh">技術面爆發</div></div><div class="logic-desc"><span class="highlight">短、中、長期報酬</span>全數超越大盤同期績效。</div></div>
             <div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人雙重認同</div></div><div class="logic-desc">確保近 5、20 日三大法人皆為<span class="highlight">淨買超</span>，具備機構短、中期資金護航實力。</div></div>
@@ -498,8 +584,21 @@ else:
     df = st.session_state['temp_df']
     strategy_choice = st.session_state['selected_strategy']
     
-    st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
-    
+    # 🚨 結果頁面頂部：寬大有質感的策略活動面板 & 圖標式按鈕
+    st.markdown(f'''
+        <div class="active-strategy-panel">
+            <div class="panel-icon-left">⚙️</div>
+            <div class="panel-details-left">
+                <div class="panel-label-left">ACTIVE QUANTUM STRATEGY</div>
+                <h3 class="panel-title-left">{strategy_choice}</h3>
+            </div>
+        </div>
+    ''', unsafe_allow_html=True)
+
+    col1, col2 = st.columns([6, 1]) # 手機上靠右
+    with col2:
+        st.button("⚙️ 重新選取", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True, key="modify_strategy_btn_integrated")
+
     base_cols = [
         "代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", 
         "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", 
@@ -521,10 +620,6 @@ else:
     avg_ret_str = f"{ret_sign}{avg_ret:.2f}"
 
     st.markdown(f'''
-        <div class="strategy-header-container">
-            <div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
-            <h3 class="strategy-title">{strategy_choice}</h3>
-        </div>
         <div class="summary-box-group">
             <div class="result-summary"><span class="result-text">共篩選出 :</span><span class="result-num">{len(df)}</span><span class="result-text">檔標的</span></div>
             <div class="return-summary"><span class="result-text">平均漲幅 :</span><span class="{ret_class}">{avg_ret_str}%</span></div>
@@ -565,9 +660,10 @@ else:
     st.dataframe(styled_df, use_container_width=True, column_config=col_config)
     st.markdown('</div>', unsafe_allow_html=True)
 
+    # 🚨 免責聲明：指示點換成紅色呼吸點
     st.markdown('''
         <div id="disclaimer-target" class="disclaimer-wrapper">
-            <div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div>
+            <div class="disclaimer-header"><div class="pulse-dot-small-red"></div><h4 class="disclaimer-title">重要免責聲明</h4></div>
             <ul class="disclaimer-list">
                 <li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議。</li>
                 <li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任。</li>
