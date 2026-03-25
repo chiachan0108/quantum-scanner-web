@@ -24,8 +24,8 @@ st.markdown("""
     /* 🚨 科技感自訂捲軸 */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); }
-    ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.2); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.5); }
+    ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.6); }
 
     /* 隱藏右上角 Streamlit 預設選單 */
     [data-testid="stHeader"] { visibility: hidden !important; display: none !important; }
@@ -55,6 +55,9 @@ st.markdown("""
     .section-label-zh { font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: 1.5px; line-height: 1; }
     .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; }
 
+    /* ==========================================
+       🚨 選單 UI 終極修復：確保下拉清單不被遮擋
+       ========================================== */
     div[data-testid="stSelectbox"] label { display: none !important; }
     .stSelectbox [data-baseweb="select"] { 
         background-color: #161b2a !important; border: 1px solid rgba(0, 242, 255, 0.3) !important; 
@@ -62,7 +65,14 @@ st.markdown("""
     }
     .stSelectbox [data-baseweb="select"]:hover { border-color: rgba(0, 242, 255, 0.7) !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.1); }
     .stSelectbox [data-baseweb="select"] > div:first-child { padding: 0px 35px 0px 18px !important; display: flex !important; align-items: center !important; height: 100% !important; min-height: 56px !important; }
-    .stSelectbox [data-baseweb="select"] div { background-color: transparent !important; font-weight: 600 !important; color: #ffffff !important; font-size: clamp(1.0rem, 4.0vw, 1.15rem) !important; line-height: normal !important; margin: 0 !important; display: flex !important; align-items: center !important; }
+    .stSelectbox [data-baseweb="select"] > div:first-child > div { background-color: transparent !important; font-weight: 600 !important; color: #ffffff !important; font-size: clamp(1.0rem, 4.0vw, 1.15rem) !important; line-height: normal !important; margin: 0 !important; }
+
+    /* 修復下拉選單 (Popover/Menu) 被遮擋與無法滾動問題 */
+    div[data-baseweb="popover"] { z-index: 999999 !important; }
+    div[data-baseweb="menu"] { background-color: #111520 !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; border-radius: 8px !important; padding: 4px 0 !important; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important; }
+    div[data-baseweb="menu"] li { color: #e2e8f0 !important; font-weight: 500 !important; font-size: 1.05rem !important; transition: all 0.2s ease; padding-top: 12px !important; padding-bottom: 12px !important; }
+    div[data-baseweb="menu"] li:hover { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; }
+    div[data-baseweb="menu"] li[aria-selected="true"] { background: rgba(0, 242, 255, 0.15) !important; color: #00f2ff !important; font-weight: 800 !important; border-left: 3px solid #00f2ff !important; }
 
     .stButton > button { 
         background: rgba(0, 242, 255, 0.08) !important; 
@@ -193,12 +203,14 @@ def highlight_pivot_full_row(row):
     return styles
 
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
-now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
-# 更新判斷邏輯為 21:00
-data_date = now_taipei.strftime('%Y/%m/%d') if now_taipei.hour >= 21 else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
 
-# 更新顯示時間為 21:00
-st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 21:00</span></div></div>''', unsafe_allow_html=True)
+# 🚨 更新判斷邏輯：每日 20:30 更新
+now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
+is_updated_time = (now_taipei.hour > 20) or (now_taipei.hour == 20 and now_taipei.minute >= 30)
+data_date = now_taipei.strftime('%Y/%m/%d') if is_updated_time else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
+
+# 更新顯示時間為 20:30
+st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:30</span></div></div>''', unsafe_allow_html=True)
 
 if not st.session_state['scan_completed']:
     st.markdown("""
@@ -323,6 +335,7 @@ if not st.session_state['scan_completed']:
             time.sleep(0.5) 
 
         try:
+            @st.cache_data(ttl=600)
             def fetch_and_rename(filepath):
                 if not os.path.exists(filepath): return pd.DataFrame()
                 d = pd.read_csv(filepath)
@@ -430,6 +443,7 @@ else:
     
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
     
+    # 🚨 欄位100%鎖死，與所有策略完全一致
     base_cols = [
         "代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", 
         "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", 
