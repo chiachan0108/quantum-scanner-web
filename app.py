@@ -19,6 +19,7 @@ st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inte
 .result-summary, .return-summary { 
   display: flex; 
   align-items: center; 
+  justify-content: center; /* 讓內部元素整體水平置中 */
   padding: 0 !important; 
   background: rgba(0, 242, 255, 0.08); 
   border: 1px solid rgba(0, 242, 255, 0.35); 
@@ -36,18 +37,14 @@ st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inte
   box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); 
 } 
 
-/* 強制切割框內左右比例，確保冒號切齊 */
+/* 移除左右固定寬度，改由父層 justify-content: center 達到真正的視覺置中 */
 .box-left { 
-  width: 95px; /* 左半部固定寬度 */
   display: flex; 
-  justify-content: flex-end; /* 文字向右靠，讓冒號切齊邊界 */
   align-items: center; 
   transform: translateY(1px); /* 幾何垂直中心微調 */
 } 
 .box-right { 
-  width: 125px; /* 右半部固定寬度 */
   display: flex; 
-  justify-content: flex-start; /* 數字向左靠，靠近冒號 */
   align-items: center; 
   padding-left: 8px; /* 冒號與數字之間的完美間距 */
   gap: 4px; /* 數字與單位(%)之間的緊密間距 */
