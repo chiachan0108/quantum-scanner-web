@@ -113,7 +113,8 @@ if not st.session_state['scan_completed']:
                 rename_map = {"股價代號": "代號", "公司名稱": "名稱", "產業別": "產業", "當日漲幅(%)": "漲幅(%)", "漲幅 (%)": "漲幅(%)", "季乖離": "季乖離(%)", "年乖離": "年乖離(%)", "月營收MoM(%)": "月營收MoM(%)", "月營收MoM (%)": "月營收MoM(%)", "月營收YoY(%)": "月營收YoY(%)", "月營收YoY (%)": "月營收YoY(%)", "今年以來累積營收YoY(%)": "今年營收YoY(%)", "今年營收YoY (%)": "今年營收YoY(%)", "近20日法人買賣超(張數)": "20日法人買賣超(張)", "近20日法人買超(張數)": "20日法人買賣超(張)", "近20日法人買賣超(張)": "20日法人買賣超(張)", "20日法人買賣超 (張)": "20日法人買賣超(張)"}
                 return pd.read_csv(filepath).rename(columns=rename_map)
 
-            df1, df2, df_d, df_e, df_squat = map(fetch_and_rename, ["daily_result.csv", "momentum_result.csv", "strategy_d_result.csv", "strategy_e_result.csv", "strategy_squat_result.csv"])
+            # 🔥 [輸出檔名統整]：同步後端最新的 CSV 命名格式
+            df1, df2, df_d, df_e, df_squat = map(fetch_and_rename, ["strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", "strategy_e_result.csv", "strategy_f_result.csv"])
             
             if "A." in strategy_choice: df_f = df1
             elif "B." in strategy_choice: df_f = df2
