@@ -109,7 +109,7 @@ st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER
 if not st.session_state['scan_completed']:
     
     # 🎯 [新增升級版] 標的策略雷達反查系統
-    with st.expander("🔍 個股量化反查 (輸入代號或名稱)", expanded=False):
+    with st.expander("🔍 個股查詢 (輸入代號或名稱)", expanded=False):
         search_query = st.text_input(" (例如: 2330 或 台積電)", key="search_input").strip()
         if search_query:
             # 獲取所有策略資料
