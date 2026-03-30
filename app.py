@@ -175,7 +175,7 @@ if not st.session_state['scan_completed']:
                     </div>
                     <div class="search-subtitle">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>
-                        標的當前觸發之量化策略矩陣：
+                        標的當前觸發策略：
                     </div>
                     <div class="search-badges-container">
                         {badge_html}
