@@ -68,7 +68,6 @@ def fetch_and_rename(filename):
     rename_map = {"股價代號": "代號", "公司名稱": "名稱", "產業別": "產業", "當日漲幅(%)": "漲幅(%)", "漲幅 (%)": "漲幅(%)", "季乖離": "季乖離(%)", "年乖離": "年乖離(%)", "月營收MoM(%)": "月營收MoM(%)", "月營收MoM (%)": "月營收MoM(%)", "月營收YoY(%)": "月營收YoY(%)", "月營收YoY (%)": "月營收YoY(%)", "今年以來累積營收YoY(%)": "今年營收YoY(%)", "今年營收YoY (%)": "今年營收YoY(%)", "近20日法人買賣超(張數)": "20日法人買賣超(張)", "近20日法人買超(張數)": "20日法人買賣超(張)", "近20日法人買賣超(張)": "20日法人買賣超(張)", "20日法人買賣超 (張)": "20日法人買賣超(張)"}
     return df.rename(columns=rename_map)
 
-
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
 now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
 data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
@@ -88,16 +87,15 @@ if not st.session_state['scan_completed']:
             ])
             
             hit_strategies = []
-            matched_id, matched_name = "", ""
+            match_info = {"id": "", "name": ""}
 
             def check_hit(df, strat_name):
-                nonlocal matched_id, matched_name
                 if not df.empty and '代號' in df.columns and '名稱' in df.columns:
                     mask = (df['代號'].astype(str) == search_query) | (df['名稱'].astype(str).str.contains(search_query, na=False))
                     hits = df[mask]
                     if not hits.empty:
-                        matched_id = str(hits.iloc[0]['代號'])
-                        matched_name = str(hits.iloc[0]['名稱'])
+                        match_info["id"] = str(hits.iloc[0]['代號'])
+                        match_info["name"] = str(hits.iloc[0]['名稱'])
                         hit_strategies.append(strat_name)
 
             check_hit(s_a, "A. 營收趨勢增長型")
@@ -114,7 +112,7 @@ if not st.session_state['scan_completed']:
                 hit_strategies.sort() # 重新排序讓 ABC 照順序排
 
             if hit_strategies:
-                st.markdown(f'<div class="search-box-container"><div class="search-result-name">🎯 {matched_id} {matched_name}</div><div style="color: #94a3b8; font-size:0.9rem; margin-bottom:8px;">當前符合以下嚴苛量化策略：</div>{"".join([f"<span class=\'strategy-badge\'>{s}</span>" for s in hit_strategies])}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="search-box-container"><div class="search-result-name">🎯 {match_info["id"]} {match_info["name"]}</div><div style="color: #94a3b8; font-size:0.9rem; margin-bottom:8px;">當前符合以下嚴苛量化策略：</div>{"".join([f"<span class=\'strategy-badge\'>{s}</span>" for s in hit_strategies])}</div>', unsafe_allow_html=True)
             else:
                 st.warning("⚠️ 查無相符資料。該標的目前可能未符合任何嚴格的量化策略濾網，或輸入格式有誤。")
 
