@@ -184,7 +184,7 @@ if not st.session_state['scan_completed']:
                 """
                 st.markdown(result_html, unsafe_allow_html=True)
             else:
-                st.warning("⚠️ 查無相符資料。該標的目前可能未符合任何嚴格的量化策略濾網，或輸入格式有誤。")
+                st.warning("⚠️ 查無相符資料。該標的目前可能未符合任何量化策略濾網，或輸入格式有誤。")
 
     st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>STRATEGY CONFIGURATION</span><span class='section-label-zh'>策略類型選取</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
     strategy_choice = st.radio("量化策略模組", ["A. 營收趨勢增長型", "B. 股價強勢動能型", "C. 營收股價雙能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "S. 趨勢轉折延伸型"], label_visibility="collapsed")
