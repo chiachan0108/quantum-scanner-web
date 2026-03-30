@@ -208,7 +208,8 @@ if not st.session_state['scan_completed']:
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                         TARGET NOT MATCHED
                     </div>
-                    <p class="warning-desc">查無相符資料。<br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p>
+                    <p class="warning-desc"> 
+                    <br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p>
                 </div>
                 """
                 st.markdown(warning_html, unsafe_allow_html=True)
