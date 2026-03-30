@@ -116,8 +116,8 @@ st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER
 if not st.session_state['scan_completed']:
     
     # 🎯 [優化版 UI] 將 Emoji 替換為高質感幾何符號，整體風格冷峻化
-    with st.expander("◈ 個股量化雷達反查 (輸入代號或名稱)", expanded=False):
-        search_query = st.text_input("請輸入股價代號或名稱 (例如: 2330 或 台積電)", key="search_input").strip()
+    with st.expander("◈ 個股查詢 (輸入代號或名稱)", expanded=False):
+        search_query = st.text_input("(例如: 2330 或 台積電)", key="search_input").strip()
         if search_query:
             # 獲取所有策略資料
             s_a, s_b, s_d, s_e, s_f, s_g, s_h = map(fetch_and_rename, [
