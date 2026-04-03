@@ -272,7 +272,7 @@ if not st.session_state['scan_completed']:
     st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>STRATEGY CONFIGURATION</span><span class='section-label-zh'>策略類型選取</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
     
     # 🌟 全新升級：四大維度專屬分頁切換
-    t_fund, t_chip, t_tech, t_multi = st.tabs(["基本面區", "籌碼面區", "技術面區", "肆. 多吻合區"])
+    t_fund, t_chip, t_tech, t_multi = st.tabs(["基本面區", "籌碼面區", "技術面區", "多吻合區"])
     
     with t_fund:
         st.radio("基本面區", ["A. 營收趨勢增長型", "H. 財報三率三升型", "I. 營收財報雙能型"], 
