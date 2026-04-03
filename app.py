@@ -168,8 +168,8 @@ if not st.session_state['scan_completed']:
             check_hit(s_f, "F. 左側超跌優質型")
             check_hit(s_g, "G. 中長周期轉折型")
             check_hit(s_h, "H. 財報三率三升型")
-            check_hit(s_j, "J. 極長線趨勢鎖碼型")
-            check_hit(s_k, "K. 跨週期矩陣爆發型")
+            check_hit(s_j, "J. 指標強勢共振型")
+            check_hit(s_k, "K. 跨週期多矩陣型")
             
             # 策略 C 與 I 判定邏輯 (交集)
             if "A. 營收趨勢增長型" in hit_strategies and "B. 股價強勢動能型" in hit_strategies:
