@@ -13,7 +13,87 @@ st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inte
 [data-testid="stDataFrame"] canvas { touch-action: pan-x pan-y !important; }
 [data-testid="stDataFrame"] th { background-color: #161b2a !important; color: #94a3b8 !important; border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important; font-weight: 700 !important; } [data-testid="stDataFrame"] td { background-color: #0b0f19 !important; color: #ffffff !important; } .empty-state-glass { padding: 40px; text-align: center; background: linear-gradient(135deg, rgba(0, 242, 255, 0.05) 0%, rgba(11, 15, 25, 0.8) 100%); border: 1px dashed rgba(0, 242, 255, 0.3); border-radius: 16px; margin-top: 30px; animation: fadeSlideUp 0.6s ease-out forwards; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); } .empty-state-icon { font-size: 48px; margin-bottom: 15px; opacity: 0.9; filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.4)); } .empty-state-title { color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; margin-bottom: 8px; font-weight: 800; letter-spacing: 1px; } .empty-state-desc { color: #94a3b8; font-size: 0.95rem; margin: 0; line-height: 1.6; } .disclaimer-wrapper { background-color: #0e121a; border: 1px solid rgba(0, 242, 255, 0.2) !important; border-radius: 8px; padding: 16px 16px 10px 16px !important; margin-top: 35px !important; margin-bottom: 35px !important; display: flex; flex-direction: column; gap: 10px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); animation: fadeSlideUp 0.8s ease-out forwards; } .disclaimer-header { display: flex; align-items: center; margin-bottom: 0px !important; } .disclaimer-title { font-weight: 700; color: #ffffff; font-size: 14px !important; letter-spacing: 0.5px; margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: flex; align-items: center; } .disclaimer-list { display: flex; flex-direction: column; gap: 6px !important; list-style: none; padding: 0 !important; padding-left: 18px !important; margin: 0 !important; } .disclaimer-item { font-size: 13px !important; color: #94a3b8; line-height: 1.4 !important; font-weight: 400; margin: 0 !important; text-align: justify !important; text-justify: inter-ideograph !important; } .footer-wrapper { margin-top: 60px; padding: 30px 10px 50px 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; justify-content: center !important; } .brand-copyright { color: #94a3b8; font-weight: 800 !important; font-size: 0.85rem !important; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; } .design-container { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; } .design-tag { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 3px 8px 2px 8px; border-radius: 4px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 20px; box-sizing: border-box; } .design-email-tech { font-family: 'JetBrains Mono', monospace !important; color: #ffffff !important; font-size: 0.65rem !important; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.9; display: inline-flex; align-items: center; height: 20px; } @media (max-width: 768px) { .design-container { flex-direction: column; gap: 10px; } }
 
-/* 🔥 升級版：分頁 Tabs 專屬 Glassmorphism CSS */
+/* 🔥 升級版：個股反查雷達專屬 Glassmorphism CSS (防斷行修復版) */
+.search-box-glass {
+    background: linear-gradient(135deg, rgba(11, 15, 25, 0.95) 0%, rgba(22, 27, 34, 0.85) 100%);
+    border: 1px solid rgba(0, 242, 255, 0.25);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 242, 255, 0.05);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    animation: fadeSlideUp 0.5s ease-out forwards;
+}
+.search-box-glass::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.8), transparent);
+}
+.search-header-row {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    border-bottom: 1px dashed rgba(0, 242, 255, 0.2);
+    padding-bottom: 16px; margin-bottom: 16px;
+}
+.id-name-group {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px;
+}
+.search-target-id {
+    font-family: 'JetBrains Mono', monospace; font-size: clamp(1.4rem, 6vw, 2.2rem); font-weight: 900;
+    color: #ffffff; text-shadow: 0 0 15px rgba(0, 242, 255, 0.4); line-height: 1; margin: 0; display: inline-block;
+}
+.search-target-name {
+    font-size: clamp(1rem, 4.5vw, 1.3rem); font-weight: 800; color: #e2e8f0; margin-left: 10px; letter-spacing: 2px;
+    white-space: nowrap; word-break: keep-all; display: inline-block;
+}
+.search-status-tag {
+    background: rgba(0, 242, 255, 0.1); border: 1px solid rgba(0, 242, 255, 0.4);
+    padding: 4px 10px; border-radius: 4px; color: #00f2ff;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px;
+}
+.search-badges-container {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;
+}
+.strat-badge-premium {
+    background: linear-gradient(90deg, rgba(22, 27, 34, 0.9), rgba(11, 15, 25, 0.9));
+    border: 1px solid rgba(0, 242, 255, 0.3); border-left: 3px solid #00f2ff;
+    padding: 8px 14px; border-radius: 6px; color: #e2e8f0; font-weight: 600;
+    font-size: 0.9rem; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+.strat-badge-premium:hover {
+    border-color: rgba(0, 242, 255, 0.7); box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
+    transform: translateY(-2px);
+}
+.strat-badge-premium span {
+    color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-weight: 800; margin-right: 6px;
+}
+.search-subtitle {
+    color: #94a3b8; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; font-weight: 500;
+}
+.search-subtitle svg {
+    margin-right: 8px; filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.5)); flex-shrink: 0;
+}
+/* 反查警告專屬 CSS */
+.search-warning-glass {
+    background: linear-gradient(135deg, rgba(255, 170, 0, 0.05) 0%, rgba(22, 27, 34, 0.85) 100%);
+    border: 1px solid rgba(255, 170, 0, 0.3);
+    border-left: 4px solid #ffaa00;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    animation: fadeSlideUp 0.5s ease-out forwards;
+}
+.warning-title {
+    color: #ffaa00; font-weight: 800; font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 1.5px;
+}
+.warning-desc {
+    color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; text-align: justify;
+}
+
+/* 🔥 新增：分頁 Tabs 專屬 Glassmorphism CSS */
 [data-testid="stTabs"] { background-color: transparent !important; }
 [data-testid="stTabs"] button {
     background-color: rgba(11, 15, 25, 0.4) !important;
@@ -90,6 +170,12 @@ def fetch_and_rename(filename):
     return df.rename(columns=rename_map)
 
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
+
+# 🌟 初始化跨分頁的策略追蹤狀態
+if 'active_strat' not in st.session_state: st.session_state['active_strat'] = "A. 營收趨勢增長型"
+
+def update_strat(radio_key):
+    st.session_state['active_strat'] = st.session_state[radio_key]
 
 now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
 data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
@@ -176,36 +262,32 @@ if not st.session_state['scan_completed']:
             if hit_strategies:
                 # 採用全新升級的 Glassmorphism UI 加上純手工繪製的 SVG 科技瞄準星
                 badge_html = "".join([f"<div class='strat-badge-premium'><span>{s.split('.')[0]}.</span>{s.split('.')[1].strip()}</div>" for s in hit_strategies])
-                result_html = f"""
-                <div class="search-box-glass">
-                    <div class="search-header-row">
-                        <div class="id-name-group">
-                            <span class="search-target-id">{match_info['id']}</span>
-                            <span class="search-target-name">{match_info['name']}</span>
-                        </div>
-                        <div class="search-status-tag">MATCHED</div>
-                    </div>
-                    <div class="search-subtitle">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>
-                        標的當前觸發策略：
-                    </div>
-                    <div class="search-badges-container">
-                        {badge_html}
-                    </div>
-                </div>
-                """
+                result_html = f"""<div class="search-box-glass">
+    <div class="search-header-row">
+        <div class="id-name-group">
+            <span class="search-target-id">{match_info['id']}</span>
+            <span class="search-target-name">{match_info['name']}</span>
+        </div>
+        <div class="search-status-tag">MATCHED</div>
+    </div>
+    <div class="search-subtitle">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>
+        標的當前觸發策略：
+    </div>
+    <div class="search-badges-container">
+        {badge_html}
+    </div>
+</div>"""
                 st.markdown(result_html, unsafe_allow_html=True)
             else:
-                warning_html = """
-                <div class="search-warning-glass">
-                    <div class="warning-title">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                        TARGET NOT MATCHED
-                    </div>
-                    <p class="warning-desc"> 
-                    <br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p>
-                </div>
-                """
+                warning_html = """<div class="search-warning-glass">
+    <div class="warning-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        TARGET NOT MATCHED
+    </div>
+    <p class="warning-desc"> 
+    <br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p>
+</div>"""
                 st.markdown(warning_html, unsafe_allow_html=True)
 
     st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>STRATEGY CONFIGURATION</span><span class='section-label-zh'>策略類型選取</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
@@ -359,35 +441,30 @@ else:
     if pd.isna(avg_ret): avg_ret = 0.0
     ret_class, ret_sign = "return-val-up" if avg_ret > 0 else ("return-val-down" if avg_ret < 0 else "return-val-zero"), "+" if avg_ret > 0 else ""
 
-    avg_ret_html = f'''
-    <div class="strategy-header-container">
-      <div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
-      <h3 class="strategy-title">{strategy_choice}</h3>
+    avg_ret_html = f'''<div class="strategy-header-container">
+  <div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
+  <h3 class="strategy-title">{strategy_choice}</h3>
+</div>
+<div class="summary-box-group">
+  <div class="result-summary">
+    <div class="box-left">
+      <span class="box-label">共篩選出 :</span>
     </div>
-    <div class="summary-box-group">
-      
-      <div class="result-summary">
-        <div class="box-left">
-          <span class="box-label">共篩選出 :</span>
-        </div>
-        <div class="box-right">
-          <span class="box-num">{len(df)}</span>
-          <span class="box-unit">檔標的</span>
-        </div>
-      </div>
-      
-      <div class="return-summary">
-        <div class="box-left">
-          <span class="box-label">平均漲幅 :</span>
-        </div>
-        <div class="box-right">
-          <span class="box-num {ret_class}">{ret_sign}{avg_ret:.2f}</span>
-          <span class="box-unit {ret_class}">%</span>
-        </div>
-      </div>
-      
+    <div class="box-right">
+      <span class="box-num">{len(df)}</span>
+      <span class="box-unit">檔標的</span>
     </div>
-    '''
+  </div>
+  <div class="return-summary">
+    <div class="box-left">
+      <span class="box-label">平均漲幅 :</span>
+    </div>
+    <div class="box-right">
+      <span class="box-num {ret_class}">{ret_sign}{avg_ret:.2f}</span>
+      <span class="box-unit {ret_class}">%</span>
+    </div>
+  </div>
+</div>'''
     st.markdown(avg_ret_html, unsafe_allow_html=True)
     
     df_for_display = df[display_cols].copy()
