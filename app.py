@@ -224,7 +224,7 @@ if not st.session_state['scan_completed']:
                 hit_strategies.append("I. 營收財報雙能型")
                 
             # 策略 R 判定邏輯 (A, B, D, E, F, G, H, J, K 取 3)
-            base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型"}
+            base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型"}吃貨型", "E. 市場區間共振型", "F. 左側超跌優
             if len([s for s in hit_strategies if s in base_strats]) >= 3:
                 hit_strategies.append("R. 複式策略交集型")
                 
@@ -281,7 +281,7 @@ if not st.session_state['scan_completed']:
         st.radio("籌碼面區", ["D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型"], 
                  label_visibility="collapsed", key="rad_chip", on_change=update_strat, args=("rad_chip",))
     with t_tech:
-        st.radio("技術面區", ["B. 股價強勢動能型", "G. 中長周期轉折型", "J. 極長線趨勢鎖碼型", "K. 跨週期矩陣爆發型"], 
+        st.radio("技術面區", ["B. 股價強勢動能型", "G. 中長周期轉折型", "J. 指標強勢共振型", "K. 跨週期多矩陣型"], 
                  label_visibility="collapsed", key="rad_tech", on_change=update_strat, args=("rad_tech",))
     with t_multi:
         st.radio("多吻合區", ["C. 營收股價雙能型", "R. 複式策略交集型", "S. 趨勢轉折延伸型"], 
