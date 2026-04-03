@@ -220,7 +220,7 @@ if not st.session_state['scan_completed']:
 
     st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>STRATEGY CONFIGURATION</span><span class='section-label-zh'>策略類型選取</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
     # 🌟 選單中加入策略 J 與 K
-    strategy_choice = st.radio("量化策略模組", ["A. 營收趨勢增長型", "B. 股價強勢動能型", "C. 營收股價雙能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "I. 營收財報雙能型", "J. 指標強勢共振型", "K. 跨週期多矩型", "S. 趨勢轉折延伸型"], label_visibility="collapsed")
+    strategy_choice = st.radio("量化策略模組", ["A. 營收趨勢增長型", "B. 股價強勢動能型", "C. 營收股價雙能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "I. 營收財報雙能型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "S. 趨勢轉折延伸型"], label_visibility="collapsed")
     st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
     
     # [HTML 邏輯區塊極致壓縮版] 
