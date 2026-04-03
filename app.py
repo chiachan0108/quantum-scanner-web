@@ -223,6 +223,11 @@ if not st.session_state['scan_completed']:
             if "A. 營收趨勢增長型" in hit_strategies and "H. 財報三率三升型" in hit_strategies:
                 hit_strategies.append("I. 營收財報雙能型")
                 
+            # 策略 R 判定邏輯 (A, B, D, E, F, G, H, J, K 取 3)
+            base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 極長線趨勢鎖碼型", "K. 跨週期矩陣爆發型"}
+            if len([s for s in hit_strategies if s in base_strats]) >= 3:
+                hit_strategies.append("R. 複式策略交集型")
+                
             # 策略 S 判定邏輯 (只要符合任一策略，且現價大於轉折值)
             if hit_strategies and match_info["price"] > match_info["pivot"] and match_info["pivot"] > 0:
                 hit_strategies.append("S. 趨勢轉折延伸型")
@@ -279,7 +284,7 @@ if not st.session_state['scan_completed']:
         st.radio("技術面區", ["B. 股價強勢動能型", "G. 中長周期轉折型", "J. 極長線趨勢鎖碼型", "K. 跨週期矩陣爆發型"], 
                  label_visibility="collapsed", key="rad_tech", on_change=update_strat, args=("rad_tech",))
     with t_multi:
-        st.radio("多吻合區", ["C. 營收股價雙能型", "S. 趨勢轉折延伸型"], 
+        st.radio("多吻合區", ["C. 營收股價雙能型", "R. 複式策略交集型", "S. 趨勢轉折延伸型"], 
                  label_visibility="collapsed", key="rad_multi", on_change=update_strat, args=("rad_multi",))
     
     # 將最後選擇的策略賦值給主程式變數
@@ -300,6 +305,8 @@ if not st.session_state['scan_completed']:
         "I.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">基本面雙引擎</div></div><div class="logic-desc">抓出同時具備<span class="highlight">營收創高增長 (策略A)</span>與<span class="highlight">財報三率三升 (策略H)</span>的頂級績優標的.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">REVENUE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下同期新高，且今年營收YoY(%)<span class="highlight">大於10%</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，質量大幅優化.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股.</div></div></div>',
         "J.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">MACD(200)</span></div><div class="logic-label-zh">極長線趨勢</div></div><div class="logic-desc">使用極端參數 <span class="highlight">200,201,202</span>，且 DIF、D-M、EMA1、EMA2 皆大於前日.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">DMI(300)</span></div><div class="logic-label-zh">超長線動能</div></div><div class="logic-desc">DMI 參數設為 <span class="highlight">300</span>，且運算出的 ADX300 必須大於昨日.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">W%R(50)</span></div><div class="logic-label-zh">多頭慣性</div></div><div class="logic-desc">威廉指標參數設為 50，且指標值必須 <span class="highlight">小於 20</span> (接近高點區).</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">穩健流動性</div></div><div class="logic-desc">近 20/60/120/240 日平均成交量皆大於 <span class="highlight">300張</span>，確保無死水.</div></div></div>',
         "K.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">DMI(1) M</span></div><div class="logic-label-zh">月線趨勢</div></div><div class="logic-desc">月線 DMI 參數為 1，且 +DI(1) 值必須 <span class="highlight">大於 50</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">RSI(4) M</span></div><div class="logic-label-zh">月線強度</div></div><div class="logic-desc">月線 RSI 參數為 4，且 RSI(4) 指標值必須 <span class="highlight">大於 77</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">W%R(50) D</span></div><div class="logic-label-zh">日線慣性</div></div><div class="logic-desc">日線威廉指標參數為 50，且指標值必須 <span class="highlight">小於 20</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">RSI(60) D</span></div><div class="logic-label-zh">長線保護</div></div><div class="logic-desc">日線 RSI 參數為 60，且 RSI(60) 指標值必須 <span class="highlight">大於 57</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">05</span><span class="logic-label-en">VR(2) W</span></div><div class="logic-label-zh">週線籌碼</div></div><div class="logic-desc">週線容量比率 VR 參數為 2，且指標值必須 <span class="highlight">大於 9998</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">06</span><span class="logic-label-en">VR(2) M</span></div><div class="logic-label-zh">月線籌碼</div></div><div class="logic-desc">月線容量比率 VR 參數為 2，且指標值必須 <span class="highlight">大於 9998</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">07</span><span class="logic-label-en">MATRIX</span></div><div class="logic-label-zh">矩陣過濾</div></div><div class="logic-desc">以上六大跨週期特徵，必須符合 <span class="highlight">4 個以上</span> 才可觸發入選.</div></div></div>',
+        # 🌟 新增策略 R 面板
+        "R.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">多維度交集</div></div><div class="logic-desc">統整基本面、技術面、籌碼面，尋找<span class="highlight">多重條件共振</span>的極端強勢股.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MATRIX</span></div><div class="logic-label-zh">矩陣濾網</div></div><div class="logic-desc">涵蓋策略 A、B、D、E、F、G、H、J、K，共 <span class="highlight">9 大核心策略</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">觸發條件</div></div><div class="logic-desc">單一標的必須同時符合上述 9 大策略中的 <span class="highlight">任意 3 項 (含) 以上</span>.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">CONFIRMATION</span></div><div class="logic-label-zh">極致收斂</div></div><div class="logic-desc">透過高難度的多條件疊加，過濾掉單一指標的雜訊，抓出<span class="highlight">法人與主力高度共識</span>的飆股.</div></div></div>',
         "S.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">策略 A、B、C、D、E、F、G、H、J、K</span> 所篩選出的全體優質標的作為判斷樣本.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">轉折觸發</div></div><div class="logic-desc">鎖定 <span class="highlight">現價突破轉折值</span> 的標的，預判未來行情繼續延伸.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">營收動能</div></div><div class="logic-desc">追蹤 <span class="highlight">今年以來累積營收 YoY(%)</span>，確保基本面支撐.</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人籌碼</div></div><div class="logic-desc">觀察近 20 日 <span class="highlight">法人買賣超動向</span>，確認機構資金流向.</div></div></div>'
     }
     st.markdown(next((v for k, v in logic_dict.items() if k in strategy_choice), logic_dict["A."]), unsafe_allow_html=True)
@@ -331,6 +338,28 @@ if not st.session_state['scan_completed']:
                 df_f = df1[df1['代號'].isin(set(df1['代號']).intersection(set(df_h['代號'])))].copy() if not df1.empty and not df_h.empty else pd.DataFrame()
             elif "J." in strategy_choice: df_f = df_j
             elif "K." in strategy_choice: df_f = df_k
+            elif "R." in strategy_choice:
+                # 🌟 新增：策略 R 運算邏輯 (A, B, D, E, F, G, H, J, K 取 3 交集)
+                id_map = {}
+                for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
+                for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
+                for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
+                for sid in df_e['代號'].astype(str) if not df_e.empty else []: id_map.setdefault(sid, set()).add("E")
+                for sid in df_squat['代號'].astype(str) if not df_squat.empty else []: id_map.setdefault(sid, set()).add("F")
+                for sid in df_g['代號'].astype(str) if not df_g.empty else []: id_map.setdefault(sid, set()).add("G")
+                for sid in df_h['代號'].astype(str) if not df_h.empty else []: id_map.setdefault(sid, set()).add("H")
+                for sid in df_j['代號'].astype(str) if not df_j.empty else []: id_map.setdefault(sid, set()).add("J")
+                for sid in df_k['代號'].astype(str) if not df_k.empty else []: id_map.setdefault(sid, set()).add("K")
+                
+                target_sids = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K"})) >= 3]
+                dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k] if not d.empty]
+                
+                if dfs_to_concat and target_sids:
+                    df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+                    df_f = df_combined[df_combined['代號'].astype(str).isin(target_sids)].copy()
+                    df_f['名稱'] = df_f.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1) if not df_f.empty else df_f['名稱']
+                else: 
+                    df_f = pd.DataFrame()
             elif "S." in strategy_choice:
                 id_map = {}
                 for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
