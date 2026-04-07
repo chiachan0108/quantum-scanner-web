@@ -131,6 +131,15 @@ st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inte
 [data-testid="stTabs"] [data-baseweb="tab-panel"] {
     padding-top: 15px !important;
 }
+
+/* 🔥 新增：策略T 核取方塊專屬發光 CSS */
+[data-testid="stCheckbox"] { padding: 10px 14px !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 8px !important; background-color: #0b0f19 !important; transition: all 0.3s ease !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; width: 100% !important; }
+[data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; }
+[data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; }
+[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { color: #94a3b8 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.0rem !important; font-weight: 600 !important; transition: all 0.3s ease !important; margin: 0 !important; }
+[data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
+[data-testid="stCheckbox"] div[data-baseweb="checkbox"] > div:first-child { background-color: rgba(255, 255, 255, 0.05) !important; border: 1px solid rgba(0, 242, 255, 0.3) !important; transition: all 0.3s ease !important; }
+[data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-baseweb="checkbox"] > div:first-child { background-color: #00f2ff !important; border-color: #00f2ff !important; box-shadow: 0 0 8px #00f2ff !important; }
 </style>""", unsafe_allow_html=True)
 
 def highlight_pivot_full_row(row):
