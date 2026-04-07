@@ -6,7 +6,7 @@ st.set_page_config(page_title="QUANTUM TECH SCANNER", layout="wide", initial_sid
 
 # [CSS 樣式極致壓縮版] 絕對保留未提及的設計與排版，並新增專屬警示面板 CSS 與 分頁 Tabs CSS (新增手機端表格滑動抗飄移穩定性)
 st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap'); html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAppViewContainer"], [data-testid="stMainBlockContainer"] { font-family: 'Inter', 'Noto Sans TC', sans-serif !important; background-color: #0b0f19 !important; color: #e2e8f0 !important; -webkit-font-smoothing: antialiased; overscroll-behavior-y: none; } ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); } ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.3); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.6); } [data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stDecoration"], #MainMenu { visibility: hidden !important; display: none !important; } @keyframes fadeSlideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } } .fade-in-container { animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; } .pulse-dot-small { width: 8px; height: 8px; background-color: #00f2ff; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(0, 242, 255, 0.4); animation: breathing 2.5s infinite; flex-shrink: 0; } @keyframes breathing { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 242, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } } .header-group { margin-top: -45px; margin-bottom: 5px; animation: fadeSlideUp 0.4s ease-out forwards; } .main-title { font-family: 'JetBrains Mono', monospace !important; font-weight: 700; letter-spacing: -2px; background: linear-gradient(90deg, #00f2ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(2.0rem, 6vw, 3.5rem); line-height: 1.1; margin: 0; } .status-pill { display: inline-flex; align-items: center; white-space: nowrap; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: rgba(148, 163, 184, 0.9); margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; } .status-val { color: #ffffff; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-left: 6px; } .section-header-container { margin-top: 25px; margin-bottom: 16px; display: flex; align-items: center; position: relative; animation: fadeSlideUp 0.5s ease-out forwards; } .section-accent { width: 4px; height: 34px; background: linear-gradient(180deg, #00f2ff, #0072ff); border-radius: 4px; margin-right: 14px; box-shadow: 0 0 12px rgba(0, 242, 255, 0.4); } .section-header-text { display: flex; flex-direction: column; justify-content: center; } .section-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(0, 242, 255, 0.9); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; line-height: 1; } .section-label-zh { font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: 1.5px; line-height: 1; } .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; } .stRadio > div[role="radiogroup"] { display: flex !important; flex-direction: column !important; gap: 12px !important; margin-top: 10px !important; margin-bottom: 10px !important; } .stRadio div[role="radiogroup"] input[type="radio"], .stRadio div[role="radiogroup"] label > div:first-child, .stRadio div[role="radiogroup"] div[data-baseweb="radio"] > div:first-child { display: none !important; opacity: 0 !important; width: 0 !important; height: 0 !important; position: absolute !important; } .stRadio div[role="radiogroup"] label { background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 8px !important; padding: 14px 20px !important; margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; align-items: center !important; width: 100% !important; } .stRadio div[role="radiogroup"] label:hover { border-color: rgba(0, 242, 255, 0.4) !important; } .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"], .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p { background: transparent !important; border: none !important; margin: 0 !important; padding: 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.05rem !important; font-weight: 600 !important; display: flex !important; align-items: center !important; width: 100% !important; } .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p::before { content: ''; display: inline-block !important; width: 8px !important; height: 8px !important; border-radius: 50% !important; background-color: rgba(255, 255, 255, 0.15) !important; margin-right: 15px !important; transition: all 0.3s ease !important; border: none !important; transform: none !important; box-shadow: none !important; flex-shrink: 0 !important; } .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p::before { background-color: #00f2ff !important; box-shadow: 0 0 8px #00f2ff, 0 0 15px #00f2ff !important; } .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; } .stButton > button { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; backdrop-filter: blur(8px) !important; border-radius: 10px !important; font-weight: 900 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; letter-spacing: 2px; width: 100% !important; min-height: 62px !important; font-size: 1.25rem !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative; padding: 0 !important; } .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } .stButton > button:active { transform: translateY(1px) !important; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2) !important; } .stButton > button div[data-testid="stMarkdownContainer"] { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important; } .stButton > button div[data-testid="stMarkdownContainer"] p { display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important; line-height: 1 !important; transform: translate(-4px, 2px) !important; } .stButton > button div[data-testid="stMarkdownContainer"] p::before { content: ''; display: block !important; flex-shrink: 0 !important; width: 11px; height: 11px; background: rgba(0, 242, 255, 0.8); margin-right: 14px !important; transform: rotate(45deg); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); } .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px; } @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } } .logic-item { background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); opacity: 0; animation: fadeSlideUp 0.5s ease-out forwards; } .logic-item:nth-child(1) { animation-delay: 0.1s; } .logic-item:nth-child(2) { animation-delay: 0.2s; } .logic-item:nth-child(3) { animation-delay: 0.3s; } .logic-item:nth-child(4) { animation-delay: 0.4s; } .logic-item:nth-child(5) { animation-delay: 0.5s; } .logic-item:nth-child(6) { animation-delay: 0.6s; } .logic-item:nth-child(7) { animation-delay: 0.7s; } .logic-item:nth-child(8) { animation-delay: 0.8s; } .logic-item::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), transparent); transition: opacity 0.3s ease; opacity: 0.7; } .logic-item:hover { border-color: rgba(0, 242, 255, 0.5); transform: translateY(-4px); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.4); } .logic-item:hover::before { opacity: 1; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 1), transparent); } .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); } .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; } .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); } .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; } .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; } .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); } .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; } .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; } .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; } 
-.summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; } .result-summary, .return-summary { display: flex; align-items: center; justify-content: center; padding: 0 !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; box-sizing: border-box; transition: all 0.3s ease; overflow: hidden; } .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); } .box-left { display: flex; align-items: center; transform: translateY(1px); } .box-right { display: flex; align-items: center; padding-left: 8px; gap: 4px; transform: translateY(1px); } .box-label { font-weight: 800; font-size: 0.9rem; color: #00f2ff; letter-spacing: 0.5px; line-height: 1; margin: 0; } .box-num { font-family: 'Inter', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 700; line-height: 1; margin: 0; } .box-unit { font-weight: 800; font-size: 0.9rem; color: #00f2ff; line-height: 1; margin: 0; } .return-val-up { color: #ff3333 !important; } .return-val-down { color: #00ff33 !important; } .return-val-zero { color: #ffffff !important; } .scanner-ritual-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center !important; background: radial-gradient(circle at center, rgba(11, 15, 25, 0.95), #0b0f19); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; width: clamp(280px, 90%, 400px); min-height: 180px; margin: 20px auto !important; box-shadow: 0 0 30px rgba(0, 242, 255, 0.05); position: relative; overflow: hidden; padding: 25px; } .scanner-ritual-wrapper::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 242, 255, 0.02) 0%, transparent 60%); animation: dataSyncFlow 5s linear infinite; } .quantum-ritual-core { position: relative; width: 60px; height: 60px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center !important; } .core-diamond { position: absolute; width: 35px; height: 35px; background: rgba(0, 242, 255, 0.8); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); transform: rotate(45deg); animation: ritualDiamond 3s ease-in-out infinite; } .core-ring { position: absolute; width: 60px; height: 60px; border: 1.5px solid rgba(0, 242, 255, 0.2); border-radius: 50%; border-top-color: rgba(0, 242, 255, 0.8); border-bottom-color: rgba(0, 242, 255, 0.8); animation: ritualRing 3s linear infinite; } .core-ring::after { content: ''; position: absolute; width: 45px; height: 45px; border: 1.5px solid rgba(0, 242, 255, 0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); border-right-color: rgba(0, 242, 255, 0.6); border-left-color: rgba(0, 242, 255, 0.6); animation: ritualRingInner 3s linear infinite; } .scanner-ritual-text-group { text-align: center; width: 100%; } .scanner-ritual-status { font-family: 'Inter', 'Noto Sans TC', sans-serif !important; font-weight: 800 !important; color: #ffffff !important; font-size: 1.05rem !important; letter-spacing: 1.5px !important; margin-bottom: 15px !important; line-height: 1.2 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; } .progress-bar-container { width: 80%; height: 6px; background-color: rgba(0, 242, 255, 0.1); border-radius: 10px; overflow: hidden; margin: 0 auto; position: relative; border: 1px solid rgba(0, 242, 255, 0.2); } .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0072ff, #00f2ff); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 242, 255, 0.8); width: 0%; transition: width 0.3s ease; } @keyframes dataSyncFlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .dataframe-wrapper { animation: fadeSlideUp 0.7s ease-out forwards; padding: 2px; border-radius: 14px; background: linear-gradient(180deg, rgba(0,242,255,0.15) 0%, rgba(0,0,0,0) 100%); } 
+.summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; } .result-summary, .return-summary { display: flex; align-items: center; justify-content: center; padding: 0 !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; box-sizing: border-box; transition: all 0.3s ease; overflow: hidden; } .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); } .box-left { display: flex; align-items: center; transform: translateY(1px); } .box-right { display: flex; align-items: center; padding-left: 8px; gap: 4px; transform: translateY(1px); } .box-label { font-weight: 800; font-size: 0.9rem; color: #00f2ff; letter-spacing: 0.5px; line-height: 1; margin: 0; } .box-num { font-family: 'Inter', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 700; line-height: 1; margin: 0; } .box-unit { font-weight: 800; font-size: 0.9rem; color: #00f2ff; line-height: 1; margin: 0; } .return-val-up { color: #ff3333 !important; } .return-val-down { color: #00ff33 !important; } .return-val-zero { color: #ffffff !important; } .scanner-ritual-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center !important; background: radial-gradient(circle at center, rgba(11, 15, 25, 0.95), #0b0f19); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; width: clamp(280px, 90%, 400px); min-height: 180px; margin: 20px auto !important; box-shadow: 0 0 30px rgba(0, 242, 255, 0.05); position: relative; overflow: hidden; padding: 25px; } .scanner-ritual-wrapper::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 242, 255, 0.02) 0%, transparent 60%); animation: dataSyncFlow 5s linear infinite; } .quantum-ritual-core { position: relative; width: 60px; height: 60px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center !important; } .core-diamond { position: absolute; width: 35px; height: 35px; background: rgba(0, 242, 255, 0.8); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); transform: rotate(45deg); animation: ritualDiamond 3s ease-in-out infinite; } .core-ring { position: absolute; width: 60px; height: 60px; border: 1.5px solid rgba(0, 242, 255, 0.2); border-radius: 50%; border-top-color: rgba(0, 242, 255, 0.8); border-bottom-color: rgba(0, 242, 255, 0.8); animation: ritualRing 3s linear infinite; } .core-ring::after { content: ''; position: absolute; width: 45px; height: 45px; border: 1.5px solid rgba(0, 242, 255, 0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); border-right-color: rgba(0, 242, 255, 0.6); border-left-color: rgba(0, 242, 255, 0.6); animation: ritualRingInner 3s linear infinite; } .scanner-ritual-text-group { text-align: center; width: 100%; } .scanner-ritual-status { font-family: 'Inter', 'Noto Sans TC', sans-serif !important; font-weight: 800 !important; color: #ffffff !important; font-size: 1.05rem !important; letter-spacing: 1.5px !important; margin-bottom: 15px !important; line-height: 1.2 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; } .progress-bar-container { width: 80%; height: 6px; background: rgba(0, 242, 255, 0.1); border-radius: 10px; overflow: hidden; margin: 0 auto; position: relative; border: 1px solid rgba(0, 242, 255, 0.2); } .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0072ff, #00f2ff); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 242, 255, 0.8); width: 0%; transition: width 0.3s ease; } @keyframes dataSyncFlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .dataframe-wrapper { animation: fadeSlideUp 0.7s ease-out forwards; padding: 2px; border-radius: 14px; background: linear-gradient(180deg, rgba(0,242,255,0.15) 0%, rgba(0,0,0,0) 100%); } 
 /* 🔥 升級版：手機端表格滑動抗飄移穩定性 CSS */
 [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); overscroll-behavior-x: none !important; overscroll-behavior-y: auto !important; touch-action: pan-x pan-y !important; -webkit-overflow-scrolling: touch !important; transform: translateZ(0); } 
 [data-testid="stDataFrame"] div[data-testid="stTable"] { background-color: #0b0f19 !important; overscroll-behavior-x: none !important; -webkit-overflow-scrolling: touch !important; touch-action: pan-x pan-y !important; }
@@ -198,7 +198,8 @@ logic_dict = {
     "K.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">DMI(1) M</span></div><div class="logic-label-zh">月線趨勢</div></div><div class="logic-desc">月線 DMI 參數為 1，且 +DI(1) 值必須 <span class="highlight">大於 50</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">RSI(4) M</span></div><div class="logic-label-zh">月線強度</div></div><div class="logic-desc">月線 RSI 參數為 4，且 RSI(4) 指標值必須 <span class="highlight">大於 77</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">W%R(50) D</span></div><div class="logic-label-zh">日線慣性</div></div><div class="logic-desc">日線威廉指標參數為 50，且指標值必須 <span class="highlight">小於 20</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">RSI(60) D</span></div><div class="logic-label-zh">長線保護</div></div><div class="logic-desc">日線 RSI 參數為 60，且 RSI(60) 指標值必須 <span class="highlight">大於 57</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">05</span><span class="logic-label-en">VR(2) W</span></div><div class="logic-label-zh">週線籌碼</div></div><div class="logic-desc">週線容量比率 VR 參數為 2，且指標值必須 <span class="highlight">大於 9998</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">06</span><span class="logic-label-en">VR(2) M</span></div><div class="logic-label-zh">月線籌碼</div></div><div class="logic-desc">月線容量比率 VR 參數為 2，且指標值必須 <span class="highlight">大於 9998</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">07</span><span class="logic-label-en">MATRIX</span></div><div class="logic-label-zh">矩陣過濾</div></div><div class="logic-desc">以上六大跨週期特徵，必須符合 <span class="highlight">4 個以上</span> 才可觸發入選。</div></div></div>',
     "C.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">雙引擎交集</div></div><div class="logic-desc">抓出具備<span class="highlight">營收創高成長</span>與<span class="highlight">技術強勢動能</span>的交集標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">基本面護城河</div></div><div class="logic-desc">近1年累積營收創歷史<span class="highlight">同期新高</span>，且今年以來累積 YoY <span class="highlight">大於 10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TECHNICAL</span></div><div class="logic-label-zh">技術面爆發</div></div><div class="logic-desc"><span class="highlight">短、中、長期報酬</span>全數超越大盤同期績效。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">TRACKING</span></div><div class="logic-label-zh">法人佈局位階</div></div><div class="logic-desc">追蹤近20日<span class="highlight">三大法人</span>買賣超張數及<span class="highlight">股價乖離率</span>。</div></div></div>',
     "R.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">多維度交集</div></div><div class="logic-desc">統整基本面、技術面、籌碼面，尋找<span class="highlight">多重條件共振</span>的強勢標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MATRIX</span></div><div class="logic-label-zh">矩陣濾網</div></div><div class="logic-desc">涵蓋策略 A、B、D、E、F、G、H、J、K、L、M，共 <span class="highlight">11 大核心策略</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">觸發條件</div></div><div class="logic-desc">單一標的必須同時符合上述 11 大策略中的 <span class="highlight">任意 3 項 (含) 以上</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">CONFIRMATION</span></div><div class="logic-label-zh">極致收斂</div></div><div class="logic-desc">透過多條件疊加，過濾掉單一指標的雜訊，抓出<span class="highlight">法人與主力高度共識</span>的標的。</div></div></div>',
-    "S.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">所有策略</span> 篩選出的全體優質標的作為判斷樣本。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">轉折觸發</div></div><div class="logic-desc">鎖定 <span class="highlight">現價突破轉折值</span> 的標的，預判未來行情繼續延伸。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">營收動能</div></div><div class="logic-desc">追蹤 <span class="highlight">今年以來累積營收 YoY(%)</span>，確保基本面支撐。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人籌碼</div></div><div class="logic-desc">觀察近 20 日 <span class="highlight">法人買賣超動向</span>，確認機構資金流向。</div></div></div>'
+    "S.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">統整 <span class="highlight">所有策略</span> 篩選出的全體優質標的作為判斷樣本。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">TRIGGER</span></div><div class="logic-label-zh">轉折觸發</div></div><div class="logic-desc">鎖定 <span class="highlight">現價突破轉折值</span> 的標的，預判未來行情繼續延伸。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">FUNDAMENTAL</span></div><div class="logic-label-zh">營收動能</div></div><div class="logic-desc">追蹤 <span class="highlight">今年以來累積營收 YoY(%)</span>，確保基本面支撐。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SMART MONEY</span></div><div class="logic-label-zh">法人籌碼</div></div><div class="logic-desc">觀察近 20 日 <span class="highlight">法人買賣超動向</span>，確認機構資金流向。</div></div></div>',
+    "T.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">自由選股邊界</div></div><div class="logic-desc">涵蓋全市場優質標的，由使用者自行定奪<span class="highlight">多重篩選邊界</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">CUSTOMIZE</span></div><div class="logic-label-zh">策略自由拼圖</div></div><div class="logic-desc">提供 11 大核心基礎策略自由組合，打造您的<span class="highlight">專屬量化濾網</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">嚴格絕對交集</div></div><div class="logic-desc">嚴格取所選策略的交集，確保標的必須<span class="highlight">同時滿足所有勾選條件</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">CONFIRMATION</span></div><div class="logic-label-zh">極致收斂過濾</div></div><div class="logic-desc">透過多維度條件疊加，強勢過濾單一指標雜訊，抓出<span class="highlight">終極共識飆股</span>。</div></div></div>'
 }
 
 if not st.session_state['scan_completed']:
@@ -316,7 +317,28 @@ if not st.session_state['scan_completed']:
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
 
     with t_multi:
-        strat_multi = st.radio("多吻合區", ["C. 營收股價雙能型", "R. 複式策略交集型", "S. 趨勢轉折延伸型"], label_visibility="collapsed")
+        strat_multi = st.radio("多吻合區", ["C. 營收股價雙能型", "R. 複式策略交集型", "S. 趨勢轉折延伸型", "T. 自訂策略交集型"], label_visibility="collapsed")
+        
+        if strat_multi == "T. 自訂策略交集型":
+            st.markdown("<div style='padding: 16px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'>", unsafe_allow_html=True)
+            st.markdown("<div style='color:#00f2ff; font-weight:800; font-size:0.95rem; margin-bottom: 12px; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div>", unsafe_allow_html=True)
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.checkbox("A. 營收趨勢增長", key="chk_A")
+                st.checkbox("E. 市場區間共振", key="chk_E")
+                st.checkbox("H. 財報三率三升", key="chk_H")
+                st.checkbox("L. 股本法人鎖碼", key="chk_L")
+            with c2:
+                st.checkbox("B. 股價強勢動能", key="chk_B")
+                st.checkbox("F. 左側超跌優質", key="chk_F")
+                st.checkbox("J. 指標強勢共振", key="chk_J")
+                st.checkbox("M. 營收創高精選", key="chk_M")
+            with c3:
+                st.checkbox("D. 法人籌碼吃貨", key="chk_D")
+                st.checkbox("G. 中長周期轉折", key="chk_G")
+                st.checkbox("K. 跨週期多矩陣", key="chk_K")
+            st.markdown("</div>", unsafe_allow_html=True)
+
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(strat_multi[:2], ""), unsafe_allow_html=True)
         run_multi = st.button("啟動AI量化篩選", key="btn_multi", use_container_width=True)
@@ -331,104 +353,138 @@ if not st.session_state['scan_completed']:
 
     if run_clicked:
         p_placeholder = st.empty() 
-        for progress in range(10, 101, 15):
-            p_placeholder.markdown(f'<div class="scanner-ritual-wrapper"><div class="quantum-ritual-core"><div class="core-diamond"></div><div class="core-ring"></div></div><div class="scanner-ritual-text-group"><div class="scanner-ritual-status">多因子量化矩陣運算中...</div><div class="progress-bar-container"><div class="progress-bar-fill" style="width: {progress}%;"></div></div></div></div>', unsafe_allow_html=True)
-            time.sleep(0.5) 
-            
-        try:
-            # 載入所有策略資料
-            df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m = map(fetch_and_rename, [
-                "strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", 
-                "strategy_e_result.csv", "strategy_f_result.csv", "strategy_g_result.csv", 
-                "strategy_h_result.csv", "strategy_j_result.csv", "strategy_k_result.csv",
-                "strategy_l_result.csv", "strategy_m_result.csv"
-            ])
-            
-            if "A." in strategy_choice: df_f = df1
-            elif "B." in strategy_choice: df_f = df2
-            elif "C." in strategy_choice:
-                df_f = df1[df1['代號'].isin(set(df1['代號']).intersection(set(df2['代號'])))].copy() if not df1.empty and not df2.empty else pd.DataFrame()
-            elif "D." in strategy_choice: df_f = df_d
-            elif "E." in strategy_choice: df_f = df_e
-            elif "F." in strategy_choice: df_f = df_squat
-            elif "G." in strategy_choice: df_f = df_g
-            elif "H." in strategy_choice: df_f = df_h 
-            elif "I." in strategy_choice:
-                df_f = df1[df1['代號'].isin(set(df1['代號']).intersection(set(df_h['代號'])))].copy() if not df1.empty and not df_h.empty else pd.DataFrame()
-            elif "J." in strategy_choice: df_f = df_j
-            elif "K." in strategy_choice: df_f = df_k
-            elif "L." in strategy_choice: df_f = df_l
-            elif "M." in strategy_choice: df_f = df_m
-            elif "R." in strategy_choice:
-                id_map = {}
-                for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
-                for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
-                for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
-                for sid in df_e['代號'].astype(str) if not df_e.empty else []: id_map.setdefault(sid, set()).add("E")
-                for sid in df_squat['代號'].astype(str) if not df_squat.empty else []: id_map.setdefault(sid, set()).add("F")
-                for sid in df_g['代號'].astype(str) if not df_g.empty else []: id_map.setdefault(sid, set()).add("G")
-                for sid in df_h['代號'].astype(str) if not df_h.empty else []: id_map.setdefault(sid, set()).add("H")
-                for sid in df_j['代號'].astype(str) if not df_j.empty else []: id_map.setdefault(sid, set()).add("J")
-                for sid in df_k['代號'].astype(str) if not df_k.empty else []: id_map.setdefault(sid, set()).add("K")
-                for sid in df_l['代號'].astype(str) if not df_l.empty else []: id_map.setdefault(sid, set()).add("L")
-                for sid in df_m['代號'].astype(str) if not df_m.empty else []: id_map.setdefault(sid, set()).add("M")
-                
-                target_sids = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M"})) >= 3]
-                dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m] if not d.empty]
-                
-                if dfs_to_concat and target_sids:
-                    df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
-                    df_f = df_combined[df_combined['代號'].astype(str).isin(target_sids)].copy()
-                    df_f['名稱'] = df_f.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1) if not df_f.empty else df_f['名稱']
-                else: 
-                    df_f = pd.DataFrame()
-            elif "S." in strategy_choice:
-                id_map = {}
-                for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
-                for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
-                for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
-                for sid in df_e['代號'].astype(str) if not df_e.empty else []: id_map.setdefault(sid, set()).add("E")
-                for sid in df_squat['代號'].astype(str) if not df_squat.empty else []: id_map.setdefault(sid, set()).add("F")
-                for sid in df_g['代號'].astype(str) if not df_g.empty else []: id_map.setdefault(sid, set()).add("G")
-                for sid in df_h['代號'].astype(str) if not df_h.empty else []: id_map.setdefault(sid, set()).add("H")
-                for sid in df_j['代號'].astype(str) if not df_j.empty else []: id_map.setdefault(sid, set()).add("J")
-                for sid in df_k['代號'].astype(str) if not df_k.empty else []: id_map.setdefault(sid, set()).add("K")
-                for sid in df_l['代號'].astype(str) if not df_l.empty else []: id_map.setdefault(sid, set()).add("L")
-                for sid in df_m['代號'].astype(str) if not df_m.empty else []: id_map.setdefault(sid, set()).add("M")
-                
-                # 後處理組合標籤
-                for sid, tags in id_map.items(): 
-                    if "A" in tags and "B" in tags: tags.add("C")
-                    if "A" in tags and "H" in tags: tags.add("I")
-                    if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M"})) >= 3: tags.add("R")
-
-                dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m] if not d.empty]
-                if dfs_to_concat:
-                    df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
-                    if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
-                        df_combined['現價_num'] = pd.to_numeric(df_combined['現價'], errors='coerce')
-                        df_combined['轉折_num'] = pd.to_numeric(df_combined['轉折值'], errors='coerce')
-                        df_f = df_combined[(df_combined['現價_num'] > df_combined['轉折_num']) & (df_combined['轉折_num'] > 0)].copy()
-                        df_f['名稱'] = df_f.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1) if not df_f.empty else df_f['名稱']
-                        df_f = df_f.drop(columns=['現價_num', '轉折_num'])
-                    else: df_f = pd.DataFrame()
-                else: df_f = pd.DataFrame()
-                
-            if not df_f.empty:
-                if '編號' in df_f.columns: df_f = df_f.drop(columns=['編號'])
-                if '現價' in df_f.columns and '轉折值' in df_f.columns:
-                    v_num = pd.to_numeric(df_f['轉折值'], errors='coerce')
-                    df_f['轉折乖離(%)'] = ((pd.to_numeric(df_f['現價'], errors='coerce') - v_num) / v_num.replace(0, pd.NA) * 100).fillna(0).round(2)
-                df_f = df_f.reset_index(drop=True)
-                st.session_state.update({'temp_df': df_f, 'selected_strategy': strategy_choice, 'scan_completed': True})
-                st.toast('量化矩陣資料載入成功！⚡', icon='⚡')
-                st.rerun()
-            else: 
+        
+        # 🌟 策略 T 的防呆阻截機制：若為策略 T 但勾選少於 2 個，直接拋出警告並中止運算
+        is_t_valid = True
+        if "T." in strategy_choice:
+            selected_keys = [k for k in ['A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M'] if st.session_state.get(f"chk_{k}", False)]
+            if len(selected_keys) < 2:
+                is_t_valid = False
                 p_placeholder.empty()
-                st.markdown('<div class="empty-state-glass"><div class="empty-state-icon">📡</div><div class="empty-state-title">TARGET NOT FOUND</div><p class="empty-state-desc">全市場掃描完畢，目前無標的符合此嚴苛策略之濾網條件.</p></div>', unsafe_allow_html=True)
-        except Exception as e: 
+                st.toast('⚠️ 策略 T 失敗：請至少勾選 2 個基礎策略進行交集運算！', icon='⚠️')
+                df_f = pd.DataFrame()
+                
+        if is_t_valid:
+            for progress in range(10, 101, 15):
+                p_placeholder.markdown(f'<div class="scanner-ritual-wrapper"><div class="quantum-ritual-core"><div class="core-diamond"></div><div class="core-ring"></div></div><div class="scanner-ritual-text-group"><div class="scanner-ritual-status">多因子量化矩陣運算中...</div><div class="progress-bar-container"><div class="progress-bar-fill" style="width: {progress}%;"></div></div></div></div>', unsafe_allow_html=True)
+                time.sleep(0.5) 
+                
+            try:
+                # 載入所有策略資料
+                df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m = map(fetch_and_rename, [
+                    "strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", 
+                    "strategy_e_result.csv", "strategy_f_result.csv", "strategy_g_result.csv", 
+                    "strategy_h_result.csv", "strategy_j_result.csv", "strategy_k_result.csv",
+                    "strategy_l_result.csv", "strategy_m_result.csv"
+                ])
+                
+                if "A." in strategy_choice: df_f = df1
+                elif "B." in strategy_choice: df_f = df2
+                elif "C." in strategy_choice:
+                    df_f = df1[df1['代號'].isin(set(df1['代號']).intersection(set(df2['代號'])))].copy() if not df1.empty and not df2.empty else pd.DataFrame()
+                elif "D." in strategy_choice: df_f = df_d
+                elif "E." in strategy_choice: df_f = df_e
+                elif "F." in strategy_choice: df_f = df_squat
+                elif "G." in strategy_choice: df_f = df_g
+                elif "H." in strategy_choice: df_f = df_h 
+                elif "I." in strategy_choice:
+                    df_f = df1[df1['代號'].isin(set(df1['代號']).intersection(set(df_h['代號'])))].copy() if not df1.empty and not df_h.empty else pd.DataFrame()
+                elif "J." in strategy_choice: df_f = df_j
+                elif "K." in strategy_choice: df_f = df_k
+                elif "L." in strategy_choice: df_f = df_l
+                elif "M." in strategy_choice: df_f = df_m
+                elif "T." in strategy_choice:
+                    # 🌟 策略 T (自訂交集) 核心資料運算引擎
+                    id_map = {}
+                    for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
+                    for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
+                    for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
+                    for sid in df_e['代號'].astype(str) if not df_e.empty else []: id_map.setdefault(sid, set()).add("E")
+                    for sid in df_squat['代號'].astype(str) if not df_squat.empty else []: id_map.setdefault(sid, set()).add("F")
+                    for sid in df_g['代號'].astype(str) if not df_g.empty else []: id_map.setdefault(sid, set()).add("G")
+                    for sid in df_h['代號'].astype(str) if not df_h.empty else []: id_map.setdefault(sid, set()).add("H")
+                    for sid in df_j['代號'].astype(str) if not df_j.empty else []: id_map.setdefault(sid, set()).add("J")
+                    for sid in df_k['代號'].astype(str) if not df_k.empty else []: id_map.setdefault(sid, set()).add("K")
+                    for sid in df_l['代號'].astype(str) if not df_l.empty else []: id_map.setdefault(sid, set()).add("L")
+                    for sid in df_m['代號'].astype(str) if not df_m.empty else []: id_map.setdefault(sid, set()).add("M")
+                    
+                    df_dict = {'A': df1, 'B': df2, 'D': df_d, 'E': df_e, 'F': df_squat, 'G': df_g, 'H': df_h, 'J': df_j, 'K': df_k, 'L': df_l, 'M': df_m}
+                    target_sids = None
+                    for k in selected_keys:
+                        current_sids = set(df_dict[k]['代號'].astype(str)) if not df_dict[k].empty else set()
+                        if target_sids is None:
+                            target_sids = current_sids
+                        else:
+                            target_sids = target_sids.intersection(current_sids)
+                    
+                    dfs_to_concat = [df_dict[k] for k in selected_keys if not df_dict[k].empty]
+                    if dfs_to_concat and target_sids:
+                        df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+                        df_f = df_combined[df_combined['代號'].astype(str).isin(target_sids)].copy()
+                        df_f['名稱'] = df_f.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1) if not df_f.empty else df_f['名稱']
+                    else:
+                        df_f = pd.DataFrame()
+                elif "R." in strategy_choice or "S." in strategy_choice:
+                    id_map = {}
+                    for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
+                    for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
+                    for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
+                    for sid in df_e['代號'].astype(str) if not df_e.empty else []: id_map.setdefault(sid, set()).add("E")
+                    for sid in df_squat['代號'].astype(str) if not df_squat.empty else []: id_map.setdefault(sid, set()).add("F")
+                    for sid in df_g['代號'].astype(str) if not df_g.empty else []: id_map.setdefault(sid, set()).add("G")
+                    for sid in df_h['代號'].astype(str) if not df_h.empty else []: id_map.setdefault(sid, set()).add("H")
+                    for sid in df_j['代號'].astype(str) if not df_j.empty else []: id_map.setdefault(sid, set()).add("J")
+                    for sid in df_k['代號'].astype(str) if not df_k.empty else []: id_map.setdefault(sid, set()).add("K")
+                    for sid in df_l['代號'].astype(str) if not df_l.empty else []: id_map.setdefault(sid, set()).add("L")
+                    for sid in df_m['代號'].astype(str) if not df_m.empty else []: id_map.setdefault(sid, set()).add("M")
+                    
+                    if "R." in strategy_choice:
+                        target_sids = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M"})) >= 3]
+                        dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m] if not d.empty]
+                        
+                        if dfs_to_concat and target_sids:
+                            df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+                            df_f = df_combined[df_combined['代號'].astype(str).isin(target_sids)].copy()
+                            df_f['名稱'] = df_f.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1) if not df_f.empty else df_f['名稱']
+                        else: 
+                            df_f = pd.DataFrame()
+                    elif "S." in strategy_choice:
+                        # 後處理組合標籤
+                        for sid, tags in id_map.items(): 
+                            if "A" in tags and "B" in tags: tags.add("C")
+                            if "A" in tags and "H" in tags: tags.add("I")
+                            if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M"})) >= 3: tags.add("R")
+        
+                        dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m] if not d.empty]
+                        if dfs_to_concat:
+                            df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+                            if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
+                                df_combined['現價_num'] = pd.to_numeric(df_combined['現價'], errors='coerce')
+                                df_combined['轉折_num'] = pd.to_numeric(df_combined['轉折值'], errors='coerce')
+                                df_f = df_combined[(df_combined['現價_num'] > df_combined['轉折_num']) & (df_combined['轉折_num'] > 0)].copy()
+                                df_f['名稱'] = df_f.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1) if not df_f.empty else df_f['名稱']
+                                df_f = df_f.drop(columns=['現價_num', '轉折_num'])
+                            else: df_f = pd.DataFrame()
+                        else: df_f = pd.DataFrame()
+                    
+            except Exception as e: 
+                p_placeholder.empty()
+                st.error(f"⚠️ 資料讀取異常：無法取得 {strategy_choice} 之報告檔案。請確認後端是否已產出該 CSV。")
+                df_f = pd.DataFrame() # Ensure df_f exists on error
+                
+        # Final block execution
+        if not df_f.empty:
+            if '編號' in df_f.columns: df_f = df_f.drop(columns=['編號'])
+            if '現價' in df_f.columns and '轉折值' in df_f.columns:
+                v_num = pd.to_numeric(df_f['轉折值'], errors='coerce')
+                df_f['轉折乖離(%)'] = ((pd.to_numeric(df_f['現價'], errors='coerce') - v_num) / v_num.replace(0, pd.NA) * 100).fillna(0).round(2)
+            df_f = df_f.reset_index(drop=True)
+            st.session_state.update({'temp_df': df_f, 'selected_strategy': strategy_choice, 'scan_completed': True})
+            st.toast('量化矩陣資料載入成功！⚡', icon='⚡')
+            st.rerun()
+        else: 
             p_placeholder.empty()
-            st.error(f"⚠️ 資料讀取異常：無法取得 {strategy_choice} 之報告檔案。請確認後端是否已產出該 CSV。")
+            st.markdown('<div class="empty-state-glass"><div class="empty-state-icon">📡</div><div class="empty-state-title">TARGET NOT FOUND</div><p class="empty-state-desc">全市場掃描完畢，目前無標的符合此嚴苛策略之濾網條件.</p></div>', unsafe_allow_html=True)
 
 else:
     components.html(f"""<script id="scroll_{time.time()}">setTimeout(function() {{ const parent = window.parent; parent.scrollTo({{top: 0, behavior: 'smooth'}}); const appViews = parent.document.querySelectorAll('.stApp, [data-testid="stMainBlockContainer"], [data-testid="stAppViewContainer"]'); appViews.forEach(view => {{ view.scrollTo({{top: 0, behavior: 'smooth'}}); }}); }}, 200); </script>""", height=0)
@@ -438,8 +494,8 @@ else:
     # 🔥 共通欄位顯示配置 (包含所有策略，嚴格不新增未指定的欄位)
     base_cols = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", "轉折值", "轉折乖離(%)"]
     
-    # 若為策略 M，則動態加入專屬欄位顯示
-    if "M." in strategy_choice and "近一年創高次數" in df.columns:
+    # 若為策略 M，或在策略 T 中勾選了 M，則動態加入專屬欄位顯示
+    if ("M." in strategy_choice or ("T." in strategy_choice and st.session_state.get("chk_M", False))) and "近一年創高次數" in df.columns:
         base_cols.insert(base_cols.index("20日法人買賣超(張)"), "近一年創高次數")
         
     for col in base_cols: 
@@ -492,3 +548,6 @@ else:
     st.markdown('<div id="disclaimer-target" class="disclaimer-wrapper"><div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div><ul class="disclaimer-list"><li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議.</li><li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任.</li></ul></div>', unsafe_allow_html=True)
 
 st.markdown('<div class="footer-wrapper"><div class="brand-copyright">QUANTUM DATA SYSTEM © 2026</div><div class="design-container"><span class="design-tag">Developer / Design</span><span class="design-email-tech">WU.CHIACHAN@GMAIL.COM</span></div></div>', unsafe_allow_html=True)
+
+
+其餘程式碼請勿變動100%保留複製給我
