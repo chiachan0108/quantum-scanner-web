@@ -178,6 +178,73 @@ def fetch_and_rename(filename):
     rename_map = {"股價代號": "代號", "公司名稱": "名稱", "產業別": "產業", "當日漲幅(%)": "漲幅(%)", "漲幅 (%)": "漲幅(%)", "季乖離": "季乖離(%)", "年乖離": "年乖離(%)", "月營收MoM(%)": "月營收MoM(%)", "月營收MoM (%)": "月營收MoM(%)", "月營收YoY(%)": "月營收YoY(%)", "月營收YoY (%)": "月營收YoY(%)", "今年以來累積營收YoY(%)": "今年營收YoY(%)", "今年營收YoY (%)": "今年營收YoY(%)", "近20日法人買賣超(張數)": "20日法人買賣超(張)", "近20日法人買超(張數)": "20日法人買賣超(張)", "近20日法人買賣超(張)": "20日法人買賣超(張)", "20日法人買賣超 (張)": "20日法人買賣超(張)"}
     return df.rename(columns=rename_map)
 
+# 🌟 [預運算模組] 背景全自動計算各策略的平均漲幅
+@st.cache_data(ttl=60)
+def precalculate_strategy_performance():
+    keys = ['A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O']
+    filenames = [
+        "strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", 
+        "strategy_e_result.csv", "strategy_f_result.csv", "strategy_g_result.csv", 
+        "strategy_h_result.csv", "strategy_j_result.csv", "strategy_k_result.csv",
+        "strategy_l_result.csv", "strategy_m_result.csv", "strategy_n_result.csv",
+        "strategy_o_result.csv"
+    ]
+    
+    df_dict = {k: fetch_and_rename(f) for k, f in zip(keys, filenames)}
+    
+    def _avg(df_to_calc):
+        if not df_to_calc.empty and "漲幅(%)" in df_to_calc.columns:
+            val = pd.to_numeric(df_to_calc["漲幅(%)"], errors='coerce').mean()
+            if pd.isna(val): return ""
+            sign = "+" if val > 0 else ""
+            return f" (平均漲幅: {sign}{val:.2f}%)"
+        return ""
+
+    perf = {k: _avg(v) for k, v in df_dict.items()}
+    
+    # Intersections for C, I
+    df_c = pd.DataFrame()
+    if not df_dict['A'].empty and not df_dict['B'].empty:
+        df_c = df_dict['A'][df_dict['A']['代號'].isin(set(df_dict['A']['代號']).intersection(set(df_dict['B']['代號'])))]
+    perf['C'] = _avg(df_c)
+    
+    df_i = pd.DataFrame()
+    if not df_dict['A'].empty and not df_dict['H'].empty:
+        df_i = df_dict['A'][df_dict['A']['代號'].isin(set(df_dict['A']['代號']).intersection(set(df_dict['H']['代號'])))]
+    perf['I'] = _avg(df_i)
+    
+    # Combined logic for R and S
+    dfs_to_concat = [d for d in df_dict.values() if not d.empty]
+    if dfs_to_concat:
+        df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+        id_map = {}
+        for k, d in df_dict.items():
+            if not d.empty:
+                for sid in d['代號'].astype(str):
+                    id_map.setdefault(sid, set()).add(k)
+                    
+        target_sids_r = [sid for sid, tags in id_map.items() if len(tags) >= 4]
+        perf['R'] = _avg(df_combined[df_combined['代號'].astype(str).isin(target_sids_r)])
+        
+        if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
+            df_s_temp = df_combined.copy()
+            df_s_temp['現價_num'] = pd.to_numeric(df_s_temp['現價'], errors='coerce')
+            df_s_temp['轉折_num'] = pd.to_numeric(df_s_temp['轉折值'], errors='coerce')
+            perf['S'] = _avg(df_s_temp[(df_s_temp['現價_num'] > df_s_temp['轉折_num']) & (df_s_temp['轉折_num'] > 0)])
+        else:
+            perf['S'] = ""
+    else:
+        perf['R'] = ""
+        perf['S'] = ""
+        
+    return perf
+
+strategy_perf = precalculate_strategy_performance()
+
+def get_strat_label(key, base_name):
+    perf_str = strategy_perf.get(key, "")
+    return f"{key}. {base_name}{perf_str}"
+
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
 
 # 🌟 初始化跨分頁的策略追蹤狀態
@@ -191,13 +258,12 @@ data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now
 
 st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:00</span></div></div>''', unsafe_allow_html=True)
 
-# 🌟 定義所有策略的邏輯說明文字 (更新策略 O 專屬卡片，加入 >= 5% 條件說明)
+# 🌟 定義所有策略的邏輯說明文字
 logic_dict = {
     "A.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">鎖定台灣<span class="highlight">全體上市櫃普通股</span>標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日的日均量必須大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">LEVEL</span></div><div class="logic-label-zh">技術位階</div></div><div class="logic-desc">股價需穩健站於長線生命線 <span class="highlight">MA240</span> 之上。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">TREND</span></div><div class="logic-label-zh">趨勢排列</div></div><div class="logic-desc"><span class="highlight">MA60 大於 MA240</span>，呈現多頭排列走勢。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">05</span><span class="logic-label-en">SCALE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下公司有史以來<span class="highlight">同期新高</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">06</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">雙巔峰動能</div></div><div class="logic-desc">單月營收歷史<span class="highlight">新高與次高</span>必須同時在近6、12個月內。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">07</span><span class="logic-label-en">DYNAMICS</span></div><div class="logic-label-zh">雙重成長</div></div><div class="logic-desc">確保近1季 <span class="highlight">YoY 正成長</span>且今年營收YoY(%)<span class="highlight">大於10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">08</span><span class="logic-label-en">TRACKING</span></div><div class="logic-label-zh">法人佈局位階</div></div><div class="logic-desc">追蹤近20日<span class="highlight">三大法人</span>買賣超張數及<span class="highlight">股價乖離率</span>。</div></div></div>',
     "H.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">四重防線</div></div><div class="logic-desc">近 20日均量皆大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">營收爆發</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) <span class="highlight">強勢超越去年同期</span>，展現強勁動能。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，公司整體質量逐步優化。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股。</div></div></div>',
     "I.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">基本面雙引擎</div></div><div class="logic-desc">抓出同時具備<span class="highlight">營收創高增長 (策略A)</span>與<span class="highlight">財報三率三升 (策略H)</span>的頂級績優標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">REVENUE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下同期新高，且今年營收YoY(%)<span class="highlight">大於10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，質量大幅優化。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股。</div></div></div>',
     "M.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">鎖定台灣<span class="highlight">全體上市櫃普通股</span>標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近 20日均量皆大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">HISTORY</span></div><div class="logic-label-zh">歷史基期</div></div><div class="logic-desc">具備至少 <span class="highlight">24 個月</span>營收數據，避免新股短期失真。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">HIGH-WATER</span></div><div class="logic-label-zh">動態創高</div></div><div class="logic-desc">近一年單月營收打破歷史紀錄達 <span class="highlight">5 次以上</span>，確認爆發動能。</div></div></div>',
-    # 🌟 策略 O 前端精美說明卡片 (更新訂單規模 >= 5% 說明)
     "O.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">EXPLOSION</span></div><div class="logic-label-zh">大單湧入</div></div><div class="logic-desc">最新一季<span class="highlight">合約負債(預收工程/訂單款)</span>相較去年同期，必須展現出 YoY <span class="highlight">大於 50%</span> 的驚人爆發力。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">季增動能</div></div><div class="logic-desc">最新季度的合約負債必須大於上一季，呈現<span class="highlight">無可反駁的成長趨勢</span>，過濾掉正在衰退的個股。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利護城河</div></div><div class="logic-desc">除了訂單滿載，公司最新一季 EPS 必須<span class="highlight">大於 0</span>，確保有實質獲利能力，拒絕賠錢接單。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SCALE</span></div><div class="logic-label-zh">訂單規模</div></div><div class="logic-desc">最新一季合約負債總額必須佔公司總股本 <span class="highlight">5% 以上</span>，確保訂單對營收具備實質且龐大的影響力。</div></div></div>',
     "D.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">四重防線</div></div><div class="logic-desc">近 20日均量大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">WHALE CHIP</span></div><div class="logic-label-zh">巨鯨級籌碼</div></div><div class="logic-desc">法人近 60 日淨買超必須<span class="highlight">大於 10,000 張</span>，確保重金護盤。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">CONTINUITY</span></div><div class="logic-label-zh">買盤延續</div></div><div class="logic-desc">近 20 日與近 5 日的法人動向皆維持<span class="highlight">正向淨買超</span>，無短期反手倒貨。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">STEP ACCUM</span></div><div class="logic-label-zh">階梯創高吃貨</div></div><div class="logic-desc">買超張數 <span class="highlight">60日>20日>5日</span>，且法人近5日總持股創<span class="highlight">近 60 日新高</span>。</div></div></div>',
     "E.": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日平均日成交量需大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">VOL SPIKE</span></div><div class="logic-label-zh">異常攻擊表態</div></div><div class="logic-desc">近1個月內至少有兩天以上成交量大於季均量 <span class="highlight">3 倍</span>，確認市場籌碼大量換手。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">RESONANCE</span></div><div class="logic-label-zh">籌碼極致共振</div></div><div class="logic-desc">季度市場加權成本價 (AVWAP)，與成交區間重心價 (POC) 差距在 <span class="highlight">3% 以內</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">PULLBACK</span></div><div class="logic-label-zh">量縮沉澱買點</div></div><div class="logic-desc">現價與市場加權成本價 (AVWAP) 差距在 <span class="highlight">3% 內</span>，且今日成交量<span class="highlight">小於近 5 日均量</span>。</div></div></div>',
@@ -311,27 +377,49 @@ if not st.session_state['scan_completed']:
     t_fund, t_chip, t_tech, t_multi = st.tabs(["I. 基本面區", "II. 籌碼面區", "III. 技術面區", "IV. 多吻合區"])
     
     with t_fund:
-        strat_fund = st.radio("基本面區", ["A. 營收趨勢增長型", "H. 財報三率三升型", "I. 營收財報雙能型", "M. 營收創高精選型", "O. 合約負債爆發型"], label_visibility="collapsed")
+        strat_fund = st.radio("基本面區", [
+            get_strat_label("A", "營收趨勢增長型"), 
+            get_strat_label("H", "財報三率三升型"), 
+            get_strat_label("I", "營收財報雙能型"), 
+            get_strat_label("M", "營收創高精選型"), 
+            get_strat_label("O", "合約負債爆發型")
+        ], label_visibility="collapsed")
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(strat_fund[:2], ""), unsafe_allow_html=True)
         run_fund = st.button("啟動AI量化篩選", key="btn_fund", use_container_width=True)
 
     with t_chip:
-        strat_chip = st.radio("籌碼面區", ["D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "L. 股本法人鎖碼型", "N. 股本投信鎖碼型"], label_visibility="collapsed")
+        strat_chip = st.radio("籌碼面區", [
+            get_strat_label("D", "法人籌碼吃貨型"), 
+            get_strat_label("E", "市場區間共振型"), 
+            get_strat_label("F", "左側超跌優質型"), 
+            get_strat_label("L", "股本法人鎖碼型"), 
+            get_strat_label("N", "股本投信鎖碼型")
+        ], label_visibility="collapsed")
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(strat_chip[:2], ""), unsafe_allow_html=True)
         run_chip = st.button("啟動AI量化篩選", key="btn_chip", use_container_width=True)
 
     with t_tech:
-        strat_tech = st.radio("技術面區", ["B. 股價強勢動能型", "G. 中長周期轉折型", "J. 指標強勢共振型", "K. 跨週期多矩陣型"], label_visibility="collapsed")
+        strat_tech = st.radio("技術面區", [
+            get_strat_label("B", "股價強勢動能型"), 
+            get_strat_label("G", "中長周期轉折型"), 
+            get_strat_label("J", "指標強勢共振型"), 
+            get_strat_label("K", "跨週期多矩陣型")
+        ], label_visibility="collapsed")
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(strat_tech[:2], ""), unsafe_allow_html=True)
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
 
     with t_multi:
-        strat_multi = st.radio("多吻合區", ["C. 營收股價雙能型", "R. 複式策略交集型", "S. 趨勢轉折延伸型", "T. 自訂策略交集型"], label_visibility="collapsed")
+        strat_multi = st.radio("多吻合區", [
+            get_strat_label("C", "營收股價雙能型"), 
+            get_strat_label("R", "複式策略交集型"), 
+            get_strat_label("S", "趨勢轉折延伸型"), 
+            "T. 自訂策略交集型"
+        ], label_visibility="collapsed")
         
-        if strat_multi == "T. 自訂策略交集型":
+        if "T." in strat_multi:
             st.markdown("<div style='padding: 16px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'>", unsafe_allow_html=True)
             st.markdown("<div style='color:#00f2ff; font-weight:800; font-size:0.95rem; margin-bottom: 12px; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div>", unsafe_allow_html=True)
             
@@ -402,7 +490,7 @@ if not st.session_state['scan_completed']:
                 id_map = {}
                 df_combined = pd.DataFrame()
                 
-                if strategy_choice in ["R. 複式策略交集型", "S. 趨勢轉折延伸型", "T. 自訂策略交集型"]:
+                if "R." in strategy_choice or "S." in strategy_choice or "T." in strategy_choice:
                     for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
                     for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
                     for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
@@ -528,9 +616,12 @@ else:
     if pd.isna(avg_ret): avg_ret = 0.0
     ret_class, ret_sign = "return-val-up" if avg_ret > 0 else ("return-val-down" if avg_ret < 0 else "return-val-zero"), "+" if avg_ret > 0 else ""
 
+    # 🌟 擷取乾淨的策略名稱供標題使用 (去除平均漲幅的後綴字串)
+    clean_strategy_title = strategy_choice.split(" (平均漲幅")[0] if " (平均漲幅" in strategy_choice else strategy_choice
+
     avg_ret_html = f'''<div class="strategy-header-container">
   <div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
-  <h3 class="strategy-title">{strategy_choice}</h3>
+  <h3 class="strategy-title">{clean_strategy_title}</h3>
 </div>
 <div class="summary-box-group">
   <div class="result-summary">
