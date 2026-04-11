@@ -5,7 +5,7 @@ GITHUB_USER, GITHUB_REPO = "chiachan0108", "stock-data"
 st.set_page_config(page_title="QUANTUM TECH SCANNER", layout="wide", initial_sidebar_state="collapsed")
 
 # [CSS 樣式極致壓縮版] 絕對保留未提及的設計與排版，並新增專屬警示面板 CSS 與 分頁 Tabs CSS (新增手機端表格滑動抗飄移穩定性)
-st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap'); html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAppViewContainer"], [data-testid="stMainBlockContainer"] { font-family: 'Inter', 'Noto Sans TC', sans-serif !important; background-color: #0b0f19 !important; color: #e2e8f0 !important; -webkit-font-smoothing: antialiased; overscroll-behavior-y: none; } ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); } ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.3); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.6); } [data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stDecoration"], #MainMenu { visibility: hidden !important; display: none !important; } @keyframes fadeSlideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } } .fade-in-container { animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; } .pulse-dot-small { width: 8px; height: 8px; background-color: #00f2ff; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(0, 242, 255, 0.4); animation: breathing 2.5s infinite; flex-shrink: 0; } @keyframes breathing { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 242, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } } .header-group { margin-top: -45px; margin-bottom: 5px; animation: fadeSlideUp 0.4s ease-out forwards; } .main-title { font-family: 'JetBrains Mono', monospace !important; font-weight: 700; letter-spacing: -2px; background: linear-gradient(90deg, #00f2ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(2.0rem, 6vw, 3.5rem); line-height: 1.1; margin: 0; } .status-pill { display: inline-flex; align-items: center; white-space: nowrap; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: rgba(148, 163, 184, 0.9); margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; } .status-val { color: #ffffff; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-left: 6px; } .section-header-container { margin-top: 25px; margin-bottom: 16px; display: flex; align-items: center; position: relative; animation: fadeSlideUp 0.5s ease-out forwards; } .section-accent { width: 4px; height: 34px; background: linear-gradient(180deg, #00f2ff, #0072ff); border-radius: 4px; margin-right: 14px; box-shadow: 0 0 12px rgba(0, 242, 255, 0.4); } .section-header-text { display: flex; flex-direction: column; justify-content: center; } .section-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(0, 242, 255, 0.9); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; line-height: 1; } .section-label-zh { font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: 1.5px; line-height: 1; } .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; } .stRadio > div[role="radiogroup"] { display: flex !important; flex-direction: column !important; gap: 12px !important; margin-top: 10px !important; margin-bottom: 10px !important; } .stRadio div[role="radiogroup"] input[type="radio"], .stRadio div[role="radiogroup"] label > div:first-child, .stRadio div[role="radiogroup"] div[data-baseweb="radio"] > div:first-child { display: none !important; opacity: 0 !important; width: 0 !important; height: 0 !important; position: absolute !important; } .stRadio div[role="radiogroup"] label { background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 8px !important; padding: 14px 20px !important; margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; align-items: flex-start !important; width: 100% !important; flex-direction: column !important; } .stRadio div[role="radiogroup"] label:hover { border-color: rgba(0, 242, 255, 0.4) !important; } .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"], .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p { background: transparent !important; border: none !important; margin: 0 !important; padding: 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.05rem !important; font-weight: 600 !important; display: flex !important; align-items: flex-start !important; width: 100% !important; flex-direction: column !important; } .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p::before { content: none !important; } .stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; } .stButton > button { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; backdrop-filter: blur(8px) !important; border-radius: 10px !important; font-weight: 900 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; letter-spacing: 2px; width: 100% !important; min-height: 62px !important; font-size: 1.25rem !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative; padding: 0 !important; } .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } .stButton > button:active { transform: translateY(1px) !important; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2) !important; } .stButton > button div[data-testid="stMarkdownContainer"] { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important; } .stButton > button div[data-testid="stMarkdownContainer"] p { display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important; line-height: 1 !important; transform: translate(-4px, 2px) !important; } .stButton > button div[data-testid="stMarkdownContainer"] p::before { content: ''; display: block !important; flex-shrink: 0 !important; width: 11px; height: 11px; background: rgba(0, 242, 255, 0.8); margin-right: 14px !important; transform: rotate(45deg); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); } .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px; } @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } } .logic-item { background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); opacity: 0; animation: fadeSlideUp 0.5s ease-out forwards; } .logic-item:nth-child(1) { animation-delay: 0.1s; } .logic-item:nth-child(2) { animation-delay: 0.2s; } .logic-item:nth-child(3) { animation-delay: 0.3s; } .logic-item:nth-child(4) { animation-delay: 0.4s; } .logic-item:nth-child(5) { animation-delay: 0.5s; } .logic-item:nth-child(6) { animation-delay: 0.6s; } .logic-item:nth-child(7) { animation-delay: 0.7s; } .logic-item:nth-child(8) { animation-delay: 0.8s; } .logic-item::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), transparent); transition: opacity 0.3s ease; opacity: 0.7; } .logic-item:hover { border-color: rgba(0, 242, 255, 0.5); transform: translateY(-4px); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.4); } .logic-item:hover::before { opacity: 1; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 1), transparent); } .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); } .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; } .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); } .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; } .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; } .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); } .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; } .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; } .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; } 
+st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap'); html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAppViewContainer"], [data-testid="stMainBlockContainer"] { font-family: 'Inter', 'Noto Sans TC', sans-serif !important; background-color: #0b0f19 !important; color: #e2e8f0 !important; -webkit-font-smoothing: antialiased; overscroll-behavior-y: none; } ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: rgba(11, 15, 25, 0.9); } ::-webkit-scrollbar-thumb { background: rgba(0, 242, 255, 0.3); border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: rgba(0, 242, 255, 0.6); } [data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stDecoration"], #MainMenu { visibility: hidden !important; display: none !important; } @keyframes fadeSlideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } } .fade-in-container { animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; } .pulse-dot-small { width: 8px; height: 8px; background-color: #00f2ff; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 0 rgba(0, 242, 255, 0.4); animation: breathing 2.5s infinite; flex-shrink: 0; } @keyframes breathing { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 242, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } } .header-group { margin-top: -45px; margin-bottom: 5px; animation: fadeSlideUp 0.4s ease-out forwards; } .main-title { font-family: 'JetBrains Mono', monospace !important; font-weight: 700; letter-spacing: -2px; background: linear-gradient(90deg, #00f2ff, #0072ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: clamp(2.0rem, 6vw, 3.5rem); line-height: 1.1; margin: 0; } .status-pill { display: inline-flex; align-items: center; white-space: nowrap; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: rgba(148, 163, 184, 0.9); margin-bottom: 20px; font-weight: 500; letter-spacing: 0.5px; } .status-val { color: #ffffff; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-left: 6px; } .section-header-container { margin-top: 25px; margin-bottom: 16px; display: flex; align-items: center; position: relative; animation: fadeSlideUp 0.5s ease-out forwards; } .section-accent { width: 4px; height: 34px; background: linear-gradient(180deg, #00f2ff, #0072ff); border-radius: 4px; margin-right: 14px; box-shadow: 0 0 12px rgba(0, 242, 255, 0.4); } .section-header-text { display: flex; flex-direction: column; justify-content: center; } .section-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(0, 242, 255, 0.9); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; line-height: 1; } .section-label-zh { font-size: 1.25rem; font-weight: 800; color: #ffffff; letter-spacing: 1.5px; line-height: 1; } .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(0, 242, 255, 0.2), transparent); margin-left: 20px; } .stRadio > div[role="radiogroup"] { display: flex !important; flex-direction: column !important; gap: 12px !important; margin-top: 10px !important; margin-bottom: 10px !important; } .stRadio div[role="radiogroup"] input[type="radio"], .stRadio div[role="radiogroup"] label > div:first-child, .stRadio div[role="radiogroup"] div[data-baseweb="radio"] > div:first-child { display: none !important; opacity: 0 !important; width: 0 !important; height: 0 !important; position: absolute !important; } .stButton > button { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; backdrop-filter: blur(8px) !important; border-radius: 10px !important; font-weight: 900 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; letter-spacing: 2px; width: 100% !important; min-height: 62px !important; font-size: 1.25rem !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative; padding: 0 !important; } .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } .stButton > button:active { transform: translateY(1px) !important; box-shadow: 0 0 10px rgba(0, 242, 255, 0.2) !important; } .stButton > button div[data-testid="stMarkdownContainer"] { display: flex !important; align-items: center !important; justify-content: center !important; width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important; } .stButton > button div[data-testid="stMarkdownContainer"] p { display: flex !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important; line-height: 1 !important; transform: translate(-4px, 2px) !important; } .stButton > button div[data-testid="stMarkdownContainer"] p::before { content: ''; display: block !important; flex-shrink: 0 !important; width: 11px; height: 11px; background: rgba(0, 242, 255, 0.8); margin-right: 14px !important; transform: rotate(45deg); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); } .logic-grid { display: grid; gap: 16px; grid-template-columns: 1fr; grid-auto-rows: 1fr; margin-bottom: 25px; margin-top: 10px; } @media (min-width: 1024px) { .logic-grid { grid-template-columns: repeat(4, 1fr) !important; } } .logic-item { background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); opacity: 0; animation: fadeSlideUp 0.5s ease-out forwards; } .logic-item:nth-child(1) { animation-delay: 0.1s; } .logic-item:nth-child(2) { animation-delay: 0.2s; } .logic-item:nth-child(3) { animation-delay: 0.3s; } .logic-item:nth-child(4) { animation-delay: 0.4s; } .logic-item:nth-child(5) { animation-delay: 0.5s; } .logic-item:nth-child(6) { animation-delay: 0.6s; } .logic-item:nth-child(7) { animation-delay: 0.7s; } .logic-item:nth-child(8) { animation-delay: 0.8s; } .logic-item::before { content: ''; position: absolute; top: 0; left: 15%; right: 15%; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.5), transparent); transition: opacity 0.3s ease; opacity: 0.7; } .logic-item:hover { border-color: rgba(0, 242, 255, 0.5); transform: translateY(-4px); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.4); } .logic-item:hover::before { opacity: 1; background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 1), transparent); } .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); } .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; } .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); } .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; } .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; } .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); } .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; } .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; } .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; } 
 .summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; } .result-summary, .return-summary { display: flex; align-items: center; justify-content: center; padding: 0 !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; box-sizing: border-box; transition: all 0.3s ease; overflow: hidden; } .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); } .box-left { display: flex; align-items: center; transform: translateY(1px); } .box-right { display: flex; align-items: center; padding-left: 8px; gap: 4px; transform: translateY(1px); } .box-label { font-weight: 800; font-size: 0.9rem; color: #00f2ff; letter-spacing: 0.5px; line-height: 1; margin: 0; } .box-num { font-family: 'Inter', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 700; line-height: 1; margin: 0; } .box-unit { font-weight: 800; font-size: 0.9rem; color: #00f2ff; line-height: 1; margin: 0; } .return-val-up { color: #ff3333 !important; } .return-val-down { color: #00ff33 !important; } .return-val-zero { color: #ffffff !important; } .scanner-ritual-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center !important; background: radial-gradient(circle at center, rgba(11, 15, 25, 0.95), #0b0f19); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; width: clamp(280px, 90%, 400px); min-height: 180px; margin: 20px auto !important; box-shadow: 0 0 30px rgba(0, 242, 255, 0.05); position: relative; overflow: hidden; padding: 25px; } .scanner-ritual-wrapper::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 242, 255, 0.02) 0%, transparent 60%); animation: dataSyncFlow 5s linear infinite; } .quantum-ritual-core { position: relative; width: 60px; height: 60px; margin-bottom: 25px; display: flex; align-items: center; justify-content: center !important; } .core-diamond { position: absolute; width: 35px; height: 35px; background: rgba(0, 242, 255, 0.8); border: 0.5px solid #000; box-shadow: 4px -4px 0 rgba(0, 242, 255, 0.4); transform: rotate(45deg); animation: ritualDiamond 3s ease-in-out infinite; } .core-ring { position: absolute; width: 60px; height: 60px; border: 1.5px solid rgba(0, 242, 255, 0.2); border-radius: 50%; border-top-color: rgba(0, 242, 255, 0.8); border-bottom-color: rgba(0, 242, 255, 0.8); animation: ritualRing 3s linear infinite; } .core-ring::after { content: ''; position: absolute; width: 45px; height: 45px; border: 1.5px solid rgba(0, 242, 255, 0.1); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); border-right-color: rgba(0, 242, 255, 0.6); border-left-color: rgba(0, 242, 255, 0.6); animation: ritualRingInner 3s linear infinite; } .scanner-ritual-text-group { text-align: center; width: 100%; } .scanner-ritual-status { font-family: 'Inter', 'Noto Sans TC', sans-serif !important; font-weight: 800 !important; color: #ffffff !important; font-size: 1.05rem !important; letter-spacing: 1.5px !important; margin-bottom: 15px !important; line-height: 1.2 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; } .progress-bar-container { width: 80%; height: 6px; background: rgba(0, 242, 255, 0.1); border-radius: 10px; overflow: hidden; margin: 0 auto; position: relative; border: 1px solid rgba(0, 242, 255, 0.2); } .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #0072ff, #00f2ff); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 242, 255, 0.8); width: 0%; transition: width 0.3s ease; } @keyframes dataSyncFlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .dataframe-wrapper { animation: fadeSlideUp 0.7s ease-out forwards; padding: 2px; border-radius: 14px; background: linear-gradient(180deg, rgba(0,242,255,0.15) 0%, rgba(0,0,0,0) 100%); } 
 /* 🔥 升級版：手機端表格滑動抗飄移穩定性 CSS */
 [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); overscroll-behavior-x: none !important; overscroll-behavior-y: auto !important; touch-action: pan-x pan-y !important; -webkit-overflow-scrolling: touch !important; transform: translateZ(0); } 
@@ -143,32 +143,38 @@ st.markdown("""<style>@import url('https://fonts.googleapis.com/css2?family=Inte
 
 /* 🔥 策略按鈕專屬 CSS (徹底解決斷行，改為專屬膠囊排版) */
 .stRadio div[role="radiogroup"] label {
+    background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 8px !important; padding: 14px 20px !important; margin: 0 !important;
+    cursor: pointer !important; transition: all 0.3s ease !important;
     display: flex !important; flex-direction: column !important; align-items: flex-start !important;
-    padding: 16px 20px !important;
 }
 .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] {
     width: 100% !important; display: block !important;
 }
 .stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
-    display: flex !important; align-items: center !important; width: 100% !important;
-    font-size: 1.1rem !important; margin-bottom: 8px !important;
+    color: #94a3b8 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
+    font-size: 1.1rem !important; font-weight: 600 !important; margin: 0 !important; padding: 0 !important;
+    line-height: 1.4 !important; display: block !important; 
 }
-/* 隱藏原始的字串 */
-.stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p span[data-hide="true"] {
-    display: none !important;
+.stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong::before {
+    content: ''; display: inline-block !important; width: 8px !important; height: 8px !important;
+    border-radius: 50% !important; background-color: rgba(255, 255, 255, 0.15) !important;
+    margin-right: 12px !important; transition: all 0.3s ease !important; transform: translateY(-1px);
 }
-.strategy-perf-badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    background: rgba(11, 15, 25, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace;
-    font-weight: 700; transition: all 0.3s ease; margin-left: 23px; letter-spacing: 0.5px;
+.stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p > strong::before {
+    background-color: #00f2ff !important; box-shadow: 0 0 8px #00f2ff, 0 0 15px #00f2ff !important;
 }
-.stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) .strategy-perf-badge {
-    background: rgba(0, 242, 255, 0.08); border-color: rgba(0, 242, 255, 0.4);
+.stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p > strong {
+    color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important;
 }
-.perf-up { color: #ff4757; text-shadow: 0 0 8px rgba(255, 71, 87, 0.4); }
-.perf-down { color: #2ed573; text-shadow: 0 0 8px rgba(46, 213, 115, 0.4); }
-.perf-zero { color: #94a3b8; }
+.stRadio div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p span[style*="color"] {
+    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
+    margin-top: 6px; margin-left: 20px; display: inline-block; letter-spacing: 0.5px; transition: all 0.3s ease;
+}
+.stRadio div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p span[style*="color"] {
+    background: rgba(0, 242, 255, 0.08); border-color: rgba(0, 242, 255, 0.3);
+}
 
 /* 🔥 全域戰情雷達儀表板 CSS */
 .global-radar-wrapper {
@@ -228,8 +234,10 @@ def fetch_and_rename(filename):
     if df.empty: return pd.DataFrame()
     
     rename_map = {"股價代號": "代號", "公司名稱": "名稱", "產業別": "產業", "當日漲幅(%)": "漲幅(%)", "漲幅 (%)": "漲幅(%)", "季乖離": "季乖離(%)", "年乖離": "年乖離(%)", "月營收MoM(%)": "月營收MoM(%)", "月營收MoM (%)": "月營收MoM(%)", "月營收YoY(%)": "月營收YoY(%)", "月營收YoY (%)": "月營收YoY(%)", "今年以來累積營收YoY(%)": "今年營收YoY(%)", "今年營收YoY (%)": "今年營收YoY(%)", "近20日法人買賣超(張數)": "20日法人買賣超(張)", "近20日法人買超(張數)": "20日法人買賣超(張)", "近20日法人買賣超(張)": "20日法人買賣超(張)", "20日法人買賣超 (張)": "20日法人買賣超(張)"}
-    # 確保代號是字串型態，解決反查匹配問題
-    if "代號" in df.columns: df["代號"] = df["代號"].astype(str)
+    
+    # 🌟 核心修復：統一將代號轉為字串並去除浮點數結尾，確保反查 100% 吻合
+    if "代號" in df.columns: 
+        df["代號"] = df["代號"].astype(str).str.replace(r'\.0$', '', regex=True).str.strip()
     return df.rename(columns=rename_map)
 
 # 🌟 [預運算模組] 背景全自動計算各策略的平均漲幅與數量
@@ -295,36 +303,33 @@ def precalculate_strategy_performance():
 
 strategy_perf = precalculate_strategy_performance()
 
-# 🌟 新增：動態生成包含獨立膠囊排版的 HTML 標籤
+# 🌟 新增：安全防呆且完美相容 CSS 的 Markdown 拼貼函數
 def get_strat_label(key, base_name):
     data = strategy_perf.get(key, {"count": 0, "avg": None})
     val = data["avg"]
     
     if val is not None:
         sign = "+" if val > 0 else ""
-        css_class = "perf-up" if val > 0 else ("perf-down" if val < 0 else "perf-zero")
-        badge_html = f"<div class='strategy-perf-badge'>AVG: <span class='{css_class}' style='margin-left: 4px;'>{sign}{val:.2f}%</span></div>"
+        # 巧妙利用 Streamlit 的 colored text 語法，後續用 CSS 捕捉 span 變成 Badge
+        color = "red" if val > 0 else ("green" if val < 0 else "gray")
+        badge_str = f":{color}[AVG: {sign}{val:.2f}%]"
     else:
-        badge_html = "<div class='strategy-perf-badge'>AVG: <span class='perf-zero' style='margin-left: 4px;'>--</span></div>"
+        badge_str = ":gray[AVG: --]"
         
-    # 將原始的 Key 藏在一個不顯示的 span 裡面，確保後端判斷邏輯能精準抓到，同時前端只顯示乾淨的 HTML
-    hidden_key = f"<span data-hide='true'>{key}.</span>"
-    return f"{hidden_key} {base_name}{badge_html}"
+    # 兩個空白鍵加上 \n 代表 Markdown 換行，確保排版完美分層
+    return f"**{key}. {base_name}** \n{badge_str}"
 
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
-
-def update_strat(radio_key):
-    st.session_state['active_strat'] = st.session_state[radio_key]
 
 now_taipei = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
 data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now_taipei - datetime.timedelta(days=1)).strftime('%Y/%m/%d')
 
 st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:00</span></div></div>''', unsafe_allow_html=True)
 
-# 🌟 獨立的個股反查雷達模組 (修復字串比對問題)
-def render_search_radar():
+# 🌟 獨立的個股反查雷達模組 (徹底修復資料型別陷阱與 key 刷新問題)
+def render_search_radar(location="top"):
     with st.expander("◈ 個股反查雷達 (輸入代號或名稱)", expanded=False):
-        search_query = st.text_input("(例如: 2330 或 台積電)", key=f"search_input_{int(time.time()*1000)}").strip()
+        search_query = st.text_input("(例如: 2330 或 台積電)", key=f"search_input_{location}").strip()
         if search_query:
             s_a, s_b, s_d, s_e, s_f, s_g, s_h, s_j, s_k, s_l, s_m, s_n, s_o = map(fetch_and_rename, [
                 "strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", 
@@ -340,10 +345,11 @@ def render_search_radar():
             def check_hit(df, strat_name):
                 if not df.empty and '代號' in df.columns and '名稱' in df.columns:
                     # 強制轉字串並去空白，確保 100% 匹配
-                    mask = (df['代號'].astype(str).str.strip() == search_query) | (df['名稱'].astype(str).str.contains(search_query, na=False))
+                    df['代號_str'] = df['代號'].astype(str).str.replace(r'\.0$', '', regex=True).str.strip()
+                    mask = (df['代號_str'] == search_query) | (df['名稱'].astype(str).str.contains(search_query, na=False))
                     hits = df[mask]
                     if not hits.empty:
-                        match_info["id"] = str(hits.iloc[0]['代號']).strip()
+                        match_info["id"] = str(hits.iloc[0]['代號_str'])
                         match_info["name"] = str(hits.iloc[0]['名稱']).strip()
                         if "現價" in hits.columns and "轉折值" in hits.columns:
                             try:
@@ -440,8 +446,7 @@ if not st.session_state['scan_completed']:
     # 建立 4x4 的全域數據卡片排版
     radar_html = '<div class="global-radar-wrapper">'
     
-    # 定義要展示在總覽的策略與順序
-    display_keys = ['A', 'H', 'M', 'O', 'D', 'L', 'N', 'B', 'G', 'J', 'K', 'C']
+    display_keys = ['A', 'H', 'M', 'O', 'D', 'L', 'N', 'B', 'G', 'J', 'K', 'R']
     for k in display_keys:
         data = strategy_perf.get(k, {"count": 0, "avg": None})
         count = data["count"]
@@ -454,9 +459,7 @@ if not st.session_state['scan_completed']:
             avg_str = f"{sign}{avg:.2f}%"
             css_class = "perf-up" if avg > 0 else "perf-down"
             
-        strat_name = logic_dict.get(k, "").split('class="logic-desc">')[0] # 抓取標題，這只是一個簡易方法，實戰中可直接寫死名稱
-        # 建立簡短名稱對照表
-        name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "C": "營收股價雙能"}
+        name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集"}
         
         radar_html += f"""
         <div class="radar-card">
@@ -471,7 +474,7 @@ if not st.session_state['scan_completed']:
     st.markdown(radar_html, unsafe_allow_html=True)
     
     # 🌟 首頁的個股反查雷達
-    render_search_radar()
+    render_search_radar(location="top")
 
     st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>STRATEGY CONFIGURATION</span><span class='section-label-zh'>策略類型選取</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
     
@@ -486,7 +489,7 @@ if not st.session_state['scan_completed']:
             get_strat_label("O", "合約負債爆發型")
         ], label_visibility="collapsed")
         
-        clean_key = strat_fund.split("<span data-hide='true'>")[1].split(".</span>")[0] if "<span data-hide='true'>" in strat_fund else strat_fund[0]
+        clean_key = strat_fund.replace("**", "").strip()[0]
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(clean_key, ""), unsafe_allow_html=True)
         run_fund = st.button("啟動AI量化篩選", key="btn_fund", use_container_width=True)
@@ -500,7 +503,7 @@ if not st.session_state['scan_completed']:
             get_strat_label("N", "股本投信鎖碼型")
         ], label_visibility="collapsed")
         
-        clean_key = strat_chip.split("<span data-hide='true'>")[1].split(".</span>")[0] if "<span data-hide='true'>" in strat_chip else strat_chip[0]
+        clean_key = strat_chip.replace("**", "").strip()[0]
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(clean_key, ""), unsafe_allow_html=True)
         run_chip = st.button("啟動AI量化篩選", key="btn_chip", use_container_width=True)
@@ -513,7 +516,7 @@ if not st.session_state['scan_completed']:
             get_strat_label("K", "跨週期多矩陣型")
         ], label_visibility="collapsed")
         
-        clean_key = strat_tech.split("<span data-hide='true'>")[1].split(".</span>")[0] if "<span data-hide='true'>" in strat_tech else strat_tech[0]
+        clean_key = strat_tech.replace("**", "").strip()[0]
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(clean_key, ""), unsafe_allow_html=True)
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
@@ -523,7 +526,7 @@ if not st.session_state['scan_completed']:
             get_strat_label("C", "營收股價雙能型"), 
             get_strat_label("R", "複式策略交集型"), 
             get_strat_label("S", "趨勢轉折延伸型"), 
-            "T. 自訂策略交集型"
+            "**T. 自訂策略交集型** \n:gray[AVG: 動態計算]"
         ], label_visibility="collapsed")
         
         if "T." in strat_multi:
@@ -552,7 +555,7 @@ if not st.session_state['scan_completed']:
                 st.checkbox("N. 股本投信鎖碼", key="chk_N") 
             st.markdown("</div>", unsafe_allow_html=True)
 
-        clean_key = strat_multi.split("<span data-hide='true'>")[1].split(".</span>")[0] if "<span data-hide='true'>" in strat_multi else strat_multi[0]
+        clean_key = strat_multi.replace("**", "").strip()[0]
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(clean_key, ""), unsafe_allow_html=True)
         run_multi = st.button("啟動AI量化篩選", key="btn_multi", use_container_width=True)
@@ -566,9 +569,10 @@ if not st.session_state['scan_completed']:
 
     if run_clicked:
         p_placeholder = st.empty() 
+        active_key = strategy_choice.replace("**", "").strip()[0]
         
         is_t_valid = True
-        if "T." in strategy_choice:
+        if active_key == "T":
             selected_keys = [k for k in ['A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S'] if st.session_state.get(f"chk_{k}", False)]
             if len(selected_keys) < 2:
                 is_t_valid = False
@@ -598,9 +602,6 @@ if not st.session_state['scan_completed']:
                 id_map = {}
                 df_combined = pd.DataFrame()
                 
-                # 解析原始選擇的策略 Key (過濾掉 HTML)
-                active_key = strategy_choice.split("<span data-hide='true'>")[1].split(".</span>")[0] if "<span data-hide='true'>" in strategy_choice else strategy_choice[0]
-
                 if active_key in ["R", "S", "T"]:
                     for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
                     for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
@@ -679,7 +680,7 @@ if not st.session_state['scan_completed']:
                     
             except Exception as e: 
                 p_placeholder.empty()
-                st.error(f"⚠️ 資料讀取異常：無法取得 {strategy_choice} 之報告檔案。請確認後端是否已產出該 CSV。")
+                st.error(f"⚠️ 資料讀取異常：無法取得 {active_key} 之報告檔案。請確認後端是否已產出該 CSV。")
                 df_f = pd.DataFrame() 
                 
         if not df_f.empty:
@@ -699,8 +700,8 @@ else:
     components.html(f"""<script id="scroll_{time.time()}">setTimeout(function() {{ const parent = window.parent; parent.scrollTo({{top: 0, behavior: 'smooth'}}); const appViews = parent.document.querySelectorAll('.stApp, [data-testid="stMainBlockContainer"], [data-testid="stAppViewContainer"]'); appViews.forEach(view => {{ view.scrollTo({{top: 0, behavior: 'smooth'}}); }}); }}, 200); </script>""", height=0)
     df, strategy_choice = st.session_state['temp_df'], st.session_state['selected_strategy']
     
-    # 提取乾淨的策略字母 (A, B, C...)
-    active_key = strategy_choice.split("<span data-hide='true'>")[1].split(".</span>")[0] if "<span data-hide='true'>" in strategy_choice else strategy_choice[0]
+    # 🌟 擷取乾淨的策略字母
+    active_key = strategy_choice.replace("**", "").strip()[0]
     
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
     
@@ -729,8 +730,7 @@ else:
     if pd.isna(avg_ret): avg_ret = 0.0
     ret_class, ret_sign = "return-val-up" if avg_ret > 0 else ("return-val-down" if avg_ret < 0 else "return-val-zero"), "+" if avg_ret > 0 else ""
 
-    # 🌟 擷取乾淨的策略名稱供標題使用 (包含字母前綴與中文名稱)
-    # 利用原字典對照，確保不管按鈕怎麼排版，大標題依然完美顯示
+    # 🌟 擷取完整的中文標題名稱供報告使用
     full_name_map = {"A": "A. 營收趨勢增長型", "B": "B. 股價強勢動能型", "C": "C. 營收股價雙能型", "D": "D. 法人籌碼吃貨型", "E": "E. 市場區間共振型", "F": "F. 左側超跌優質型", "G": "G. 中長周期轉折型", "H": "H. 財報三率三升型", "I": "I. 營收財報雙能型", "J": "J. 指標強勢共振型", "K": "K. 跨週期多矩陣型", "L": "L. 股本法人鎖碼型", "M": "M. 營收創高精選型", "N": "N. 股本投信鎖碼型", "O": "O. 合約負債爆發型", "R": "R. 複式策略交集型", "S": "S. 趨勢轉折延伸型", "T": "T. 自訂策略交集型"}
     clean_strategy_title = full_name_map.get(active_key, strategy_choice)
 
@@ -776,7 +776,7 @@ else:
     
     # 🌟 篩選結果頁的下方個股反查雷達
     st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
-    render_search_radar()
+    render_search_radar(location="bottom")
     
     st.markdown('<div id="disclaimer-target" class="disclaimer-wrapper"><div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div><ul class="disclaimer-list"><li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議.</li><li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任.</li></ul></div>', unsafe_allow_html=True)
 
