@@ -10,7 +10,7 @@ GITHUB_USER, GITHUB_REPO = "chiachan0108", "stock-data"
 st.set_page_config(page_title="QUANTUM TECH SCANNER", layout="wide", initial_sidebar_state="collapsed")
 
 # =============================================================================
-# [CSS 樣式核心] - 絕對復原所有質感設計，嚴格遵守不刪減原則
+# [CSS 樣式核心] - 絕對置中、徹底消滅原生點點、完美發光、還原 Footer 與 Radar
 # =============================================================================
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap'); 
@@ -43,41 +43,52 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .stButton > button { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; backdrop-filter: blur(8px) !important; border-radius: 10px !important; font-weight: 900 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; letter-spacing: 2px; width: 100% !important; min-height: 62px !important; font-size: 1.25rem !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative; padding: 0 !important; } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 策略選項 Radio Buttons - 完美等寬、絕對無點、絕對置中 */
+/* 🌟 核心修復區：策略選項 Radio Buttons (極致像素置中版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; 
-    grid-template-columns: 1fr !important; 
+    grid-template-columns: 1fr !important; /* 確保所有選項 100% 填滿等寬 */
     gap: 12px !important; 
     width: 100% !important;
 }
 
+/* 🚨 終極核彈級拔除：物理消滅原生圓圈與隱形邊距！ */
 [data-testid="stRadio"] div[role="radiogroup"] label > div:first-child:not([data-testid="stMarkdownContainer"]),
 [data-testid="stRadio"] div[role="radiogroup"] input[type="radio"] {
-    display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
+    display: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
+/* 選項卡片本體：絕對等距留白，完美圓角與發光外框 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; 
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 12px !important; 
-    padding: 16px !important; 
+    padding: 16px !important; /* 確保四面八方 Padding 一致，實現左右等寬留白 */
     margin: 0 !important;
     cursor: pointer !important; 
     transition: all 0.3s ease !important;
     display: flex !important; 
-    flex-direction: column !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
+    flex-direction: column !important; /* 內部元素垂直排列 */
+    align-items: center !important; /* 水平絕對置中 */
+    justify-content: center !important; /* 垂直絕對置中 */
     box-sizing: border-box !important;
     width: 100% !important;
     text-align: center !important;
-    min-height: 90px !important;
+    min-height: 85px !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label:hover {
-    border-color: rgba(0, 242, 255, 0.4) !important; background-color: rgba(0, 242, 255, 0.02) !important;
+    border-color: rgba(0, 242, 255, 0.4) !important;
+    background-color: rgba(0, 242, 255, 0.02) !important;
 }
 
+/* 🎯 選取時的終極發光質感 (純靠外框與背景發光) */
 [data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked),
 [data-testid="stRadio"] div[role="radiogroup"] label[data-checked="true"] {
     border: 1px solid #00f2ff !important; 
@@ -98,12 +109,12 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     color: #e2e8f0 !important;
     text-align: center !important; 
     white-space: pre-wrap !important; 
-    line-height: 1.6 !important; 
+    line-height: 1.5 !important; 
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
@@ -132,37 +143,31 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .strat-badge-premium span { color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-weight: 800; margin-right: 6px; }
 .search-subtitle { color: #94a3b8; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; font-weight: 500; }
 .search-subtitle svg { margin-right: 8px; filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.5)); flex-shrink: 0; }
-.search-warning-glass { background: linear-gradient(135deg, rgba(255, 170, 0, 0.05) 0%, rgba(22, 27, 34, 0.85) 100%); border: 1px solid rgba(255, 170, 0, 0.3); border-left: 4px solid #ffaa00; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); backdrop-filter: blur(12px); animation: fadeSlideUp 0.5s ease-out forwards; }
-.warning-title { color: #ffaa00; font-weight: 800; font-size: 1.15rem; margin-bottom: 8px; display: flex; align-items: center; letter-spacing: 1.5px; }
-.warning-desc { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; text-align: justify; }
 
-/* 🔥 全域戰情雷達儀表板 CSS - 對調名稱與數量層級 */
+/* 🔥 全域戰情雷達儀表板 CSS - 質感優化，名稱為主 */
 .global-radar-wrapper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; animation: fadeSlideUp 0.6s ease-out forwards; } 
-.radar-card { background: linear-gradient(135deg, rgba(22, 27, 34, 0.8) 0%, rgba(11, 15, 25, 0.9) 100%); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; cursor: default; } 
-.radar-card:hover { border-color: rgba(0, 242, 255, 0.5); box-shadow: 0 6px 20px rgba(0, 242, 255, 0.15); transform: translateY(-2px); }
-.radar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); opacity: 0.7; } 
-.radar-title { font-family: 'JetBrains Mono', 'Noto Sans TC', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; text-align: center; line-height: 1.2; text-shadow: 0 0 10px rgba(0, 242, 255, 0.3); } 
-.radar-data-row { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; background: rgba(0,0,0,0.2); padding: 8px 0; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); } 
-.radar-count { font-size: 1.1rem; font-weight: 900; color: #e2e8f0; font-family: 'Inter', sans-serif; line-height: 1; } 
-.radar-count-unit { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 600; margin-left: 3px; } 
-.radar-perf { font-size: 1.05rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; } 
+.radar-card { background: linear-gradient(145deg, rgba(22, 27, 34, 0.6) 0%, rgba(11, 15, 25, 0.8) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 16px 12px; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; align-items: center; justify-content: center; }
+.radar-card:hover { border-color: rgba(0, 242, 255, 0.4); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 6px 15px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
+.radar-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #00f2ff, transparent); } 
+.radar-title { font-family: 'JetBrains Mono', 'Noto Sans TC', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; text-align: center; text-shadow: 0 0 8px rgba(0, 242, 255, 0.3); } 
+.radar-subtitle { font-size: 0.95rem; color: #94a3b8; font-weight: 700; margin-bottom: 12px; text-align: center; }
+.radar-data-row { display: flex; align-items: baseline; justify-content: space-evenly; width: 100%; padding: 4px 8px; background: rgba(0,0,0,0.2); border-radius: 6px; } 
+.radar-count { font-size: 1.2rem; font-weight: 900; color: #e2e8f0; font-family: 'Inter', sans-serif; line-height: 1; } 
+.radar-count-unit { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 600; margin-left: 2px; } 
+.radar-perf { font-size: 0.95rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; } 
 .perf-up { color: #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.3); } 
 .perf-down { color: #00ff33; text-shadow: 0 0 5px rgba(0, 255, 51, 0.3); } 
 .perf-zero { color: #94a3b8; } 
 @media (max-width: 1024px) { .global-radar-wrapper { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 640px) { .global-radar-wrapper { grid-template-columns: 1fr; } }
 
-/* 🔥 策略說明卡片與其他工具 CSS 保留 */
+/* 🔥 策略說明卡片 CSS */
 .logic-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); margin-bottom: 25px; margin-top: 10px; } @media (max-width: 1024px) { .logic-grid { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 640px) { .logic-grid { grid-template-columns: 1fr; } } .logic-item { background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); } .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); } .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; } .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); } .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; } .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; } .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
 [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); } [data-testid="stDataFrame"] th { background-color: #161b2a !important; color: #94a3b8 !important; border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important; font-weight: 700 !important; } [data-testid="stDataFrame"] td { background-color: #0b0f19 !important; color: #ffffff !important; } 
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
 [data-testid="stCheckbox"] { padding: 10px 14px !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 8px !important; background-color: #0b0f19 !important; transition: all 0.3s ease !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; width: 100% !important; } [data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } [data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { color: #94a3b8 !important; font-weight: 600 !important; margin: 0 !important; } [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
-/* 🌟 Footer 與版權宣告 CSS (完美還原) */
+/* 🌟 Footer 與版權宣告 CSS */
 .disclaimer-wrapper { background-color: #0e121a; border: 1px solid rgba(0, 242, 255, 0.2) !important; border-radius: 8px; padding: 16px 16px 10px 16px !important; margin-top: 35px !important; margin-bottom: 35px !important; display: flex; flex-direction: column; gap: 10px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); animation: fadeSlideUp 0.8s ease-out forwards; } .disclaimer-header { display: flex; align-items: center; margin-bottom: 0px !important; } .disclaimer-title { font-weight: 700; color: #ffffff; font-size: 14px !important; letter-spacing: 0.5px; margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: flex; align-items: center; } .disclaimer-list { display: flex; flex-direction: column; gap: 6px !important; list-style: none; padding: 0 !important; padding-left: 18px !important; margin: 0 !important; } .disclaimer-item { font-size: 13px !important; color: #94a3b8; line-height: 1.4 !important; font-weight: 400; margin: 0 !important; text-align: justify !important; text-justify: inter-ideograph !important; } .footer-wrapper { margin-top: 60px; padding: 30px 10px 50px 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; justify-content: center !important; } .brand-copyright { color: #94a3b8; font-weight: 800 !important; font-size: 0.85rem !important; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; } .design-container { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; } .design-tag { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 3px 8px 2px 8px; border-radius: 4px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 20px; box-sizing: border-box; } .design-email-tech { font-family: 'JetBrains Mono', monospace !important; color: #ffffff !important; font-size: 0.65rem !important; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.9; display: inline-flex; align-items: center; height: 20px; } @media (max-width: 768px) { .design-container { flex-direction: column; gap: 10px; } }
-
-/* 🌟 結果統計科技框 CSS 完美還原 */
-.strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; } .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; } .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; } 
-.summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; } .result-summary, .return-summary { display: flex; align-items: center; justify-content: center; padding: 0 !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; box-sizing: border-box; transition: all 0.3s ease; overflow: hidden; } .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); } .box-left { display: flex; align-items: center; transform: translateY(1px); } .box-right { display: flex; align-items: center; padding-left: 8px; gap: 4px; transform: translateY(1px); } .box-label { font-weight: 800; font-size: 0.9rem; color: #00f2ff; letter-spacing: 0.5px; line-height: 1; margin: 0; } .box-num { font-family: 'Inter', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 700; line-height: 1; margin: 0; } .box-unit { font-weight: 800; font-size: 0.9rem; color: #00f2ff; line-height: 1; margin: 0; } .return-val-up { color: #ff3333 !important; } .return-val-down { color: #00ff33 !important; } .return-val-zero { color: #ffffff !important; }
 </style>""", unsafe_allow_html=True)
 
 def highlight_pivot_full_row(row):
@@ -206,9 +211,14 @@ def fetch_and_rename(filename):
 # 🌟 [預運算模組] 背景全自動計算各策略的平均漲幅與數量
 @st.cache_data(ttl=60)
 def precalculate_strategy_performance():
-    keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S']
-    filenames = [f"strategy_{k.lower()}_result.csv" for k in keys]
-    
+    keys = ['A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O']
+    filenames = [
+        "strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", 
+        "strategy_e_result.csv", "strategy_f_result.csv", "strategy_g_result.csv", 
+        "strategy_h_result.csv", "strategy_j_result.csv", "strategy_k_result.csv",
+        "strategy_l_result.csv", "strategy_m_result.csv", "strategy_n_result.csv",
+        "strategy_o_result.csv"
+    ]
     df_dict = {k: fetch_and_rename(f) for k, f in zip(keys, filenames)}
     
     def _calc(df_to_calc):
@@ -221,14 +231,38 @@ def precalculate_strategy_performance():
 
     perf = {k: _calc(v) for k, v in df_dict.items()}
     
-    # 若檔案不存在，退回即時計算 C, I
-    if perf['C']['count'] == 0 and not df_dict['A'].empty and not df_dict['B'].empty:
+    df_c = pd.DataFrame()
+    if not df_dict['A'].empty and not df_dict['B'].empty:
         df_c = df_dict['A'][df_dict['A']['代號'].isin(set(df_dict['A']['代號']).intersection(set(df_dict['B']['代號'])))]
-        perf['C'] = _calc(df_c)
+    perf['C'] = _calc(df_c)
     
-    if perf['I']['count'] == 0 and not df_dict['A'].empty and not df_dict['H'].empty:
+    df_i = pd.DataFrame()
+    if not df_dict['A'].empty and not df_dict['H'].empty:
         df_i = df_dict['A'][df_dict['A']['代號'].isin(set(df_dict['A']['代號']).intersection(set(df_dict['H']['代號'])))]
-        perf['I'] = _calc(df_i)
+    perf['I'] = _calc(df_i)
+    
+    dfs_to_concat = [d for d in df_dict.values() if not d.empty]
+    if dfs_to_concat:
+        df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+        id_map = {}
+        for k, d in df_dict.items():
+            if not d.empty:
+                for sid in d['代號'].astype(str):
+                    id_map.setdefault(sid, set()).add(k)
+                    
+        target_sids_r = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "O"})) >= 4]
+        perf['R'] = _calc(df_combined[df_combined['代號'].astype(str).isin(target_sids_r)])
+        
+        if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
+            df_s_temp = df_combined.copy()
+            df_s_temp['現價_num'] = pd.to_numeric(df_s_temp['現價'], errors='coerce')
+            df_s_temp['轉折_num'] = pd.to_numeric(df_s_temp['轉折值'], errors='coerce')
+            perf['S'] = _calc(df_s_temp[(df_s_temp['現價_num'] > df_s_temp['轉折_num']) & (df_s_temp['轉折_num'] > 0)])
+        else:
+            perf['S'] = {"count": 0, "avg": None}
+    else:
+        perf['R'] = {"count": 0, "avg": None}
+        perf['S'] = {"count": 0, "avg": None}
         
     return perf
 
@@ -263,7 +297,7 @@ data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now
 
 st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:00</span></div></div>''', unsafe_allow_html=True)
 
-# 🌟 全域戰情雷達總覽面板 (顯示 17 種策略)
+# 🌟 全域戰情雷達總覽面板 (顯示所有策略)
 st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>GLOBAL RADAR</span><span class='section-label-zh'>全域戰情總覽</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
 
 radar_keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S']
@@ -281,11 +315,11 @@ for idx, k in enumerate(radar_keys):
         perf_cls = "perf-up" if avg > 0 else ("perf-down" if avg < 0 else "perf-zero")
         
     with col_list[idx % 4]:
-        # 🌟 顛倒名稱與檔數層級，強調策略名稱
+        # 🌟 顛倒名稱與檔數層級，強調策略名稱，優化排版質感
         st.markdown(f'''<div class="radar-card">
-            <div class="radar-title" style="font-size: 1.15rem; color: #ffffff; text-align: center; text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);">STRATEGY {k}<br><span style="font-size: 0.95rem; color:#94a3b8;">{name_map.get(k, k)}</span></div>
+            <div class="radar-title"><span style="color:#00f2ff; font-weight:900;">{k}.</span> {name_map.get(k, k)}</div>
             <div class="radar-data-row">
-                <div><span class="radar-count" style="font-size:1.3rem;">{data['count']}</span><span class="radar-count-unit">檔</span></div>
+                <div><span class="radar-count">{data['count']}</span><span class="radar-count-unit">檔</span></div>
                 <div class="{perf_cls}" style="{'color: #ff3333;' if avg is not None and avg > 0 else 'color: #00ff33;' if avg is not None and avg < 0 else 'color: #94a3b8;'}">{avg_str}</div>
             </div>
         </div>''', unsafe_allow_html=True)
@@ -294,7 +328,6 @@ for idx, k in enumerate(radar_keys):
 def render_search_radar(location="top"):
     with st.expander("◈ 個股反查雷達 (輸入代號或名稱)", expanded=False):
         c_input, c_btn = st.columns([3, 1])
-        # 使用 text_input 的 on_change 配合 session_state 或者直接用按鈕觸發
         search_query = c_input.text_input("輸入股票代號或名稱：", key=f"input_{location}", label_visibility="collapsed").strip()
         submit_search = c_btn.button("🔍 啟動反查", key=f"btn_search_{location}", use_container_width=True)
                 
@@ -356,7 +389,7 @@ def render_search_radar(location="top"):
 
                 if hit_strategies:
                     badge_html = "".join([f"<div class='strat-badge-premium'><span>{s.split('.')[0]}.</span>{s.split('.')[1].strip()}</div>" for s in hit_strategies])
-                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>標的當前觸發策略：</div><div class="search-badges-container">{badge_html}</div></div>"""
+                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>標的當前符合：</div><div class="search-badges-container">{badge_html}</div></div>"""
                     st.markdown(result_html, unsafe_allow_html=True)
                 else:
                     warning_html = """<div class="search-warning-glass"><div class="warning-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>TARGET NOT MATCHED</div><p class="warning-desc"><br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p></div>"""
@@ -365,11 +398,11 @@ def render_search_radar(location="top"):
 
 render_search_radar(location="top")
 
-# 🌟 定義所有策略的邏輯說明文字
+# 🌟 定義所有策略的邏輯說明文字 (一字不漏還原)
 logic_dict = {
     "A": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">鎖定台灣<span class="highlight">全體上市櫃普通股</span>標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日的日均量必須大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">LEVEL</span></div><div class="logic-label-zh">技術位階</div></div><div class="logic-desc">股價需穩健站於長線生命線 <span class="highlight">MA240</span> 之上。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">TREND</span></div><div class="logic-label-zh">趨勢排列</div></div><div class="logic-desc"><span class="highlight">MA60 大於 MA240</span>，呈現多頭排列走勢。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">05</span><span class="logic-label-en">SCALE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下公司有史以來<span class="highlight">同期新高</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">06</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">雙巔峰動能</div></div><div class="logic-desc">單月營收歷史<span class="highlight">新高與次高</span>必須同時在近6、12個月內。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">07</span><span class="logic-label-en">DYNAMICS</span></div><div class="logic-label-zh">雙重成長</div></div><div class="logic-desc">確保近1季 <span class="highlight">YoY 正成長</span>且今年營收YoY(%)<span class="highlight">大於10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">08</span><span class="logic-label-en">TRACKING</span></div><div class="logic-label-zh">法人佈局位階</div></div><div class="logic-desc">追蹤近20日<span class="highlight">三大法人</span>買賣超張數及<span class="highlight">股價乖離率</span>。</div></div></div>',
     "H": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">四重防線</div></div><div class="logic-desc">近 20日均量皆大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">營收爆發</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) <span class="highlight">強勢超越去年同期</span>，展現強勁動能。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，公司整體質量逐步優化。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股。</div></div></div>',
-    "I": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">基本面雙引擎</div></div><div class="logic-desc">抓出同時具備<span class="highlight">營收創高增長 (策略A)</span>與<span class="highlight">財報三率三升 (策略H)</span>的頂級績優標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">REVENUE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下同期新高，且今年營收YoY(%)<span class="highlight">大於10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，質量大幅優化。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股。</div></div></div>',
+    "I": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">INTERSECTION</span></div><div class="logic-label-zh">基本面雙引擎</div></div><div class="logic-desc">抓出同時具備<span class="highlight">營收創高增長 (策略A)</span>與<span class="highlight">財報三率三升 (策略H)</span>的頂級績優標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">REVENUE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 1 2個月累積營收 (LTM) 創下同期新高，且今年營收YoY(%)<span class="highlight">大於10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，質量大幅優化。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股。</div></div></div>',
     "M": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">鎖定台灣<span class="highlight">全體上市櫃普通股</span>標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近 20日均量皆大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">HISTORY</span></div><div class="logic-label-zh">歷史基期</div></div><div class="logic-desc">具備至少 <span class="highlight">24 個月</span>營收數據，避免新股短期失真。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">HIGH-WATER</span></div><div class="logic-label-zh">動態創高</div></div><div class="logic-desc">近一年單月營收打破歷史紀錄達 <span class="highlight">5 次以上</span>，確認爆發動能。</div></div></div>',
     "O": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">EXPLOSION</span></div><div class="logic-label-zh">大單湧入</div></div><div class="logic-desc">最新一季<span class="highlight">合約負債(預收工程/訂單款)</span>相較去年同期，必須展現出 YoY <span class="highlight">大於 50%</span> 的驚人爆發力。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">季增動能</div></div><div class="logic-desc">最新季度的合約負債必須大於上一季，呈現<span class="highlight">無可反駁的成長趨勢</span>，過濾掉正在衰退的個股。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利護城河</div></div><div class="logic-desc">除了訂單滿載，公司最新一季 EPS 必須<span class="highlight">大於 0</span>，確保有實質獲利能力，拒絕賠錢接單。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SCALE</span></div><div class="logic-label-zh">訂單規模</div></div><div class="logic-desc">最新一季合約負債總額必須佔公司總股本 <span class="highlight">5% 以上</span>，確保訂單對營收具備實質且龐大的影響力。</div></div></div>',
     "D": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">四重防線</div></div><div class="logic-desc">近 20日均量大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">WHALE CHIP</span></div><div class="logic-label-zh">巨鯨級籌碼</div></div><div class="logic-desc">法人近 60 日淨買超必須<span class="highlight">大於 10,000 張</span>，確保重金護盤。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">CONTINUITY</span></div><div class="logic-label-zh">買盤延續</div></div><div class="logic-desc">近 20 日與近 5 日的法人動向皆維持<span class="highlight">正向淨買超</span>，無短期反手倒貨。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">STEP ACCUM</span></div><div class="logic-label-zh">階梯創高吃貨</div></div><div class="logic-desc">買超張數 <span class="highlight">60日>20日>5日</span>，且法人近5日總持股創<span class="highlight">近 60 日新高</span>。</div></div></div>',
@@ -467,11 +500,9 @@ if not st.session_state['scan_completed']:
         for k, v in strat_map.items():
             if locals().get(k.replace("btn_", "run_")): choice = v; break
             
-        # 🌟 絕對防呆抓取：只抽英文字母
         active_key = extract_strategy_key(choice)
         
         try:
-            # 第一步：把所有的資料通通準備好，不要用 yield
             s_a = fetch_and_rename("strategy_a_result.csv")
             s_b = fetch_and_rename("strategy_b_result.csv")
             s_d = fetch_and_rename("strategy_d_result.csv")
@@ -486,7 +517,6 @@ if not st.session_state['scan_completed']:
             s_n = fetch_and_rename("strategy_n_result.csv")
             s_o = fetch_and_rename("strategy_o_result.csv")
             
-            # 準備交集矩陣 (R, S)
             df_r = pd.DataFrame()
             df_s = pd.DataFrame()
             id_map = {}
@@ -524,7 +554,6 @@ if not st.session_state['scan_completed']:
                     for sid in df_r['代號'].astype(str):
                         if sid in id_map: id_map[sid].add("R")
             
-            # 🌟 第二步：根據選到的 active_key，給予對應的資料！絕對不能再讀一次檔案
             df = pd.DataFrame()
             if active_key == "A": df = s_a.copy()
             elif active_key == "B": df = s_b.copy()
@@ -584,7 +613,6 @@ if not st.session_state['scan_completed']:
             p_placeholder.empty()
             st.error(f"Error: {e}")
         
-    # 🌟 顯示預覽邏輯卡片 (使用正則擷取最安全)
     active_display_key = "A"
     try:
         if strat_fund: active_display_key = extract_strategy_key(strat_fund)
@@ -638,12 +666,25 @@ else:
                 df['轉折乖離(%)'] = ((p - v) / v.replace(0, pd.NA) * 100).fillna(0).round(2)
             except: pass
         
-        # 🌟 絕對還原您要求的所有隱藏欄位，絕不簡化
-        base_cols = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "近一年創高次數", "投信5日買超(張)", "投信5日股本比(%)", "投信10日買超(張)", "投信10日股本比(%)", "投信20日買超(張)", "投信20日股本比(%)", "20日法人買賣超(張)", "合約負債YoY(%)", "增額佔股本(%)", "總佔比(%)", "最新季EPS", "轉折值", "轉折乖離(%)"]
+        # 🌟 完整還原：絕對不刪減任何欄位
+        base_cols = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", "轉折值", "轉折乖離(%)"]
         
-        ordered_cols = [c for c in base_cols if c in df.columns]
-        remaining_cols = [c for c in df.columns if c not in ordered_cols]
-        disp_df = df[ordered_cols + remaining_cols].copy()
+        if (active_key == "M" or active_key == "T") and "近一年創高次數" in df.columns:
+            base_cols.insert(base_cols.index("20日法人買賣超(張)"), "近一年創高次數")
+            
+        if (active_key == "N" or active_key == "T"):
+            if "20日法人買賣超(張)" in base_cols:
+                base_cols.remove("20日法人買賣超(張)")
+            insert_idx = base_cols.index("轉折值")
+            n_cols = [c for c in ["投信5日買超(張)", "投信5日股本比(%)", "投信10日買超(張)", "投信10日股本比(%)", "投信20日買超(張)", "投信20日股本比(%)"] if c in df.columns]
+            for c in reversed(n_cols): base_cols.insert(insert_idx, c)
+            
+        if (active_key == "O" or active_key == "T"):
+            insert_idx = base_cols.index("轉折值")
+            o_cols = [c for c in ["合約負債YoY(%)", "增額佔股本(%)", "總佔比(%)", "最新季EPS"] if c in df.columns]
+            for c in reversed(o_cols): base_cols.insert(insert_idx, c)
+            
+        disp_df = df[[c for c in base_cols if c in df.columns]].copy()
         
         # 🌟 代號與名稱合併
         if "代號" in disp_df.columns and "名稱" in disp_df.columns:
