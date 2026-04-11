@@ -43,7 +43,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .stButton > button { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; backdrop-filter: blur(8px) !important; border-radius: 10px !important; font-weight: 900 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; letter-spacing: 2px; width: 100% !important; min-height: 62px !important; font-size: 1.25rem !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative; padding: 0 !important; } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 核心修復區：策略選項 Radio Buttons (極致無圓點版) */
+/* 🌟 核心修復區：策略選項 Radio Buttons (極致像素置中版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; 
     grid-template-columns: 1fr !important; /* 確保所有選項 100% 填滿等寬 */
@@ -51,32 +51,32 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     width: 100% !important;
 }
 
-/* 🚨 終極核彈級隱藏：針對所有可能產生圓點的 DOM 節點進行毀滅性打擊 */
-[data-testid="stRadio"] div[role="radiogroup"] label > div:not([data-testid="stMarkdownContainer"]) {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-/* 確保 input 本身也隱形 */
+/* 🚨 終極核彈級拔除：物理消滅原生圓圈，絕不留任何佔位空間！ */
+[data-testid="stRadio"] div[role="radiogroup"] label > div:first-child:not([data-testid="stMarkdownContainer"]),
 [data-testid="stRadio"] div[role="radiogroup"] input[type="radio"] {
     display: none !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
-/* 選項卡片本體：絕對置中對齊，留白相等 */
+/* 選項卡片本體：絕對等距留白，完美圓角與發光外框 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; 
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 12px !important; 
-    padding: 16px 12px !important; 
+    padding: 16px !important; /* 確保四面八方 Padding 一致，實現左右等寬留白 */
     margin: 0 !important;
     cursor: pointer !important; 
     transition: all 0.3s ease !important;
     display: flex !important; 
     flex-direction: column !important; /* 內部元素垂直排列 */
-    align-items: center !important; /* 水平置中 */
-    justify-content: center !important; /* 垂直置中 */
+    align-items: center !important; /* 水平絕對置中 */
+    justify-content: center !important; /* 垂直絕對置中 */
     box-sizing: border-box !important;
     width: 100% !important;
     text-align: center !important;
@@ -88,7 +88,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     background-color: rgba(0, 242, 255, 0.02) !important;
 }
 
-/* 🎯 選取時的終極發光質感 (純靠整個區塊發光) */
+/* 🎯 選取時的終極發光質感 (純靠外框與背景發光) */
 [data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked),
 [data-testid="stRadio"] div[role="radiogroup"] label[data-checked="true"] {
     border: 1px solid #00f2ff !important; 
@@ -96,36 +96,86 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     box-shadow: 0 0 15px rgba(0, 242, 255, 0.25), inset 0 0 10px rgba(0, 242, 255, 0.1) !important; 
 }
 
-/* 文字區域設定 */
+/* 🎯 處理 <p> 標籤預設 Margin 造成的「下方空白過大」與文字偏斜問題 */
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] {
     width: 100% !important; 
     display: flex !important; 
     flex-direction: column !important; 
     align-items: center !important;
     justify-content: center !important;
-}
-[data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
     margin: 0 !important;
-    font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
-    font-size: 1.1rem !important;
-    font-weight: 700 !important;
-    color: #e2e8f0 !important;
-    text-align: center !important;
-    line-height: 1.6 !important; /* 確保上下行間距好看 */
+    padding: 0 !important;
 }
 
-/* 選取時，文字變成亮藍色發光 */
-[data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p {
+[data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
+    margin: 0 !important; /* 徹底殺死預設的 margin-bottom */
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important; /* 強制分兩行 */
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important; /* 嚴格控制上下行距 */
+    text-align: center !important;
+    width: 100% !important;
+    line-height: 1.2 !important; 
+}
+
+/* 策略名稱字體 */
+[data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
+    font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    color: #e2e8f0 !important;
+}
+/* AVG 漲幅字體 */
+[data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p span {
+    font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* 選取時，策略名稱變成亮藍色發光 */
+[data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p > strong,
+[data-testid="stRadio"] div[role="radiogroup"] label[data-checked="true"] div[data-testid="stMarkdownContainer"] > p > strong {
     color: #00f2ff !important;
     font-weight: 800 !important;
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.5) !important;
 }
 
-/* 讓 Streamlit 原生的顏色標籤稍微小一點，像個副標題 */
-[data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p span {
-    font-size: 0.95rem !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.5px !important;
+/* 🔥 反查雷達表單質感復原 CSS */
+[data-testid="stForm"] {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 10px !important;
+}
+[data-testid="stTextInput"] input {
+    background-color: rgba(11, 15, 25, 0.8) !important;
+    border: 1px solid rgba(0, 242, 255, 0.25) !important;
+    color: #00f2ff !important;
+    border-radius: 8px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-weight: 700 !important;
+    padding: 10px 14px !important;
+}
+[data-testid="stTextInput"] input:focus {
+    border-color: #00f2ff !important;
+    box-shadow: 0 0 12px rgba(0, 242, 255, 0.2) !important;
+}
+[data-testid="stFormSubmitButton"] button {
+    background: linear-gradient(90deg, rgba(0, 242, 255, 0.08), rgba(0, 114, 255, 0.15)) !important;
+    border: 1px solid rgba(0, 242, 255, 0.4) !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    height: 100% !important;
+    min-height: 46px !important;
+}
+[data-testid="stFormSubmitButton"] button:hover {
+    border-color: #00f2ff !important;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3) !important;
 }
 
 /* 🔥 全域戰情雷達儀表板 CSS */
@@ -240,7 +290,7 @@ def precalculate_strategy_performance():
 
 strategy_perf = precalculate_strategy_performance()
 
-# 🌟 精準的 Markdown 換行產生器 (確保字串能被 Regex 安全解析)
+# 🌟 完美的字串產生器：利用原生 Markdown 且安全防呆
 def get_strat_label(key, base_name):
     data = strategy_perf.get(key, {"count": 0, "avg": None})
     val = data["avg"]
@@ -256,14 +306,12 @@ def get_strat_label(key, base_name):
             
     return f"**{key}. {base_name}** \n:gray[AVG: --]"
 
-# 🚨 核心防呆解析器：不管傳入什麼鬼樣子的字串，只抽出乾淨的 "A", "B", "C" 等字母
+# 🌟 終極安全擷取器：不管字串有多長多花俏，只精準抽出單一字母 A~T
 def extract_strategy_key(raw_string):
     if not raw_string: return "A"
-    # 用正則表達式尋找開頭的字母 (例如找 "**A.", "A.", "  A." 中的 A)
-    match = re.search(r'\b([A-Z])\.', raw_string)
-    if match: return match.group(1)
-    # 如果找不到，退回最原始的第一個字元
-    return raw_string.replace("*", "").strip()[0]
+    # 清理所有 * 號與空白後，取第一段以點號分隔的第一個字母
+    cleaned = raw_string.replace("*", "").strip()
+    return cleaned.split(".")[0].strip().upper()
 
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
 
@@ -398,19 +446,41 @@ if not st.session_state['scan_completed']:
     t_fund, t_chip, t_tech, t_multi = st.tabs(["I. 基本面區", "II. 籌碼面區", "III. 技術面區", "IV. 多吻合區"])
     
     with t_fund:
-        strat_fund = st.radio("基本面區", [get_strat_label("A", "營收趨勢增長"), get_strat_label("H", "財報三率三升"), get_strat_label("I", "營收財報雙能"), get_strat_label("M", "營收創高精選"), get_strat_label("O", "合約負債爆發")], label_visibility="collapsed")
+        strat_fund = st.radio("基本面區", [
+            get_strat_label("A", "營收趨勢增長型"), 
+            get_strat_label("H", "財報三率三升型"), 
+            get_strat_label("I", "營收財報雙能型"), 
+            get_strat_label("M", "營收創高精選型"), 
+            get_strat_label("O", "合約負債爆發型")
+        ], label_visibility="collapsed")
         run_fund = st.button("啟動AI量化篩選", key="btn_fund", use_container_width=True)
 
     with t_chip:
-        strat_chip = st.radio("籌碼面區", [get_strat_label("D", "法人籌碼吃貨"), get_strat_label("E", "市場區間共振"), get_strat_label("F", "左側超跌優質"), get_strat_label("L", "股本法人鎖碼"), get_strat_label("N", "股本投信鎖碼")], label_visibility="collapsed")
+        strat_chip = st.radio("籌碼面區", [
+            get_strat_label("D", "法人籌碼吃貨型"), 
+            get_strat_label("E", "市場區間共振型"), 
+            get_strat_label("F", "左側超跌優質型"), 
+            get_strat_label("L", "股本法人鎖碼型"), 
+            get_strat_label("N", "股本投信鎖碼型")
+        ], label_visibility="collapsed")
         run_chip = st.button("啟動AI量化篩選", key="btn_chip", use_container_width=True)
 
     with t_tech:
-        strat_tech = st.radio("技術面區", [get_strat_label("B", "股價強勢動能"), get_strat_label("G", "中長周期轉折"), get_strat_label("J", "指標強勢共振"), get_strat_label("K", "跨週期多矩陣")], label_visibility="collapsed")
+        strat_tech = st.radio("技術面區", [
+            get_strat_label("B", "股價強勢動能型"), 
+            get_strat_label("G", "中長周期轉折型"), 
+            get_strat_label("J", "指標強勢共振型"), 
+            get_strat_label("K", "跨週期多矩陣型")
+        ], label_visibility="collapsed")
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
 
     with t_multi:
-        strat_multi = st.radio("多吻合區", [get_strat_label("C", "營收股價雙能"), get_strat_label("R", "複式策略交集"), get_strat_label("S", "趨勢轉折延伸"), "**T. 自訂策略交集型**\n:gray[AVG: 動態計算]"], label_visibility="collapsed")
+        strat_multi = st.radio("多吻合區", [
+            get_strat_label("C", "營收股價雙能型"), 
+            get_strat_label("R", "複式策略交集型"), 
+            get_strat_label("S", "趨勢轉折延伸型"), 
+            "**T. 自訂策略交集型** \n:gray[AVG: 動態計算]"
+        ], label_visibility="collapsed")
         
         if "T." in strat_multi:
             st.markdown("<div style='padding: 16px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'>", unsafe_allow_html=True)
@@ -450,72 +520,102 @@ if not st.session_state['scan_completed']:
         for k, v in strat_map.items():
             if locals().get(k.replace("btn_", "run_")): choice = v; break
             
-        # 🌟 絕對精準的字首萃取器
+        # 🌟 絕對精準的字首擷取
         active_key = extract_strategy_key(choice)
         
         try:
-            df = fetch_and_rename(f"strategy_{active_key.lower()}_result.csv")
+            # 先將所有的基底策略資料準備好 (供後續運算使用)
+            s_a = fetch_and_rename("strategy_a_result.csv")
+            s_b = fetch_and_rename("strategy_b_result.csv")
+            s_d = fetch_and_rename("strategy_d_result.csv")
+            s_e = fetch_and_rename("strategy_e_result.csv")
+            s_f = fetch_and_rename("strategy_f_result.csv")
+            s_g = fetch_and_rename("strategy_g_result.csv")
+            s_h = fetch_and_rename("strategy_h_result.csv")
+            s_j = fetch_and_rename("strategy_j_result.csv")
+            s_k = fetch_and_rename("strategy_k_result.csv")
+            s_l = fetch_and_rename("strategy_l_result.csv")
+            s_m = fetch_and_rename("strategy_m_result.csv")
+            s_n = fetch_and_rename("strategy_n_result.csv")
+            s_o = fetch_and_rename("strategy_o_result.csv")
             
-            # 交集運算 T 的防呆處理
-            if active_key == "T":
+            # 建立交集所需的基礎環境
+            df_r = pd.DataFrame()
+            df_s = pd.DataFrame()
+            id_map = {}
+            df_combined = pd.DataFrame()
+            
+            if active_key in ["R", "S", "T"]:
+                for sid in s_a['代號'].astype(str) if not s_a.empty else []: id_map.setdefault(sid, set()).add("A")
+                for sid in s_b['代號'].astype(str) if not s_b.empty else []: id_map.setdefault(sid, set()).add("B")
+                for sid in s_d['代號'].astype(str) if not s_d.empty else []: id_map.setdefault(sid, set()).add("D")
+                for sid in s_e['代號'].astype(str) if not s_e.empty else []: id_map.setdefault(sid, set()).add("E")
+                for sid in s_f['代號'].astype(str) if not s_f.empty else []: id_map.setdefault(sid, set()).add("F")
+                for sid in s_g['代號'].astype(str) if not s_g.empty else []: id_map.setdefault(sid, set()).add("G")
+                for sid in s_h['代號'].astype(str) if not s_h.empty else []: id_map.setdefault(sid, set()).add("H")
+                for sid in s_j['代號'].astype(str) if not s_j.empty else []: id_map.setdefault(sid, set()).add("J")
+                for sid in s_k['代號'].astype(str) if not s_k.empty else []: id_map.setdefault(sid, set()).add("K")
+                for sid in s_l['代號'].astype(str) if not s_l.empty else []: id_map.setdefault(sid, set()).add("L")
+                for sid in s_m['代號'].astype(str) if not s_m.empty else []: id_map.setdefault(sid, set()).add("M")
+                for sid in s_n['代號'].astype(str) if not s_n.empty else []: id_map.setdefault(sid, set()).add("N")
+                for sid in s_o['代號'].astype(str) if not s_o.empty else []: id_map.setdefault(sid, set()).add("O")
+
+                dfs_to_concat = [d for d in [s_a, s_b, s_d, s_e, s_f, s_g, s_h, s_j, s_k, s_l, s_m, s_n, s_o] if not d.empty]
+                if dfs_to_concat:
+                    df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
+                    if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
+                        df_s_temp = df_combined.copy()
+                        df_s_temp['現價_num'] = pd.to_numeric(df_s_temp['現價'], errors='coerce')
+                        df_s_temp['轉折_num'] = pd.to_numeric(df_s_temp['轉折值'], errors='coerce')
+                        df_s = df_s_temp[(df_s_temp['現價_num'] > df_s_temp['轉折_num']) & (df_s_temp['轉折_num'] > 0)].copy()
+                        df_s = df_s.drop(columns=['現價_num', '轉折_num'])
+                        for sid in df_s['代號'].astype(str):
+                            if sid in id_map: id_map[sid].add("S")
+
+                    target_sids_r = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "O", "S"})) >= 4]
+                    df_r = df_combined[df_combined['代號'].astype(str).isin(target_sids_r)].copy()
+                    for sid in df_r['代號'].astype(str):
+                        if sid in id_map: id_map[sid].add("R")
+            
+            # 🌟 絕對精準的資料分流 (解決 CSV 被覆寫覆蓋的問題)
+            df = pd.DataFrame()
+            if active_key == "A": df = s_a
+            elif active_key == "B": df = s_b
+            elif active_key == "C": df = s_a[s_a['代號'].isin(set(s_a['代號']).intersection(set(s_b['代號'])))].copy() if not s_a.empty and not s_b.empty else pd.DataFrame()
+            elif active_key == "D": df = s_d
+            elif active_key == "E": df = s_e
+            elif active_key == "F": df = s_f
+            elif active_key == "G": df = s_g
+            elif active_key == "H": df = s_h 
+            elif active_key == "I": df = s_a[s_a['代號'].isin(set(s_a['代號']).intersection(set(s_h['代號'])))].copy() if not s_a.empty and not s_h.empty else pd.DataFrame()
+            elif active_key == "J": df = s_j
+            elif active_key == "K": df = s_k
+            elif active_key == "L": df = s_l
+            elif active_key == "M": df = s_m
+            elif active_key == "N": df = s_n 
+            elif active_key == "O": df = s_o 
+            elif active_key == "R":
+                df = df_r.copy()
+                if not df.empty: df['名稱'] = df.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1)
+            elif active_key == "S":
+                df = df_s.copy()
+                if not df.empty: df['名稱'] = df.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1)
+            elif active_key == "T":
                 selected_keys = [k for k in ['A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S'] if st.session_state.get(f"chk_{k}", False)]
                 if len(selected_keys) < 2:
                     p_placeholder.empty()
                     st.toast('⚠️ 策略 T 失敗：請至少勾選 2 個基礎策略進行交集運算！', icon='⚠️')
                     df = pd.DataFrame()
                 else:
-                    df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m, df_n, df_o = map(fetch_and_rename, [
-                        "strategy_a_result.csv", "strategy_b_result.csv", "strategy_d_result.csv", 
-                        "strategy_e_result.csv", "strategy_f_result.csv", "strategy_g_result.csv", 
-                        "strategy_h_result.csv", "strategy_j_result.csv", "strategy_k_result.csv",
-                        "strategy_l_result.csv", "strategy_m_result.csv", "strategy_n_result.csv",
-                        "strategy_o_result.csv"
-                    ])
-                    # 計算 S 與 R 的快取記憶體
-                    df_r = pd.DataFrame()
-                    df_s = pd.DataFrame()
-                    id_map = {}
-                    df_combined = pd.DataFrame()
-                    
-                    for sid in df1['代號'].astype(str) if not df1.empty else []: id_map.setdefault(sid, set()).add("A")
-                    for sid in df2['代號'].astype(str) if not df2.empty else []: id_map.setdefault(sid, set()).add("B")
-                    for sid in df_d['代號'].astype(str) if not df_d.empty else []: id_map.setdefault(sid, set()).add("D")
-                    for sid in df_e['代號'].astype(str) if not df_e.empty else []: id_map.setdefault(sid, set()).add("E")
-                    for sid in df_squat['代號'].astype(str) if not df_squat.empty else []: id_map.setdefault(sid, set()).add("F")
-                    for sid in df_g['代號'].astype(str) if not df_g.empty else []: id_map.setdefault(sid, set()).add("G")
-                    for sid in df_h['代號'].astype(str) if not df_h.empty else []: id_map.setdefault(sid, set()).add("H")
-                    for sid in df_j['代號'].astype(str) if not df_j.empty else []: id_map.setdefault(sid, set()).add("J")
-                    for sid in df_k['代號'].astype(str) if not df_k.empty else []: id_map.setdefault(sid, set()).add("K")
-                    for sid in df_l['代號'].astype(str) if not df_l.empty else []: id_map.setdefault(sid, set()).add("L")
-                    for sid in df_m['代號'].astype(str) if not df_m.empty else []: id_map.setdefault(sid, set()).add("M")
-                    for sid in df_n['代號'].astype(str) if not df_n.empty else []: id_map.setdefault(sid, set()).add("N")
-                    for sid in df_o['代號'].astype(str) if not df_o.empty else []: id_map.setdefault(sid, set()).add("O")
-
-                    dfs_to_concat = [d for d in [df1, df2, df_d, df_e, df_squat, df_g, df_h, df_j, df_k, df_l, df_m, df_n, df_o] if not d.empty]
-                    if dfs_to_concat:
-                        df_combined = pd.concat(dfs_to_concat, ignore_index=True).drop_duplicates(subset=['代號'])
-                        if '現價' in df_combined.columns and '轉折值' in df_combined.columns:
-                            df_s_temp = df_combined.copy()
-                            df_s_temp['現價_num'] = pd.to_numeric(df_s_temp['現價'], errors='coerce')
-                            df_s_temp['轉折_num'] = pd.to_numeric(df_s_temp['轉折值'], errors='coerce')
-                            df_s = df_s_temp[(df_s_temp['現價_num'] > df_s_temp['轉折_num']) & (df_s_temp['轉折_num'] > 0)].copy()
-                            df_s = df_s.drop(columns=['現價_num', '轉折_num'])
-                            for sid in df_s['代號'].astype(str):
-                                if sid in id_map: id_map[sid].add("S")
-
-                        target_sids_r = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "O", "S"})) >= 4]
-                        df_r = df_combined[df_combined['代號'].astype(str).isin(target_sids_r)].copy()
-                        for sid in df_r['代號'].astype(str):
-                            if sid in id_map: id_map[sid].add("R")
-                            
-                    df_dict_t = {'A': df1, 'B': df2, 'D': df_d, 'E': df_e, 'F': df_squat, 'G': df_g, 'H': df_h, 'J': df_j, 'K': df_k, 'L': df_l, 'M': df_m, 'N': df_n, 'O': df_o, 'R': df_r, 'S': df_s}
+                    df_dict_t = {'A': s_a, 'B': s_b, 'D': s_d, 'E': s_e, 'F': s_f, 'G': s_g, 'H': s_h, 'J': s_j, 'K': s_k, 'L': s_l, 'M': s_m, 'N': s_n, 'O': s_o, 'R': df_r, 'S': df_s}
                     target_sids = None
                     for k in selected_keys:
-                        current_sids = set(df_dict_t[k]['代號'].astype(str)) if not df_dict_t[k].empty else set()
+                        curr_df = df_dict_t.get(k, pd.DataFrame())
+                        current_sids = set(curr_df['代號'].astype(str)) if not curr_df.empty else set()
                         if target_sids is None: target_sids = current_sids
                         else: target_sids = target_sids.intersection(current_sids)
                     
-                    if target_sids and not df_combined.empty:
+                    if target_sids and selected_keys and not df_combined.empty:
                         df = df_combined[df_combined['代號'].astype(str).isin(target_sids)].copy()
                         df['名稱'] = df.apply(lambda r: f"{r['名稱']} ({','.join(sorted(list(id_map.get(str(r['代號']), set()))))})" if id_map.get(str(r['代號'])) else r['名稱'], axis=1)
                     else:
@@ -537,7 +637,7 @@ if not st.session_state['scan_completed']:
             p_placeholder.empty()
             st.error(f"Error: {e}")
         
-    # 🌟 確保策略說明圖卡只顯示選擇的項目，安全抓取
+    # 🌟 精準且安全地顯示說明卡片
     active_display_key = "A"
     try:
         if strat_fund: active_display_key = extract_strategy_key(strat_fund)
@@ -564,42 +664,30 @@ else:
                 df['轉折乖離(%)'] = ((p - v) / v.replace(0, pd.NA) * 100).fillna(0).round(2)
             except: pass
         
-        # 🌟 完整還原：絕對不刪減任何欄位
-        base_cols = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", "轉折值", "轉折乖離(%)"]
+        # 🌟 完整還原：絕對不刪減您的任何心血欄位！顯示 CSV 中的所有欄位
+        # 透過指定 preferred_order 讓重要的欄位排前面，其他的自然跟在後面
+        preferred_order = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "近一年創高次數", "投信5日買超(張)", "投信5日股本比(%)", "投信10日買超(張)", "投信10日股本比(%)", "投信20日買超(張)", "投信20日股本比(%)", "20日法人買賣超(張)", "合約負債YoY(%)", "增額佔股本(%)", "總佔比(%)", "最新季EPS", "轉折值", "轉折乖離(%)"]
         
-        if (active_key == "M" or active_key == "T") and "近一年創高次數" in df.columns:
-            base_cols.insert(base_cols.index("20日法人買賣超(張)"), "近一年創高次數")
-            
-        if (active_key == "N" or active_key == "T"):
-            if "20日法人買賣超(張)" in base_cols:
-                base_cols.remove("20日法人買賣超(張)")
-            insert_idx = base_cols.index("轉折值")
-            n_cols = [c for c in ["投信5日買超(張)", "投信5日股本比(%)", "投信10日買超(張)", "投信10日股本比(%)", "投信20日買超(張)", "投信20日股本比(%)"] if c in df.columns]
-            for c in reversed(n_cols): base_cols.insert(insert_idx, c)
-            
-        if (active_key == "O" or active_key == "T"):
-            insert_idx = base_cols.index("轉折值")
-            o_cols = [c for c in ["合約負債YoY(%)", "增額佔股本(%)", "總佔比(%)", "最新季EPS"] if c in df.columns]
-            for c in reversed(o_cols): base_cols.insert(insert_idx, c)
-            
-        disp_df = df[[c for c in base_cols if c in df.columns]].copy()
+        ordered_cols = [c for c in preferred_order if c in df.columns]
+        remaining_cols = [c for c in df.columns if c not in ordered_cols]
+        disp_df = df[ordered_cols + remaining_cols].copy()
+        
         if "代號" in disp_df.columns: disp_df = disp_df.set_index("代號")
             
         st.markdown('<div class="dataframe-wrapper">', unsafe_allow_html=True)
-        # 🌟 安全的格式化
-        format_dict = {c: "{:.2f}" for c in disp_df.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅", "股本比", "總佔比", "EPS"])}
-        format_dict.update({c: "{:,.0f}" for c in disp_df.columns if any(x in c for x in ["法人", "買超", "張", "次數"])})
+        # 🌟 安全且防呆的格式化，避免 ValueError 崩潰
+        numeric_cols = disp_df.select_dtypes(include=['number']).columns
+        format_dict = {c: "{:.2f}" for c in numeric_cols}
+        for c in numeric_cols:
+            if any(x in c for x in ["法人", "買超", "張", "次數"]):
+                format_dict[c] = "{:,.0f}"
         
-        # 🌟 完整還原寬度配置
-        col_config = {"代號 / 名稱": st.column_config.TextColumn(width=160), "產業": st.column_config.TextColumn(width=125), "現價": st.column_config.NumberColumn(width=85), "漲幅(%)": st.column_config.NumberColumn(width=85), "季乖離(%)": st.column_config.NumberColumn(width=95), "年乖離(%)": st.column_config.NumberColumn(width=95), "月營收MoM(%)": st.column_config.NumberColumn(width=115), "月營收YoY(%)": st.column_config.NumberColumn(width=115), "今年營收YoY(%)": st.column_config.NumberColumn(width=125), "近一年創高次數": st.column_config.NumberColumn(width=140), "20日法人買賣超(張)": st.column_config.NumberColumn(width=150), "投信5日買超(張)": st.column_config.NumberColumn(width=120), "投信5日股本比(%)": st.column_config.NumberColumn(width=135), "投信10日買超(張)": st.column_config.NumberColumn(width=125), "投信10日股本比(%)": st.column_config.NumberColumn(width=145), "投信20日買超(張)": st.column_config.NumberColumn(width=130), "投信20日股本比(%)": st.column_config.NumberColumn(width=150), "合約負債YoY(%)": st.column_config.NumberColumn(width=135), "增額佔股本(%)": st.column_config.NumberColumn(width=125), "總佔比(%)": st.column_config.NumberColumn(width=125), "最新季EPS": st.column_config.NumberColumn(width=100), "轉折值": st.column_config.NumberColumn(width=85), "轉折乖離(%)": st.column_config.NumberColumn(width=95)}
-        
-        st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True, column_config=col_config)
+        st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     render_search_radar(location="bottom")
     st.markdown('<div id="disclaimer-target" class="disclaimer-wrapper"><div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div><ul class="disclaimer-list"><li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議.</li><li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任.</li></ul></div>', unsafe_allow_html=True)
 
-# 🌟 完整還原 Footer 版權宣告
 st.markdown('<div class="footer-wrapper"><div class="brand-copyright">QUANTUM DATA SYSTEM © 2026</div><div class="design-container"><span class="design-tag">Developer / Design</span><span class="design-email-tech">WU.CHIACHAN@GMAIL.COM</span></div></div>', unsafe_allow_html=True)
 
 def run_full_pipeline():
