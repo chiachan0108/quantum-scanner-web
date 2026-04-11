@@ -9,7 +9,7 @@ GITHUB_USER, GITHUB_REPO = "chiachan0108", "stock-data"
 st.set_page_config(page_title="QUANTUM TECH SCANNER", layout="wide", initial_sidebar_state="collapsed")
 
 # =============================================================================
-# [CSS 樣式核心] - 絕對置中、徹底拔除原生點點、完美發光、還原 Footer
+# [CSS 樣式核心] - 絕對置中、徹底消滅原生點點、完美發光、還原 Footer
 # =============================================================================
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap'); 
@@ -42,7 +42,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .stButton > button { background: rgba(0, 242, 255, 0.08) !important; color: #ffffff !important; border: 1px solid rgba(0, 242, 255, 0.4) !important; backdrop-filter: blur(8px) !important; border-radius: 10px !important; font-weight: 900 !important; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000 !important; letter-spacing: 2px; width: 100% !important; min-height: 62px !important; font-size: 1.25rem !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; position: relative; padding: 0 !important; } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 核心修復區：策略選項 Radio Buttons (極致版) */
+/* 🌟 核心修復區：策略選項 Radio Buttons (極致無圓點版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; 
     grid-template-columns: 1fr !important; /* 確保所有選項 100% 填滿等寬 */
@@ -50,22 +50,17 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     width: 100% !important;
 }
 
-/* 🚨 終極核彈級隱藏：針對所有可能產生圓點的 DOM 節點進行毀滅性打擊 */
-[data-testid="stRadio"] div[role="radiogroup"] input[type="radio"],
-[data-testid="stRadio"] div[role="radiogroup"] div[data-baseweb="radio"] > div:first-child,
-[data-testid="stRadio"] div[role="radiogroup"] div[role="radio"] > div:first-child,
-[data-testid="stRadio"] div[role="radiogroup"] div[data-baseweb="radio"] svg,
-[data-testid="stRadio"] div[role="radiogroup"] label::before,
-[data-testid="stRadio"] div[role="radiogroup"] label::after {
+/* 🚨 核彈級隱藏：排除法！隱藏按鈕內所有非文字容器的元素 (徹底殺死原生圓圈) */
+[data-testid="stRadio"] div[role="radiogroup"] label > div:not([data-testid="stMarkdownContainer"]) {
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
     width: 0 !important;
     height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-    content: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+/* 確保 input 本身也隱形 */
+[data-testid="stRadio"] div[role="radiogroup"] input[type="radio"] {
+    display: none !important;
 }
 
 /* 選項卡片本體：絕對置中對齊，留白相等 */
@@ -92,7 +87,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     background-color: rgba(0, 242, 255, 0.02) !important;
 }
 
-/* 🎯 選取時的終極發光質感 (不靠點點，純靠整個區塊發光) */
+/* 🎯 選取時的終極發光質感 (純靠整個區塊發光) */
 [data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked),
 [data-testid="stRadio"] div[role="radiogroup"] label[data-checked="true"] {
     border: 1px solid #00f2ff !important; 
@@ -108,7 +103,6 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     align-items: center !important;
     justify-content: center !important;
 }
-
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
     margin: 0 !important;
     font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important;
@@ -120,8 +114,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 }
 
 /* 選取時，文字變成亮藍色發光 */
-[data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p,
-[data-testid="stRadio"] div[role="radiogroup"] label[data-checked="true"] div[data-testid="stMarkdownContainer"] > p {
+[data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked) div[data-testid="stMarkdownContainer"] > p {
     color: #00f2ff !important;
     font-weight: 800 !important;
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.5) !important;
@@ -245,22 +238,21 @@ def precalculate_strategy_performance():
 
 strategy_perf = precalculate_strategy_performance()
 
-# 🌟 新增：最安全、完美符合台股配色的換行文字產生器
+# 🌟 最安全、完美符合台股配色的換行文字產生器 (依賴原生的 :red[...] 功能)
 def get_strat_label(key, base_name):
     data = strategy_perf.get(key, {"count": 0, "avg": None})
     val = data["avg"]
     
-    # 雙空白加 \n 是 Streamlit Markdown 強制換行的標準語法
     if val is not None:
         sign = "+" if val > 0 else ""
         if val > 0:
-            return f"{key}. {base_name}  \n:red[AVG: {sign}{val:.2f}%]"
+            return f"**{key}. {base_name}** \n:red[AVG: {sign}{val:.2f}%]"
         elif val < 0:
-            return f"{key}. {base_name}  \n:green[AVG: {sign}{val:.2f}%]"
+            return f"**{key}. {base_name}** \n:green[AVG: {sign}{val:.2f}%]"
         else:
-            return f"{key}. {base_name}  \n:gray[AVG: {sign}{val:.2f}%]"
+            return f"**{key}. {base_name}** \n:gray[AVG: {sign}{val:.2f}%]"
             
-    return f"{key}. {base_name}  \n:gray[AVG: --]"
+    return f"**{key}. {base_name}** \n:gray[AVG: --]"
 
 if 'scan_completed' not in st.session_state: st.session_state['scan_completed'] = False
 
@@ -358,7 +350,7 @@ def render_search_radar(location="top"):
 
                 if hit_strategies:
                     badge_html = "".join([f"<div class='strat-badge-premium'><span>{s.split('.')[0]}.</span>{s.split('.')[1].strip()}</div>" for s in hit_strategies])
-                    result_html = f"""<div class="search-box-glass"><div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 16px; margin-bottom: 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 900; color: #ffffff;">{match_info['id']} <span style="font-size: 1.2rem; color: #e2e8f0; font-weight: 800; letter-spacing: 2px;">{match_info['name']}</span></div><div style="background: rgba(0, 242, 255, 0.1); border: 1px solid rgba(0, 242, 255, 0.4); padding: 4px 10px; border-radius: 4px; color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 800;">MATCHED</div></div><div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 12px;">標的當前符合：</div><div style="display: flex; flex-wrap: wrap; gap: 10px;">{badges}</div></div>"""
+                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>標的當前符合：</div><div class="search-badges-container">{badge_html}</div></div>"""
                     st.markdown(result_html, unsafe_allow_html=True)
                 else:
                     st.markdown('<div class="empty-state-glass">Target Not Found or Input Error</div>', unsafe_allow_html=True)
@@ -406,19 +398,48 @@ if not st.session_state['scan_completed']:
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
 
     with t_multi:
-        strat_multi = st.radio("多吻合區", [get_strat_label("C", "營收股價雙能"), get_strat_label("R", "複式策略交集"), get_strat_label("S", "趨勢轉折延伸"), "**T. 自訂策略交集型**\n`AVG: 動態計算`"], label_visibility="collapsed")
+        strat_multi = st.radio("多吻合區", [get_strat_label("C", "營收股價雙能"), get_strat_label("R", "複式策略交集"), get_strat_label("S", "趨勢轉折延伸"), "**T. 自訂策略交集型** \n:gray[AVG: 動態計算]"], label_visibility="collapsed")
+        
+        if "T." in strat_multi:
+            st.markdown("<div style='padding: 16px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'>", unsafe_allow_html=True)
+            st.markdown("<div style='color:#00f2ff; font-weight:800; font-size:0.95rem; margin-bottom: 12px; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div>", unsafe_allow_html=True)
+            
+            c1, c2, c3, c4 = st.columns(4)
+            with c1:
+                st.checkbox("A. 營收趨勢增長", key="chk_A")
+                st.checkbox("E. 市場區間共振", key="chk_E")
+                st.checkbox("K. 跨週期多矩陣", key="chk_K")
+                st.checkbox("O. 合約負債爆發", key="chk_O") 
+            with c2:
+                st.checkbox("B. 股價強勢動能", key="chk_B")
+                st.checkbox("F. 左側超跌優質", key="chk_F")
+                st.checkbox("L. 股本法人鎖碼", key="chk_L")
+                st.checkbox("R. 複式策略交集", key="chk_R") 
+            with c3:
+                st.checkbox("D. 法人籌碼吃貨", key="chk_D")
+                st.checkbox("G. 中長周期轉折", key="chk_G")
+                st.checkbox("M. 營收創高精選", key="chk_M")
+                st.checkbox("S. 趨勢轉折延伸", key="chk_S") 
+            with c4:
+                st.checkbox("H. 財報三率三升", key="chk_H")
+                st.checkbox("J. 指標強勢共振", key="chk_J")
+                st.checkbox("N. 股本投信鎖碼", key="chk_N") 
+            st.markdown("</div>", unsafe_allow_html=True)
+
         run_multi = st.button("啟動AI量化篩選", key="btn_multi", use_container_width=True)
 
     if (run_fund or run_chip or run_tech or run_multi):
         p_placeholder = st.empty()
         p_placeholder.markdown('<div class="scanner-ritual-wrapper">Quantum Processing...</div>', unsafe_allow_html=True)
         time.sleep(1)
-        # Simplified execution logic
+        
         strat_map = {"btn_fund": strat_fund, "btn_chip": strat_chip, "btn_tech": strat_tech, "btn_multi": strat_multi}
         choice = None
         for k, v in strat_map.items():
-            if st.session_state.get(k): choice = v; break
-        active_key = choice.replace("**", "").strip()[0]
+            if locals().get(k.replace("btn_", "run_")): choice = v; break
+            
+        active_key = choice.split(".")[0].replace("**", "").strip()
+        
         try:
             df = fetch_and_rename(f"strategy_{active_key.lower()}_result.csv")
             if not df.empty:
@@ -427,12 +448,11 @@ if not st.session_state['scan_completed']:
         except Exception as e: st.error(f"Error: {e}")
         p_placeholder.empty()
         
-    # 🌟 確保策略說明圖卡只顯示選擇的項目 (絕對不會跑版)
+    # 🌟 確保策略說明圖卡只顯示選擇的項目，且絕對不會被 CSS 干擾
     strat_map_display = {"基本面區": strat_fund, "籌碼面區": strat_chip, "技術面區": strat_tech, "多吻合區": strat_multi}
-    # 這裡抓取目前頁面最活躍的變數，預設為A
     active_display_key = "A"
     try:
-        active_display_key = strat_fund.replace("**", "").strip()[0]
+        active_display_key = strat_fund.split(".")[0].replace("**", "").strip()
     except: pass
     
     st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
@@ -453,27 +473,45 @@ else:
                 df['轉折乖離(%)'] = ((p - v) / v.replace(0, pd.NA) * 100).fillna(0).round(2)
             except: pass
         
-        cols = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "20日法人買賣超(張)", "轉折值", "轉折乖離(%)"]
+        # 🌟 完整還原：絕對不刪減任何欄位
+        base_cols = ["代號", "名稱", "產業", "現價", "漲幅(%)", "季乖離(%)", "年乖離(%)", "月營收MoM(%)", "月營收YoY(%)", "今年營收YoY(%)", "20日法人買賣超(張)", "轉折值", "轉折乖離(%)"]
         
-        if active_key in ["M", "T"]:
-             cols.insert(cols.index("20日法人買賣超(張)"), "近一年創高次數")
-        if active_key in ["N", "T"]:
-             if "20日法人買賣超(張)" in cols: cols.remove("20日法人買賣超(張)")
-             cols.extend(["投信5日買超(張)", "投信10日買超(張)", "投信20日買超(張)"])
-        if active_key in ["O", "T"]:
-             cols.extend(["合約負債YoY(%)", "增額佔股本(%)", "總佔比(%)", "最新季EPS"])
-             
-        disp_df = df[[c for c in cols if c in df.columns]].copy()
+        if (active_key == "M" or (active_key == "T" and st.session_state.get("chk_M", False))) and "近一年創高次數" in df.columns:
+            base_cols.insert(base_cols.index("20日法人買賣超(張)"), "近一年創高次數")
+            
+        if (active_key == "N" or (active_key == "T" and st.session_state.get("chk_N", False))):
+            if "20日法人買賣超(張)" in base_cols:
+                base_cols.remove("20日法人買賣超(張)")
+            insert_idx = base_cols.index("轉折值")
+            n_cols = [c for c in ["投信5日買超(張)", "投信5日股本比(%)", "投信10日買超(張)", "投信10日股本比(%)", "投信20日買超(張)", "投信20日股本比(%)"] if c in df.columns]
+            for c in reversed(n_cols): base_cols.insert(insert_idx, c)
+            
+        if (active_key == "O" or (active_key == "T" and st.session_state.get("chk_O", False))):
+            insert_idx = base_cols.index("轉折值")
+            o_cols = [c for c in ["合約負債YoY(%)", "增額佔股本(%)", "總佔比(%)", "最新季EPS"] if c in df.columns]
+            for c in reversed(o_cols): base_cols.insert(insert_idx, c)
+            
+        disp_df = df[[c for c in base_cols if c in df.columns]].copy()
         if "代號" in disp_df.columns: disp_df = disp_df.set_index("代號")
             
         st.markdown('<div class="dataframe-wrapper">', unsafe_allow_html=True)
-        # 安全格式化
+        # 🌟 安全的格式化，避免 ValueError 崩潰
         format_dict = {c: "{:.2f}" for c in disp_df.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅", "股本比", "總佔比", "EPS"])}
         format_dict.update({c: "{:,.0f}" for c in disp_df.columns if any(x in c for x in ["法人", "買超", "張", "次數"])})
-        st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True)
+        
+        # 🌟 完整還原寬度配置
+        col_config = {"代號 / 名稱": st.column_config.TextColumn(width=160), "產業": st.column_config.TextColumn(width=125), "現價": st.column_config.NumberColumn(width=85), "漲幅(%)": st.column_config.NumberColumn(width=85), "季乖離(%)": st.column_config.NumberColumn(width=95), "年乖離(%)": st.column_config.NumberColumn(width=95), "月營收MoM(%)": st.column_config.NumberColumn(width=115), "月營收YoY(%)": st.column_config.NumberColumn(width=115), "今年營收YoY(%)": st.column_config.NumberColumn(width=125), "近一年創高次數": st.column_config.NumberColumn(width=140), "20日法人買賣超(張)": st.column_config.NumberColumn(width=150), "投信5日買超(張)": st.column_config.NumberColumn(width=120), "投信5日股本比(%)": st.column_config.NumberColumn(width=135), "投信10日買超(張)": st.column_config.NumberColumn(width=125), "投信10日股本比(%)": st.column_config.NumberColumn(width=145), "投信20日買超(張)": st.column_config.NumberColumn(width=130), "投信20日股本比(%)": st.column_config.NumberColumn(width=150), "合約負債YoY(%)": st.column_config.NumberColumn(width=135), "增額佔股本(%)": st.column_config.NumberColumn(width=125), "總佔比(%)": st.column_config.NumberColumn(width=125), "最新季EPS": st.column_config.NumberColumn(width=100), "轉折值": st.column_config.NumberColumn(width=85), "轉折乖離(%)": st.column_config.NumberColumn(width=95)}
+        
+        st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True, column_config=col_config)
         st.markdown('</div>', unsafe_allow_html=True)
 
     render_search_radar(location="bottom")
     st.markdown('<div id="disclaimer-target" class="disclaimer-wrapper"><div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div><ul class="disclaimer-list"><li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議.</li><li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任.</li></ul></div>', unsafe_allow_html=True)
 
+# 🌟 完整還原 Footer 版權宣告
 st.markdown('<div class="footer-wrapper"><div class="brand-copyright">QUANTUM DATA SYSTEM © 2026</div><div class="design-container"><span class="design-tag">Developer / Design</span><span class="design-email-tech">WU.CHIACHAN@GMAIL.COM</span></div></div>', unsafe_allow_html=True)
+
+def run_full_pipeline():
+    pass
+if __name__ == "__main__":
+    run_full_pipeline()
