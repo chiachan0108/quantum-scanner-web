@@ -45,12 +45,12 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 /* 🌟 核心修復區：策略選項 Radio Buttons (極致無圓點版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; 
-    grid-template-columns: 1fr !important; /* 確保所有選項 100% 填滿等寬 */
+    grid-template-columns: 1fr !important; 
     gap: 12px !important; 
     width: 100% !important;
 }
 
-/* 🚨 核彈級隱藏：排除法！隱藏按鈕內所有非文字容器的元素 (徹底殺死原生圓圈) */
+/* 🚨 終極核彈級隱藏：針對所有可能產生圓點的 DOM 節點進行毀滅性打擊 */
 [data-testid="stRadio"] div[role="radiogroup"] label > div:not([data-testid="stMarkdownContainer"]) {
     display: none !important;
     width: 0 !important;
@@ -58,7 +58,6 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     opacity: 0 !important;
     visibility: hidden !important;
 }
-/* 確保 input 本身也隱形 */
 [data-testid="stRadio"] div[role="radiogroup"] input[type="radio"] {
     display: none !important;
 }
@@ -73,9 +72,9 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     cursor: pointer !important; 
     transition: all 0.3s ease !important;
     display: flex !important; 
-    flex-direction: column !important; /* 內部元素垂直排列 */
-    align-items: center !important; /* 水平置中 */
-    justify-content: center !important; /* 垂直置中 */
+    flex-direction: column !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
     box-sizing: border-box !important;
     width: 100% !important;
     text-align: center !important;
@@ -87,7 +86,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     background-color: rgba(0, 242, 255, 0.02) !important;
 }
 
-/* 🎯 選取時的終極發光質感 (純靠整個區塊發光) */
+/* 🎯 選取時的終極發光質感 */
 [data-testid="stRadio"] div[role="radiogroup"] label:has(input[type="radio"]:checked),
 [data-testid="stRadio"] div[role="radiogroup"] label[data-checked="true"] {
     border: 1px solid #00f2ff !important; 
@@ -110,7 +109,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     font-weight: 700 !important;
     color: #e2e8f0 !important;
     text-align: center !important;
-    line-height: 1.6 !important; /* 確保上下行間距好看 */
+    line-height: 1.6 !important; 
 }
 
 /* 選取時，文字變成亮藍色發光 */
@@ -120,7 +119,6 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     text-shadow: 0 0 8px rgba(0, 242, 255, 0.5) !important;
 }
 
-/* 讓 Streamlit 原生的顏色標籤稍微小一點，像個副標題 */
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p span {
     font-size: 0.95rem !important;
     font-weight: 800 !important;
@@ -130,13 +128,13 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 /* 🔥 全域戰情雷達儀表板 CSS */
 .global-radar-wrapper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; animation: fadeSlideUp 0.6s ease-out forwards; } .radar-card { background: linear-gradient(135deg, rgba(22, 27, 34, 0.8) 0%, rgba(11, 15, 25, 0.9) 100%); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); } .radar-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #00f2ff, transparent); } .radar-title { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #94a3b8; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; } .radar-data-row { display: flex; align-items: baseline; justify-content: space-between; } .radar-count { font-size: 1.8rem; font-weight: 900; color: #ffffff; font-family: 'Inter', sans-serif; line-height: 1; } .radar-count-unit { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 600; margin-left: 4px; } .radar-perf { font-size: 1rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; } .perf-up { color: #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.3); } .perf-down { color: #00ff33; text-shadow: 0 0 5px rgba(0, 255, 51, 0.3); } .perf-zero { color: #94a3b8; } @media (max-width: 1024px) { .global-radar-wrapper { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 640px) { .global-radar-wrapper { grid-template-columns: 1fr; } }
 
-/* 🔥 策略說明卡片與其他工具 CSS 保留 */
+/* 🔥 策略說明卡片 CSS */
 .logic-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); margin-bottom: 25px; margin-top: 10px; } @media (max-width: 1024px) { .logic-grid { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 640px) { .logic-grid { grid-template-columns: 1fr; } } .logic-item { background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); } .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); } .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; } .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); } .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; } .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; } .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
 [data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); } [data-testid="stDataFrame"] th { background-color: #161b2a !important; color: #94a3b8 !important; border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important; font-weight: 700 !important; } [data-testid="stDataFrame"] td { background-color: #0b0f19 !important; color: #ffffff !important; } .search-box-glass { background: linear-gradient(135deg, rgba(11, 15, 25, 0.95) 0%, rgba(22, 27, 34, 0.85) 100%); border: 1px solid rgba(0, 242, 255, 0.25); border-radius: 16px; padding: 24px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); backdrop-filter: blur(12px); animation: fadeSlideUp 0.5s ease-out forwards; } .strat-badge-premium { background: linear-gradient(90deg, rgba(22, 27, 34, 0.9), rgba(11, 15, 25, 0.9)); border: 1px solid rgba(0, 242, 255, 0.3); border-left: 3px solid #00f2ff; padding: 8px 14px; border-radius: 6px; color: #e2e8f0; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
 [data-testid="stCheckbox"] { padding: 10px 14px !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; border-radius: 8px !important; background-color: #0b0f19 !important; transition: all 0.3s ease !important; margin-bottom: 8px !important; display: flex !important; align-items: center !important; width: 100% !important; } [data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } [data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { color: #94a3b8 !important; font-weight: 600 !important; margin: 0 !important; } [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
-/* 🌟 Footer 與版權宣告 CSS (完美還原) */
+/* 🌟 Footer 與版權宣告 CSS */
 .disclaimer-wrapper { background-color: #0e121a; border: 1px solid rgba(0, 242, 255, 0.2) !important; border-radius: 8px; padding: 16px 16px 10px 16px !important; margin-top: 35px !important; margin-bottom: 35px !important; display: flex; flex-direction: column; gap: 10px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); animation: fadeSlideUp 0.8s ease-out forwards; } .disclaimer-header { display: flex; align-items: center; margin-bottom: 0px !important; } .disclaimer-title { font-weight: 700; color: #ffffff; font-size: 14px !important; letter-spacing: 0.5px; margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: flex; align-items: center; } .disclaimer-list { display: flex; flex-direction: column; gap: 6px !important; list-style: none; padding: 0 !important; padding-left: 18px !important; margin: 0 !important; } .disclaimer-item { font-size: 13px !important; color: #94a3b8; line-height: 1.4 !important; font-weight: 400; margin: 0 !important; text-align: justify !important; text-justify: inter-ideograph !important; } .footer-wrapper { margin-top: 60px; padding: 30px 10px 50px 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; justify-content: center !important; } .brand-copyright { color: #94a3b8; font-weight: 800 !important; font-size: 0.85rem !important; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; } .design-container { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; } .design-tag { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 3px 8px 2px 8px; border-radius: 4px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 20px; box-sizing: border-box; } .design-email-tech { font-family: 'JetBrains Mono', monospace !important; color: #ffffff !important; font-size: 0.65rem !important; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.9; display: inline-flex; align-items: center; height: 20px; } @media (max-width: 768px) { .design-container { flex-direction: column; gap: 10px; } }
 </style>""", unsafe_allow_html=True)
 
@@ -238,7 +236,7 @@ def precalculate_strategy_performance():
 
 strategy_perf = precalculate_strategy_performance()
 
-# 🌟 最安全、完美符合台股配色的換行文字產生器 (依賴原生的 :red[...] 功能)
+# 🌟 完美字串產生器
 def get_strat_label(key, base_name):
     data = strategy_perf.get(key, {"count": 0, "avg": None})
     val = data["avg"]
@@ -350,10 +348,11 @@ def render_search_radar(location="top"):
 
                 if hit_strategies:
                     badge_html = "".join([f"<div class='strat-badge-premium'><span>{s.split('.')[0]}.</span>{s.split('.')[1].strip()}</div>" for s in hit_strategies])
-                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>標的當前符合：</div><div class="search-badges-container">{badge_html}</div></div>"""
+                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>標的當前觸發策略：</div><div class="search-badges-container">{badge_html}</div></div>"""
                     st.markdown(result_html, unsafe_allow_html=True)
                 else:
-                    st.markdown('<div class="empty-state-glass">Target Not Found or Input Error</div>', unsafe_allow_html=True)
+                    warning_html = """<div class="search-warning-glass"><div class="warning-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>TARGET NOT MATCHED</div><p class="warning-desc"><br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p></div>"""
+                    st.markdown(warning_html, unsafe_allow_html=True)
             except Exception as e: st.error(str(e))
 
 render_search_radar(location="top")
@@ -398,6 +397,7 @@ if not st.session_state['scan_completed']:
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
 
     with t_multi:
+        # 解決策略 T 被推擠的問題
         strat_multi = st.radio("多吻合區", [get_strat_label("C", "營收股價雙能"), get_strat_label("R", "複式策略交集"), get_strat_label("S", "趨勢轉折延伸"), "**T. 自訂策略交集型** \n:gray[AVG: 動態計算]"], label_visibility="collapsed")
         
         if "T." in strat_multi:
@@ -438,6 +438,7 @@ if not st.session_state['scan_completed']:
         for k, v in strat_map.items():
             if locals().get(k.replace("btn_", "run_")): choice = v; break
             
+        # 安全取得策略代號
         active_key = choice.split(".")[0].replace("**", "").strip()
         
         try:
@@ -448,11 +449,14 @@ if not st.session_state['scan_completed']:
         except Exception as e: st.error(f"Error: {e}")
         p_placeholder.empty()
         
-    # 🌟 確保策略說明圖卡只顯示選擇的項目，且絕對不會被 CSS 干擾
-    strat_map_display = {"基本面區": strat_fund, "籌碼面區": strat_chip, "技術面區": strat_tech, "多吻合區": strat_multi}
-    active_display_key = "A"
+    # 🌟 修復核心邏輯卡片的顯示：不再被 CSS 干擾，且預設顯示正確
+    active_display_key = "A" # 預設值
     try:
-        active_display_key = strat_fund.split(".")[0].replace("**", "").strip()
+        # 動態判斷目前在哪個 Tab 並顯示對應說明
+        if strat_fund: active_display_key = strat_fund.split(".")[0].replace("**", "").strip()
+        if strat_chip and st.session_state.get('btn_chip', False): active_display_key = strat_chip.split(".")[0].replace("**", "").strip()
+        if strat_tech and st.session_state.get('btn_tech', False): active_display_key = strat_tech.split(".")[0].replace("**", "").strip()
+        if strat_multi and st.session_state.get('btn_multi', False): active_display_key = strat_multi.split(".")[0].replace("**", "").strip()
     except: pass
     
     st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
@@ -495,7 +499,7 @@ else:
         if "代號" in disp_df.columns: disp_df = disp_df.set_index("代號")
             
         st.markdown('<div class="dataframe-wrapper">', unsafe_allow_html=True)
-        # 🌟 安全的格式化，避免 ValueError 崩潰
+        # 🌟 安全的格式化
         format_dict = {c: "{:.2f}" for c in disp_df.columns if any(x in c for x in ["現價", "乖離", "報酬", "YoY", "MoM", "轉折值", "漲幅", "股本比", "總佔比", "EPS"])}
         format_dict.update({c: "{:,.0f}" for c in disp_df.columns if any(x in c for x in ["法人", "買超", "張", "次數"])})
         
