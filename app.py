@@ -1,8 +1,4 @@
-import streamlit as st
-import pandas as pd
-import datetime
-import os
-import time
+import streamlit as st, pandas as pd, datetime, os, time
 import streamlit.components.v1 as components
 
 GITHUB_USER, GITHUB_REPO = "chiachan0108", "stock-data"
@@ -274,7 +270,7 @@ def precalculate_strategy_performance():
 
 strategy_perf = precalculate_strategy_performance()
 
-# 🌟 新增：安全防呆的純文字選項產生器 (絕對避免 HTML 注入導致跑版)
+# 🌟 新增：純文字安全版選項生成器 (不使用任何 HTML，防止 Streamlit 解析崩潰)
 def get_strat_label(key, base_name):
     data = strategy_perf.get(key, {"count": 0, "avg": None})
     val = data["avg"]
@@ -293,6 +289,7 @@ st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER
 # 🌟 全域戰情雷達總覽面板 (移至頁面最上方)
 st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>GLOBAL RADAR</span><span class='section-label-zh'>全域戰情總覽</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
 
+# 🌟 絕對零縮排 HTML (避免被 Markdown 判定為程式碼區塊)
 radar_html = '<div class="global-radar-wrapper">'
 display_keys = ['A', 'H', 'M', 'O', 'D', 'L', 'N', 'B', 'G', 'J', 'K', 'R']
 name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集"}
@@ -309,22 +306,20 @@ for k in display_keys:
         avg_str = f"{sign}{avg:.2f}%"
         css_class = "perf-up" if avg > 0 else "perf-down"
         
-    radar_html += f"""
-    <div class="radar-card">
-        <div class="radar-title">STRATEGY {k} · {name_map.get(k, k)}</div>
-        <div class="radar-data-row">
-            <div><span class="radar-count">{count}</span><span class="radar-count-unit">檔</span></div>
-            <div class="radar-perf {css_class}">{avg_str}</div>
-        </div>
-    </div>
-    """
+    radar_html += f"""<div class="radar-card">
+<div class="radar-title">STRATEGY {k} · {name_map.get(k, k)}</div>
+<div class="radar-data-row">
+<div><span class="radar-count">{count}</span><span class="radar-count-unit">檔</span></div>
+<div class="radar-perf {css_class}">{avg_str}</div>
+</div>
+</div>"""
 radar_html += '</div>'
 st.markdown(radar_html, unsafe_allow_html=True)
 
-# 🌟 獨立的個股反查雷達模組
+# 🌟 獨立的個股反查雷達模組 (徹底修復資料型別陷阱與 key 刷新問題)
 def render_search_radar(location="top"):
-    # 設定一個獨一無二的 key，確保 Streamlit 不會報錯
-    unique_key = f"search_input_{location}_1"
+    # 設定一個獨一無二的 key
+    unique_key = f"search_input_{location}_{int(time.time()*1000)}"
     
     with st.expander("◈ 個股反查雷達 (輸入代號或名稱)", expanded=False):
         search_query = st.text_input("(例如: 2330 或 台積電)", key=unique_key).strip()
@@ -386,31 +381,32 @@ def render_search_radar(location="top"):
 
             if hit_strategies:
                 badge_html = "".join([f"<div class='strat-badge-premium'><span>{s.split('.')[0]}.</span>{s.split('.')[1].strip()}</div>" for s in hit_strategies])
+                # 🌟 絕對零縮排 HTML
                 result_html = f"""<div class="search-box-glass">
-    <div class="search-header-row">
-        <div class="id-name-group">
-            <span class="search-target-id">{match_info['id']}</span>
-            <span class="search-target-name">{match_info['name']}</span>
-        </div>
-        <div class="search-status-tag">MATCHED</div>
-    </div>
-    <div class="search-subtitle">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>
-        標的當前觸發策略：
-    </div>
-    <div class="search-badges-container">
-        {badge_html}
-    </div>
+<div class="search-header-row">
+<div class="id-name-group">
+<span class="search-target-id">{match_info['id']}</span>
+<span class="search-target-name">{match_info['name']}</span>
+</div>
+<div class="search-status-tag">MATCHED</div>
+</div>
+<div class="search-subtitle">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>
+標的當前觸發策略：
+</div>
+<div class="search-badges-container">
+{badge_html}
+</div>
 </div>"""
                 st.markdown(result_html, unsafe_allow_html=True)
             else:
+                # 🌟 絕對零縮排 HTML
                 warning_html = """<div class="search-warning-glass">
-    <div class="warning-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-        TARGET NOT MATCHED
-    </div>
-    <p class="warning-desc"> 
-    <br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p>
+<div class="warning-title">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+TARGET NOT MATCHED
+</div>
+<p class="warning-desc"><br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p>
 </div>"""
                 st.markdown(warning_html, unsafe_allow_html=True)
 
@@ -445,7 +441,7 @@ if not st.session_state['scan_completed']:
     t_fund, t_chip, t_tech, t_multi = st.tabs(["I. 基本面區", "II. 籌碼面區", "III. 技術面區", "IV. 多吻合區"])
     
     with t_fund:
-        # 使用最穩定的純文字選項，完全捨棄危險的 HTML
+        # 🌟 捨棄 HTML 注入，改用最乾淨純粹的文字
         strat_fund = st.radio("基本面區", [
             get_strat_label("A", "營收趨勢增長型"), 
             get_strat_label("H", "財報三率三升型"), 
@@ -700,30 +696,30 @@ else:
     full_name_map = {"A": "A. 營收趨勢增長型", "B": "B. 股價強勢動能型", "C": "C. 營收股價雙能型", "D": "D. 法人籌碼吃貨型", "E": "E. 市場區間共振型", "F": "F. 左側超跌優質型", "G": "G. 中長周期轉折型", "H": "H. 財報三率三升型", "I": "I. 營收財報雙能型", "J": "J. 指標強勢共振型", "K": "K. 跨週期多矩陣型", "L": "L. 股本法人鎖碼型", "M": "M. 營收創高精選型", "N": "N. 股本投信鎖碼型", "O": "O. 合約負債爆發型", "R": "R. 複式策略交集型", "S": "S. 趨勢轉折延伸型", "T": "T. 自訂策略交集型"}
     clean_strategy_title = full_name_map.get(active_key, strategy_choice)
 
-    avg_ret_html = f'''<div class="strategy-header-container">
-  <div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
-  <h3 class="strategy-title">{clean_strategy_title}</h3>
+    avg_ret_html = f"""<div class="strategy-header-container">
+<div class="quantum-status-tag"><span class="status-tag-text">QUANTUM SCANNER SUMMARY</span></div>
+<h3 class="strategy-title">{clean_strategy_title}</h3>
 </div>
 <div class="summary-box-group">
-  <div class="result-summary">
-    <div class="box-left">
-      <span class="box-label">共篩選出 :</span>
-    </div>
-    <div class="box-right">
-      <span class="box-num">{len(df)}</span>
-      <span class="box-unit">檔標的</span>
-    </div>
-  </div>
-  <div class="return-summary">
-    <div class="box-left">
-      <span class="box-label">平均漲幅 :</span>
-    </div>
-    <div class="box-right">
-      <span class="box-num {ret_class}">{ret_sign}{avg_ret:.2f}</span>
-      <span class="box-unit {ret_class}">%</span>
-    </div>
-  </div>
-</div>'''
+<div class="result-summary">
+<div class="box-left">
+<span class="box-label">共篩選出 :</span>
+</div>
+<div class="box-right">
+<span class="box-num">{len(df)}</span>
+<span class="box-unit">檔標的</span>
+</div>
+</div>
+<div class="return-summary">
+<div class="box-left">
+<span class="box-label">平均漲幅 :</span>
+</div>
+<div class="box-right">
+<span class="box-num {ret_class}">{ret_sign}{avg_ret:.2f}</span>
+<span class="box-unit {ret_class}">%</span>
+</div>
+</div>
+</div>"""
     st.markdown(avg_ret_html, unsafe_allow_html=True)
     
     df_for_display = df[display_cols].copy()
