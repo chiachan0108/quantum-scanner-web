@@ -149,48 +149,68 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
 
-/* 🌟 Checkbox 絕對垂直置中與等距留白修正 (終極光學對齊) */
+/* 🌟 Checkbox 終極對齊與均等留白版 (安全防裁切) */
 [data-testid="stCheckbox"] { 
-    padding: 0 !important; 
     border: 1px solid rgba(255, 255, 255, 0.08) !important; 
     border-radius: 8px !important; 
     background-color: #0b0f19 !important; 
     transition: all 0.3s ease !important; 
     margin-bottom: 8px !important; 
-    display: flex !important; 
-    align-items: center !important; 
+    padding: 12px 18px !important; /* 🌟 確保內部邊距 */
+    min-height: 60px !important; /* 🌟 使用 min-height 確保自動長高不被切斷 */
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
     justify-content: center !important;
     width: 100% !important; 
-    min-height: 52px !important; 
-    box-sizing: border-box !important;
 } 
-/* 針對 Checkbox 內部的 label 與 div 進行歸零對齊 */
-[data-testid="stCheckbox"] label {
+/* 清空內部冗餘邊距 */
+[data-testid="stCheckbox"] * {
     margin: 0 !important;
-    padding: 0 14px !important; 
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+[data-testid="stCheckbox"] label {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
     height: 100% !important;
-    box-sizing: border-box !important;
 }
+
+/* 勾選方塊 SVG 容器 */
 [data-testid="stCheckbox"] label > div:first-child {
-    margin: 0 !important;
-    padding: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    transform: translateY(1px) !important; /* 🌟 勾選方塊微調上移 */
+    height: 100% !important;
+    width: auto !important;
+    transform: translateY(1px) !important; /* 🌟 微調 SVG 偏位 */
 }
+
+/* 文字區域容器 */
+[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] {
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    height: 100% !important;
+    margin-left: 10px !important; /* 🌟 文字與框的間距 */
+}
+
+/* 文字本體 */
+[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { 
+    color: #94a3b8 !important; 
+    font-weight: 600 !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    height: 100% !important;
+    line-height: 1.4 !important; /* 🌟 回復正常的行高避免擠壓 */
+} 
+
 [data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } 
-[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] {
-    margin: 0 !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important;
-}
-[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { 
-    color: #94a3b8 !important; font-weight: 600 !important; margin: 0 0 0 8px !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; transform: translateY(1px) !important; /* 🌟 文字與勾選方塊同步對齊 */
-} 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
 /* 🌟 Footer 與版權宣告 CSS */
@@ -402,6 +422,7 @@ def render_search_radar(location="top"):
                     hit_strategies.append("S. 趨勢轉折延伸型")
                     
                 base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "L. 股本法人鎖碼型", "M. 營收創高精選型", "N. 股本投信鎖碼型", "O. 合約負債爆發型", "S. 趨勢轉折延伸型"}
+                
                 if len([s for s in hit_strategies if s in base_strats]) >= 3:
                     hit_strategies.append("R. 複式策略交集型")
                     
@@ -446,52 +467,23 @@ if not st.session_state['scan_completed']:
     t_fund, t_chip, t_tech, t_multi = st.tabs(["I. 基本面區", "II. 籌碼面區", "III. 技術面區", "IV. 多吻合區"])
     
     with t_fund:
-        strat_fund = st.radio("基本面區", [
-            get_strat_label("A", "營收趨勢增長型"), 
-            get_strat_label("H", "財報三率三升型"), 
-            get_strat_label("I", "營收財報雙能型"), 
-            get_strat_label("M", "營收創高精選型"), 
-            get_strat_label("O", "合約負債爆發型")
-        ], label_visibility="collapsed")
-        
-        st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
-        st.markdown(logic_dict.get(extract_strategy_key(strat_fund), ""), unsafe_allow_html=True)
+        strat_fund = st.radio("基本面區", [get_strat_label("A", "營收趨勢增長型"), get_strat_label("H", "財報三率三升型"), get_strat_label("I", "營收財報雙能型"), get_strat_label("M", "營收創高精選型"), get_strat_label("O", "合約負債爆發型")], label_visibility="collapsed")
         run_fund = st.button("啟動AI量化篩選", key="btn_fund", use_container_width=True)
 
     with t_chip:
-        strat_chip = st.radio("籌碼面區", [
-            get_strat_label("D", "法人籌碼吃貨型"), 
-            get_strat_label("E", "市場區間共振型"), 
-            get_strat_label("F", "左側超跌優質型"), 
-            get_strat_label("L", "股本法人鎖碼型"), 
-            get_strat_label("N", "股本投信鎖碼型")
-        ], label_visibility="collapsed")
-        
-        st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
-        st.markdown(logic_dict.get(extract_strategy_key(strat_chip), ""), unsafe_allow_html=True)
+        strat_chip = st.radio("籌碼面區", [get_strat_label("D", "法人籌碼吃貨型"), get_strat_label("E", "市場區間共振型"), get_strat_label("F", "左側超跌優質型"), get_strat_label("L", "股本法人鎖碼型"), get_strat_label("N", "股本投信鎖碼型")], label_visibility="collapsed")
         run_chip = st.button("啟動AI量化篩選", key="btn_chip", use_container_width=True)
 
     with t_tech:
-        strat_tech = st.radio("技術面區", [
-            get_strat_label("B", "股價強勢動能型"), 
-            get_strat_label("G", "中長周期轉折型"), 
-            get_strat_label("J", "指標強勢共振型"), 
-            get_strat_label("K", "跨週期多矩陣型")
-        ], label_visibility="collapsed")
-        
-        st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
-        st.markdown(logic_dict.get(extract_strategy_key(strat_tech), ""), unsafe_allow_html=True)
+        strat_tech = st.radio("技術面區", [get_strat_label("B", "股價強勢動能型"), get_strat_label("G", "中長周期轉折型"), get_strat_label("J", "指標強勢共振型"), get_strat_label("K", "跨週期多矩陣型")], label_visibility="collapsed")
         run_tech = st.button("啟動AI量化篩選", key="btn_tech", use_container_width=True)
 
     with t_multi:
-        strat_multi = st.radio("多吻合區", [
-            get_strat_label("C", "營收股價雙能型"), 
-            get_strat_label("R", "複式策略交集型"), 
-            get_strat_label("S", "趨勢轉折延伸型"), 
-            "**T. 自訂策略交集型**\n:gray[AVG: 動態計算]"
-        ], label_visibility="collapsed")
+        strat_multi = st.radio("多吻合區", [get_strat_label("C", "營收股價雙能型"), get_strat_label("R", "複式策略交集型"), get_strat_label("S", "趨勢轉折延伸型"), "**T. 自訂策略交集型**\n:gray[AVG: 動態計算]"], label_visibility="collapsed")
         
-        if "T." in strat_multi:
+        active_multi_key = extract_strategy_key(strat_multi)
+        
+        if active_multi_key == "T":
             st.markdown("<div style='padding: 12px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'><div style='color:#00f2ff; font-weight:800; font-size:0.95rem; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div></div>", unsafe_allow_html=True)
             
             c1, c2, c3, c4 = st.columns(4)
@@ -514,10 +506,13 @@ if not st.session_state['scan_completed']:
                 st.checkbox("H. 財報三率三升", key="chk_H")
                 st.checkbox("J. 指標強勢共振", key="chk_J")
                 st.checkbox("N. 股本投信鎖碼", key="chk_N") 
+        else:
+            st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
+            st.markdown(logic_dict.get(active_multi_key, ""), unsafe_allow_html=True)
 
-        st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
-        st.markdown(logic_dict.get(extract_strategy_key(strat_multi), ""), unsafe_allow_html=True)
         run_multi = st.button("啟動AI量化篩選", key="btn_multi", use_container_width=True)
+
+    # 這裡的邏輯已經被清理，不會再顯示多餘的卡片了。
 
     if (run_fund or run_chip or run_tech or run_multi):
         p_placeholder = st.empty()
@@ -642,17 +637,6 @@ if not st.session_state['scan_completed']:
             p_placeholder.empty()
             st.error(f"Error: {e}")
 
-    active_display_key = "A"
-    try:
-        if strat_fund: active_display_key = extract_strategy_key(strat_fund)
-        if strat_chip and st.session_state.get('btn_chip', False): active_display_key = extract_strategy_key(strat_chip)
-        if strat_tech and st.session_state.get('btn_tech', False): active_display_key = extract_strategy_key(strat_tech)
-        if strat_multi and st.session_state.get('btn_multi', False): active_display_key = extract_strategy_key(strat_multi)
-    except: pass
-    
-    st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
-    st.markdown(logic_dict.get(active_display_key, ""), unsafe_allow_html=True)
-
 else:
     df, active_key = st.session_state['temp_df'], st.session_state['selected_strategy']
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
@@ -708,7 +692,21 @@ else:
             if any(x in c for x in ["法人", "買超", "張", "次數"]):
                 format_dict[c] = "{:,.0f}"
         
-        col_config = {"代號 / 名稱": st.column_config.TextColumn(width=160), "產業": st.column_config.TextColumn(width=125), "現價": st.column_config.NumberColumn(width=85), "漲幅(%)": st.column_config.NumberColumn(width=85), "季乖離(%)": st.column_config.NumberColumn(width=95), "年乖離(%)": st.column_config.NumberColumn(width=95), "月營收MoM(%)": st.column_config.NumberColumn(width=115), "月營收YoY(%)": st.column_config.NumberColumn(width=115), "今年營收YoY(%)": st.column_config.NumberColumn(width=125), "近一年創高次數": st.column_config.NumberColumn(width=140), "20日法人買賣超(張)": st.column_config.NumberColumn(width=150), "投信5日買超(張)": st.column_config.NumberColumn(width=120), "投信5日股本比(%)": st.column_config.NumberColumn(width=135), "投信10日買超(張)": st.column_config.NumberColumn(width=125), "投信10日股本比(%)": st.column_config.NumberColumn(width=145), "投信20日買超(張)": st.column_config.NumberColumn(width=130), "投信20日股本比(%)": st.column_config.NumberColumn(width=150), "合約負債YoY(%)": st.column_config.NumberColumn(width=135), "增額佔股本(%)": st.column_config.NumberColumn(width=125), "總佔比(%)": st.column_config.NumberColumn(width=125), "最新季EPS": st.column_config.NumberColumn(width=100), "轉折值": st.column_config.NumberColumn(width=85), "轉折乖離(%)": st.column_config.NumberColumn(width=95)}
+        col_config = {
+            "代號 / 名稱": st.column_config.TextColumn(width=160),
+            "產業": st.column_config.TextColumn(width=125),
+            "現價": st.column_config.NumberColumn(width=85),
+            "漲幅(%)": st.column_config.NumberColumn(width=85),
+            "季乖離(%)": st.column_config.NumberColumn(width=95),
+            "年乖離(%)": st.column_config.NumberColumn(width=95),
+            "月營收MoM(%)": st.column_config.NumberColumn(width=115),
+            "月營收YoY(%)": st.column_config.NumberColumn(width=115),
+            "今年營收YoY(%)": st.column_config.NumberColumn(width=125),
+            "近一年創高次數": st.column_config.NumberColumn(width=140),
+            "20日法人買賣超(張)": st.column_config.NumberColumn(width=150),
+            "轉折值": st.column_config.NumberColumn(width=85),
+            "轉折乖離(%)": st.column_config.NumberColumn(width=95),
+        }
         
         st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True, column_config=col_config)
         st.markdown('</div>', unsafe_allow_html=True)
