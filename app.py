@@ -10,7 +10,7 @@ GITHUB_USER, GITHUB_REPO = "chiachan0108", "stock-data"
 st.set_page_config(page_title="QUANTUM TECH SCANNER", layout="wide", initial_sidebar_state="collapsed")
 
 # =============================================================================
-# [CSS 樣式核心] - 絕對防崩塌架構、終極絕對置中、完美發光、還原科技統計框
+# [CSS 樣式核心] - 絕對置中、徹底消滅原生點點、完美發光、還原科技統計框
 # =============================================================================
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap'); 
@@ -47,7 +47,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 策略選項 Radio Buttons (終極絕對置中版) */
+/* 🌟 策略選項 Radio Buttons (終極絕對置中 + 豐滿留白版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important;
 }
@@ -59,16 +59,16 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
 }
 
-/* 🎯 徹底殺除內部第二層 Div 的原生 Margin (解決偏右的終極元凶) */
+/* 🎯 徹底殺除內部第二層 Div 的原生 Margin */
 [data-testid="stRadio"] div[role="radiogroup"] label > div:nth-child(2) {
     margin: 0 !important; padding: 0 !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;
 }
 
-/* 選項卡片本體：取消左右 padding，交給 flex 100% 幾何置中 */
+/* 選項卡片本體：增加豐滿的左右 padding，解除壓迫感 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; 
-    padding: 18px 0 !important; /* 🌟 僅保留上下呼吸空間 */
-    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 85px !important;
+    padding: 20px 35px !important; /* 🌟 充裕的左右留白 */
+    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 90px !important;
     gap: 0 !important;
 }
 
@@ -126,7 +126,6 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .radar-card { background: linear-gradient(145deg, rgba(22, 27, 34, 0.6) 0%, rgba(11, 15, 25, 0.8) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; cursor: default; } 
 .radar-card:hover { border-color: rgba(0, 242, 255, 0.4); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 6px 15px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
 .radar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); opacity: 0.7; } 
-/* 🌟 將策略中文改為青藍色發光 */
 .radar-title-main { font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; color: #00f2ff; font-weight: 900; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; text-align: center; line-height: 1.2; text-shadow: 0 0 10px rgba(0, 242, 255, 0.4); } 
 .radar-title-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #94a3b8; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase; text-align: center; opacity: 0.9;} 
 .radar-data-row { display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); } 
@@ -227,7 +226,6 @@ def precalculate_strategy_performance():
                 for sid in d['代號'].astype(str):
                     id_map.setdefault(sid, set()).add(k)
                     
-        # 🌟 策略 R 條件修正：從 4 項下修至 3 項
         target_sids_r = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "O"})) >= 3]
         perf['R'] = _calc(df_combined[df_combined['代號'].astype(str).isin(target_sids_r)])
         
@@ -246,7 +244,7 @@ def precalculate_strategy_performance():
 
 strategy_perf = precalculate_strategy_performance()
 
-# 🌟 完美的字串產生器
+# 🌟 完美的字串產生器：消除尾隨空白，保證絕對置中
 def get_strat_label(key, base_name):
     data = strategy_perf.get(key, {"count": 0, "avg": None})
     val = data["avg"]
@@ -254,13 +252,13 @@ def get_strat_label(key, base_name):
     if val is not None:
         sign = "+" if val > 0 else ""
         if val > 0:
-            return f"**{key}. {base_name}** \n:red[AVG: {sign}{val:.2f}%]"
+            return f"**{key}. {base_name}**\n:red[AVG: {sign}{val:.2f}%]"
         elif val < 0:
-            return f"**{key}. {base_name}** \n:green[AVG: {sign}{val:.2f}%]"
+            return f"**{key}. {base_name}**\n:green[AVG: {sign}{val:.2f}%]"
         else:
-            return f"**{key}. {base_name}** \n:gray[AVG: {sign}{val:.2f}%]"
+            return f"**{key}. {base_name}**\n:gray[AVG: {sign}{val:.2f}%]"
             
-    return f"**{key}. {base_name}** \n:gray[AVG: --]"
+    return f"**{key}. {base_name}**\n:gray[AVG: --]"
 
 # 🌟 安全擷取器
 def extract_strategy_key(raw_string):
@@ -359,7 +357,6 @@ def render_search_radar(location="top"):
                     hit_strategies.append("S. 趨勢轉折延伸型")
                     
                 base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "L. 股本法人鎖碼型", "M. 營收創高精選型", "N. 股本投信鎖碼型", "O. 合約負債爆發型", "S. 趨勢轉折延伸型"}
-                # 🌟 個股反查 R 標籤下修至 3 項
                 if len([s for s in hit_strategies if s in base_strats]) >= 3:
                     hit_strategies.append("R. 複式策略交集型")
                     
@@ -376,7 +373,7 @@ def render_search_radar(location="top"):
 
 render_search_radar(location="top")
 
-# 🌟 定義所有策略的邏輯說明文字 (100% 完整保留，無跨區 HTML 標籤)
+# 🌟 定義所有策略的邏輯說明文字
 logic_dict = {
     "A": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">SCOPE</span></div><div class="logic-label-zh">選股範圍</div></div><div class="logic-desc">鎖定台灣<span class="highlight">全體上市櫃普通股</span>標的。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">流動性門檻</div></div><div class="logic-desc">近20日的日均量必須大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">LEVEL</span></div><div class="logic-label-zh">技術位階</div></div><div class="logic-desc">股價需穩健站於長線生命線 <span class="highlight">MA240</span> 之上。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">TREND</span></div><div class="logic-label-zh">趨勢排列</div></div><div class="logic-desc"><span class="highlight">MA60 大於 MA240</span>，呈現多頭排列走勢。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">05</span><span class="logic-label-en">SCALE</span></div><div class="logic-label-zh">營收規模</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) 創下公司有史以來<span class="highlight">同期新高</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">06</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">雙巔峰動能</div></div><div class="logic-desc">單月營收歷史<span class="highlight">新高與次高</span>必須同時在近6、12個月內。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">07</span><span class="logic-label-en">DYNAMICS</span></div><div class="logic-label-zh">雙重成長</div></div><div class="logic-desc">確保近1季 <span class="highlight">YoY 正成長</span>且今年營收YoY(%)<span class="highlight">大於10%</span>。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">08</span><span class="logic-label-en">TRACKING</span></div><div class="logic-label-zh">法人佈局位階</div></div><div class="logic-desc">追蹤近20日<span class="highlight">三大法人</span>買賣超張數及<span class="highlight">股價乖離率</span>。</div></div></div>',
     "H": '<div class="logic-grid"><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">01</span><span class="logic-label-en">LIQUIDITY</span></div><div class="logic-label-zh">四重防線</div></div><div class="logic-desc">近 20日均量皆大於<span class="highlight">500張</span>，確保流動性安全無虞。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">02</span><span class="logic-label-en">MOMENTUM</span></div><div class="logic-label-zh">營收爆發</div></div><div class="logic-desc">近 12 個月累積營收 (LTM) <span class="highlight">強勢超越去年同期</span>，展現強勁動能。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">03</span><span class="logic-label-en">PROFITABILITY</span></div><div class="logic-label-zh">三率齊揚</div></div><div class="logic-desc">連續 <span class="highlight">2 季</span> 毛利率、營利率、淨利率皆同步上升，公司整體質量逐步優化。</div></div><div class="logic-item"><div class="logic-header"><div class="logic-tag-row"><span class="logic-index-tag">04</span><span class="logic-label-en">SAFETY</span></div><div class="logic-label-zh">獲利底線</div></div><div class="logic-desc">最新一季稅後淨利必須<span class="highlight">大於 0</span>，堅決拒絕虛假轉機股。</div></div></div>',
@@ -446,11 +443,10 @@ if not st.session_state['scan_completed']:
             get_strat_label("C", "營收股價雙能型"), 
             get_strat_label("R", "複式策略交集型"), 
             get_strat_label("S", "趨勢轉折延伸型"), 
-            "**T. 自訂策略交集型** \n:gray[AVG: 動態計算]"
+            "**T. 自訂策略交集型**\n:gray[AVG: 動態計算]"
         ], label_visibility="collapsed")
         
         if "T." in strat_multi:
-            # 🌟 修復 T 策略的流浪 div，完美融入 Streamlit 原生排版
             st.markdown("<div style='padding: 12px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'><div style='color:#00f2ff; font-weight:800; font-size:0.95rem; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div></div>", unsafe_allow_html=True)
             
             c1, c2, c3, c4 = st.columns(4)
@@ -537,7 +533,6 @@ if not st.session_state['scan_completed']:
                         for sid in df_s['代號'].astype(str):
                             if sid in id_map: id_map[sid].add("S")
 
-                    # 🌟 策略 R 即時運算條件修正：從 4 項下修至 3 項
                     target_sids_r = [sid for sid, tags in id_map.items() if len(tags.intersection({"A", "B", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "O", "S"})) >= 3]
                     df_r = df_combined[df_combined['代號'].astype(str).isin(target_sids_r)].copy()
                     for sid in df_r['代號'].astype(str):
