@@ -47,7 +47,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 策略選項 Radio Buttons (終極幾何鎖定・絕對置中版) */
+/* 🌟 策略選項 Radio Buttons (終極無壓迫留白 + 光學絕對置中版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important;
 }
@@ -59,19 +59,17 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
 }
 
-/* 🎯 終極核彈：殺除 label 內所有子元素的水平 Margin 與 Padding，根絕 Streamlit 隱藏偏移 */
-[data-testid="stRadio"] div[role="radiogroup"] label * {
-    margin-left: 0 !important; margin-right: 0 !important; padding-left: 0 !important; padding-right: 0 !important;
+/* 🎯 徹底殺除內部第二層 Div 的原生 Margin */
+[data-testid="stRadio"] div[role="radiogroup"] label > div:nth-child(2) {
+    margin: 0 !important; padding: 0 !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;
 }
 
-/* 選項卡片本體：開啟 position: relative 以支援絕對定位置中 */
+/* 選項卡片本體：確保完美的幾何框架與呼吸感 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; 
-    padding: 0 !important; /* 取消所有 padding，交給絕對定位處理 */
-    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; 
-    display: block !important; position: relative !important; 
-    box-sizing: border-box !important; width: 100% !important; min-height: 96px !important;
-    overflow: hidden !important;
+    padding: 24px 35px !important; /* 🌟 增加豐滿的左右與上下留白，徹底解除壓迫感 */
+    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 96px !important;
+    gap: 0 !important; overflow: hidden !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label:hover {
@@ -84,17 +82,14 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     border: 1px solid #00f2ff !important; background-color: rgba(0, 242, 255, 0.08) !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.25), inset 0 0 10px rgba(0, 242, 255, 0.1) !important; 
 }
 
-/* 🎯 絕對定位暴力置中，徹底無視隱藏圓點推擠 */
+/* 文字區域設定 */
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] {
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 100% !important; height: auto !important; margin: 0 !important; padding: 0 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
+    width: 100% !important; height: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
-    margin: 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
+    margin: auto 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
+    transform: translateX(-2px); /* 🌟 視覺光學補償，將重心完美拉回正中央 */
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
@@ -132,6 +127,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .radar-card { background: linear-gradient(145deg, rgba(22, 27, 34, 0.6) 0%, rgba(11, 15, 25, 0.8) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; cursor: default; } 
 .radar-card:hover { border-color: rgba(0, 242, 255, 0.4); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 6px 15px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
 .radar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); opacity: 0.7; } 
+/* 🌟 將策略中文改為青藍色發光 */
 .radar-title-main { font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; color: #00f2ff; font-weight: 900; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; text-align: center; line-height: 1.2; text-shadow: 0 0 10px rgba(0, 242, 255, 0.4); } 
 .radar-title-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #94a3b8; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase; text-align: center; opacity: 0.9;} 
 .radar-data-row { display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); } 
@@ -499,7 +495,7 @@ if not st.session_state['scan_completed']:
         ], label_visibility="collapsed")
         
         if "T." in strat_multi:
-            st.markdown("<div style='display: flex; align-items: center; justify-content: center; width: 100%; min-height: 60px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%); box-sizing: border-box;'><div style='display: flex; align-items: center; justify-content: center; gap: 8px; color:#00f2ff; font-weight:800; font-size:1.0rem; font-family: \"JetBrains Mono\", \"Noto Sans TC\", sans-serif; letter-spacing: 1px; margin: 0; padding: 0;'><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0;\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg><span style=\"margin-top: 2px;\">請勾選欲交集之策略 (至少 2 項)：</span></div></div>", unsafe_allow_html=True)
+            st.markdown("<div style='padding: 12px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%);'><div style='color:#00f2ff; font-weight:800; font-size:0.95rem; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div></div>", unsafe_allow_html=True)
             
             c1, c2, c3, c4 = st.columns(4)
             with c1:
