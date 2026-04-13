@@ -59,7 +59,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
 }
 
-/* 🎯 徹底殺除內部第二層 Div 的原生 Margin (解決偏右的終極元凶) */
+/* 🎯 徹底殺除內部第二層 Div 的原生 Margin */
 [data-testid="stRadio"] div[role="radiogroup"] label > div:nth-child(2) {
     margin: 0 !important; padding: 0 !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;
 }
@@ -89,7 +89,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
     margin: auto 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
-    transform: translateX(-2px); /* 🌟 視覺光學補償，將重心完美拉回正中央 */
+    transform: translateX(-4px); /* 🌟 視覺光學補償，將重心完美拉回正中央 (加重推擠) */
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
@@ -149,37 +149,48 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
 
-/* 🌟 Checkbox 絕對垂直置中與等距留白修正 */
+/* 🌟 Checkbox 絕對垂直置中與等距留白修正 (終極光學對齊) */
 [data-testid="stCheckbox"] { 
-    padding: 0 !important; /* 清除外部可能影響的 padding */
+    padding: 0 !important; 
     border: 1px solid rgba(255, 255, 255, 0.08) !important; 
     border-radius: 8px !important; 
     background-color: #0b0f19 !important; 
     transition: all 0.3s ease !important; 
     margin-bottom: 8px !important; 
     display: flex !important; 
-    align-items: center !important; /* 確保內部元件垂直置中 */
+    align-items: center !important; 
     justify-content: center !important;
     width: 100% !important; 
-    min-height: 52px !important; /* 給定最小高度，確保上下有足夠留白 */
+    min-height: 52px !important; 
+    box-sizing: border-box !important;
 } 
 /* 針對 Checkbox 內部的 label 與 div 進行歸零對齊 */
 [data-testid="stCheckbox"] label {
     margin: 0 !important;
-    padding: 0 14px !important; /* 僅保留左右 padding，上下交給 flex align-items */
+    padding: 0 14px !important; 
     display: flex !important;
     align-items: center !important;
+    justify-content: center !important;
     width: 100% !important;
     height: 100% !important;
+    box-sizing: border-box !important;
 }
-[data-testid="stCheckbox"] label > div {
+[data-testid="stCheckbox"] label > div:first-child {
     margin: 0 !important;
+    padding: 0 !important;
     display: flex !important;
     align-items: center !important;
+    justify-content: center !important;
+    transform: translateY(1px) !important; /* 🌟 勾選方塊微調上移 */
 }
 [data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } 
-[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { color: #94a3b8 !important; font-weight: 600 !important; margin: 0 !important; display: flex !important; align-items: center !important; } 
+[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] {
+    margin: 0 !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important;
+}
+[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { 
+    color: #94a3b8 !important; font-weight: 600 !important; margin: 0 0 0 8px !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; transform: translateY(1px) !important; /* 🌟 文字與勾選方塊同步對齊 */
+} 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
 /* 🌟 Footer 與版權宣告 CSS */
@@ -630,6 +641,17 @@ if not st.session_state['scan_completed']:
         except Exception as e: 
             p_placeholder.empty()
             st.error(f"Error: {e}")
+
+    active_display_key = "A"
+    try:
+        if strat_fund: active_display_key = extract_strategy_key(strat_fund)
+        if strat_chip and st.session_state.get('btn_chip', False): active_display_key = extract_strategy_key(strat_chip)
+        if strat_tech and st.session_state.get('btn_tech', False): active_display_key = extract_strategy_key(strat_tech)
+        if strat_multi and st.session_state.get('btn_multi', False): active_display_key = extract_strategy_key(strat_multi)
+    except: pass
+    
+    st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
+    st.markdown(logic_dict.get(active_display_key, ""), unsafe_allow_html=True)
 
 else:
     df, active_key = st.session_state['temp_df'], st.session_state['selected_strategy']
