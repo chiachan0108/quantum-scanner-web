@@ -85,7 +85,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     border: 1px solid #00f2ff !important; background-color: rgba(0, 242, 255, 0.08) !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.25), inset 0 0 10px rgba(0, 242, 255, 0.1) !important; 
 }
 
-/* 文字區域設定 */
+/* 文字區域設定 - 🎯 徹底移除 translate 位移，交給絕對置中處理 */
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] {
     width: 100% !important; height: auto !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important;
 }
@@ -216,7 +216,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     justify-content: center !important;
     height: 100% !important;
     width: auto !important;
-    transform: translateY(1px) !important; /* 🌟 微調 SVG 偏位 */
+    transform: translateY(-2px) !important; /* 🌟 終極光學微調：強制往上拉提對齊文字 */
 }
 
 /* 文字區域容器 */
@@ -526,7 +526,7 @@ if not st.session_state['scan_completed']:
         active_multi_key = extract_strategy_key(strat_multi)
         
         if active_multi_key == "T":
-            st.markdown("<div style='display: flex; align-items: center; justify-content: center; width: 100%; min-height: 60px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%); box-sizing: border-box;'><div style='display: flex; align-items: center; justify-content: center; gap: 8px; color:#00f2ff; font-weight:800; font-size:1.0rem; font-family: \"JetBrains Mono\", monospace; letter-spacing: 1px;'><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"margin-right: 6px; transform: translateY(3px);\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg>請勾選欲交集之策略 (至少 2 項)：</div></div>", unsafe_allow_html=True)
+            st.markdown("<div style='display: flex; align-items: center; justify-content: center; width: 100%; min-height: 60px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%); box-sizing: border-box;'><div style='display: flex; align-items: center; justify-content: center; gap: 8px; color:#00f2ff; font-weight:800; font-size:1.0rem; font-family: \"JetBrains Mono\", \"Noto Sans TC\", sans-serif; letter-spacing: 1px; margin: 0; padding: 0;'><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0;\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg><span style=\"margin-top: 2px;\">請勾選欲交集之策略 (至少 2 項)：</span></div></div>", unsafe_allow_html=True)
             
             c1, c2, c3, c4 = st.columns(4)
             with c1:
@@ -683,7 +683,7 @@ else:
     
     name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "I": "營收財報雙能", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "E": "市場區間共振", "F": "左側超跌優質", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集", "S": "趨勢轉折延伸", "C": "營收股價雙能", "T": "自訂策略交集"}
     
-    avg_ret = pd.to_numeric(df["涨幅(%)"], errors='coerce').mean() if "漲幅(%)" in df.columns and len(df) > 0 else 0.0
+    avg_ret = pd.to_numeric(df["漲幅(%)"], errors='coerce').mean() if "漲幅(%)" in df.columns and len(df) > 0 else 0.0
     if pd.isna(avg_ret): avg_ret = 0.0
     ret_class, ret_sign = "return-val-up" if avg_ret > 0 else ("return-val-down" if avg_ret < 0 else "return-val-zero"), "+" if avg_ret > 0 else ""
 
