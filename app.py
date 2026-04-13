@@ -59,15 +59,15 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
 }
 
-/* 🎯 終極核彈：殺除 label 內所有子元素的水平 Margin 與 Padding，根絕 Streamlit 隱藏偏移 */
-[data-testid="stRadio"] div[role="radiogroup"] label * {
-    margin-left: 0 !important; margin-right: 0 !important; padding-left: 0 !important; padding-right: 0 !important;
+/* 🎯 徹底殺除內部第二層 Div 的原生 Margin (解決偏右的終極元凶) */
+[data-testid="stRadio"] div[role="radiogroup"] label > div:nth-child(2) {
+    margin: 0 !important; padding: 0 !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;
 }
 
 /* 選項卡片本體：確保完美的幾何框架與呼吸感 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; 
-    padding: 24px 0px !important; /* 🌟 增加上下充裕留白，左右交給寬度 100% 絕對置中 */
+    padding: 24px 35px !important; /* 🌟 增加豐滿的左右與上下留白，徹底解除壓迫感 */
     margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 96px !important;
     gap: 0 !important; overflow: hidden !important;
 }
@@ -275,7 +275,7 @@ data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now
 
 st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:00</span></div></div>''', unsafe_allow_html=True)
 
-# 🌟 全域戰情雷達總覽面板
+# 🌟 全域戰情雷達總覽面板 (顯示所有策略)
 st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>GLOBAL RADAR</span><span class='section-label-zh'>全域戰情總覽</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
 
 radar_keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S']
@@ -655,7 +655,7 @@ else:
             if any(x in c for x in ["法人", "買超", "張", "次數"]):
                 format_dict[c] = "{:,.0f}"
         
-        col_config = {"代號 / 名稱": st.column_config.TextColumn(width=160), "產業": st.column_config.TextColumn(width=125), "現價": st.column_config.NumberColumn(width=85), "漲幅(%)": st.column_config.NumberColumn(width=85), "季乖離(%)": st.column_config.NumberColumn(width=95), "年乖離(%)": st.column_config.NumberColumn(width=95), "月營收MoM(%)": st.column_config.NumberColumn(width=115), "月營收YoY(%)": st.column_config.NumberColumn(width=115), "今年營收YoY(%)": st.column_config.NumberColumn(width=125), "近一年創高次數": st.column_config.NumberColumn(width=140), "20日法人買賣超(張)": st.column_config.NumberColumn(width=150), "投信5日買超(張)": st.column_config.NumberColumn(width=120), "投信5日股本比(%)": st.column_config.NumberColumn(width=135), "投信10日買超(張)": st.column_config.NumberColumn(width=125), "投信10日股本比(%)": st.column_config.NumberColumn(width=145), "投信20日買超(張)": st.column_config.NumberColumn(width=130), "投信20日股本比(%)": st.column_config.NumberColumn(width=150), "合約負債YoY(%)": st.column_config.NumberColumn(width=135), "增額佔股本(%)": st.column_config.NumberColumn(width=125), "總佔比(%)": st.column_config.NumberColumn(width=125), "最新季EPS": st.column_config.NumberColumn(width=100), "轉折值": st.column_config.NumberColumn(width=85), "轉折乖離(%)": st.column_config.NumberColumn(width=95)}
+        col_config = {"代號 / 名稱": st.column_config.TextColumn(width=160), "產業": st.column_config.TextColumn(width=125), "現價": st.column_config.NumberColumn(width=85), "漲幅(%)": st.column_config.NumberColumn(width=85), "季乖離(%)": st.column_config.NumberColumn(width=95), "年乖離(%)": st.column_config.NumberColumn(width=95), "月營收MoM(%)": st.column_config.NumberColumn(width=115), "月營收YoY(%)": st.column_config.NumberColumn(width=115), "今年營收YoY(%)": st.column_config.NumberColumn(width=125), "近一年創高次數": st.column_config.NumberColumn(width=140), "20日法人買賣超(張)": st.column_config.NumberColumn(width=150), "投信5日買超(張)": st.column_config.NumberColumn(width=120), "投信5日股本比(%)": st.column_config.NumberColumn(width=135), "投信10日買超(張)": st.column_config.NumberColumn(width=125), "投信10日股本比(%)": st.column_config.NumberColumn(width=145), "投信20日買超(張)": st.column_config.NumberColumn(width=130), "投信20日股本比(%)": st.column_config.NumberColumn(width=150), "合合約負債YoY(%)": st.column_config.NumberColumn(width=135), "增額佔股本(%)": st.column_config.NumberColumn(width=125), "總佔比(%)": st.column_config.NumberColumn(width=125), "最新季EPS": st.column_config.NumberColumn(width=100), "轉折值": st.column_config.NumberColumn(width=85), "轉折乖離(%)": st.column_config.NumberColumn(width=95)}
         
         st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True, column_config=col_config)
         st.markdown('</div>', unsafe_allow_html=True)
