@@ -47,7 +47,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 策略選項 Radio Buttons (終極絕對置中 + 豐滿留白版) */
+/* 🌟 策略選項 Radio Buttons (終極無壓迫留白 + 光學絕對置中版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important;
 }
@@ -59,17 +59,17 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
 }
 
-/* 🎯 徹底殺除內部第二層 Div 的原生 Margin */
-[data-testid="stRadio"] div[role="radiogroup"] label > div:nth-child(2) {
-    margin: 0 !important; padding: 0 !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;
+/* 🎯 終極核彈：殺除 label 內所有子元素的水平 Margin 與 Padding，根絕 Streamlit 隱藏偏移 */
+[data-testid="stRadio"] div[role="radiogroup"] label * {
+    margin-left: 0 !important; margin-right: 0 !important; padding-left: 0 !important; padding-right: 0 !important;
 }
 
-/* 選項卡片本體：增加豐滿的左右 padding，解除壓迫感 */
+/* 選項卡片本體：確保完美的幾何框架與呼吸感 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; 
-    padding: 20px 35px !important; /* 🌟 充裕的左右留白 */
-    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 90px !important;
-    gap: 0 !important;
+    padding: 24px 0px !important; /* 🌟 增加上下充裕留白，左右交給寬度 100% 絕對置中 */
+    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 96px !important;
+    gap: 0 !important; overflow: hidden !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label:hover {
@@ -89,6 +89,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
     margin: auto 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
+    transform: translateX(-2px); /* 🌟 視覺光學補償，將重心完美拉回正中央 */
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
@@ -126,6 +127,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .radar-card { background: linear-gradient(145deg, rgba(22, 27, 34, 0.6) 0%, rgba(11, 15, 25, 0.8) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; cursor: default; } 
 .radar-card:hover { border-color: rgba(0, 242, 255, 0.4); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05), 0 6px 15px rgba(0, 0, 0, 0.3); transform: translateY(-2px); }
 .radar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); opacity: 0.7; } 
+/* 🌟 將策略中文改為青藍色發光 */
 .radar-title-main { font-family: 'Noto Sans TC', sans-serif; font-size: 1.3rem; color: #00f2ff; font-weight: 900; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; text-align: center; line-height: 1.2; text-shadow: 0 0 10px rgba(0, 242, 255, 0.4); } 
 .radar-title-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #94a3b8; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase; text-align: center; opacity: 0.9;} 
 .radar-data-row { display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); } 
@@ -273,7 +275,7 @@ data_date = now_taipei.strftime('%Y/%m/%d') if (now_taipei.hour >= 20) else (now
 
 st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER</h1><div class="status-pill"><div class="pulse-dot-small"></div>LAST UPDATE : <span class="status-val">{data_date} 20:00</span></div></div>''', unsafe_allow_html=True)
 
-# 🌟 全域戰情雷達總覽面板 (顯示所有策略)
+# 🌟 全域戰情雷達總覽面板
 st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>GLOBAL RADAR</span><span class='section-label-zh'>全域戰情總覽</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
 
 radar_keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S']
@@ -357,6 +359,7 @@ def render_search_radar(location="top"):
                     hit_strategies.append("S. 趨勢轉折延伸型")
                     
                 base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "L. 股本法人鎖碼型", "M. 營收創高精選型", "N. 股本投信鎖碼型", "O. 合約負債爆發型", "S. 趨勢轉折延伸型"}
+                # 🌟 個股反查 R 標籤下修至 3 項
                 if len([s for s in hit_strategies if s in base_strats]) >= 3:
                     hit_strategies.append("R. 複式策略交集型")
                     
@@ -645,6 +648,7 @@ else:
         elif "代號" in disp_df.columns: 
             disp_df = disp_df.set_index("代號")
             
+        st.markdown('<div class="dataframe-wrapper">', unsafe_allow_html=True)
         numeric_cols = disp_df.select_dtypes(include=['number']).columns
         format_dict = {c: "{:.2f}" for c in numeric_cols}
         for c in numeric_cols:
@@ -654,6 +658,7 @@ else:
         col_config = {"代號 / 名稱": st.column_config.TextColumn(width=160), "產業": st.column_config.TextColumn(width=125), "現價": st.column_config.NumberColumn(width=85), "漲幅(%)": st.column_config.NumberColumn(width=85), "季乖離(%)": st.column_config.NumberColumn(width=95), "年乖離(%)": st.column_config.NumberColumn(width=95), "月營收MoM(%)": st.column_config.NumberColumn(width=115), "月營收YoY(%)": st.column_config.NumberColumn(width=115), "今年營收YoY(%)": st.column_config.NumberColumn(width=125), "近一年創高次數": st.column_config.NumberColumn(width=140), "20日法人買賣超(張)": st.column_config.NumberColumn(width=150), "投信5日買超(張)": st.column_config.NumberColumn(width=120), "投信5日股本比(%)": st.column_config.NumberColumn(width=135), "投信10日買超(張)": st.column_config.NumberColumn(width=125), "投信10日股本比(%)": st.column_config.NumberColumn(width=145), "投信20日買超(張)": st.column_config.NumberColumn(width=130), "投信20日股本比(%)": st.column_config.NumberColumn(width=150), "合約負債YoY(%)": st.column_config.NumberColumn(width=135), "增額佔股本(%)": st.column_config.NumberColumn(width=125), "總佔比(%)": st.column_config.NumberColumn(width=125), "最新季EPS": st.column_config.NumberColumn(width=100), "轉折值": st.column_config.NumberColumn(width=85), "轉折乖離(%)": st.column_config.NumberColumn(width=95)}
         
         st.dataframe(disp_df.style.apply(highlight_pivot_full_row, axis=1).format(format_dict, na_rep="-"), use_container_width=True, column_config=col_config)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     render_search_radar(location="bottom")
     st.markdown('<div id="disclaimer-target" class="disclaimer-wrapper"><div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div><ul class="disclaimer-list"><li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議.</li><li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任.</li></ul></div>', unsafe_allow_html=True)
