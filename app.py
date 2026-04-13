@@ -216,7 +216,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     justify-content: center !important;
     height: 100% !important;
     width: auto !important;
-    transform: translateY(-2px) !important; /* 🌟 終極光學微調：強制往上拉提對齊文字 */
+    transform: translateY(-2px) !important; /* 🌟 微調 SVG 偏位 */
 }
 
 /* 文字區域容器 */
@@ -453,7 +453,6 @@ def render_search_radar(location="top"):
                     
                 base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "L. 股本法人鎖碼型", "M. 營收創高精選型", "N. 股本投信鎖碼型", "O. 合約負債爆發型", "S. 趨勢轉折延伸型"}
                 
-                # M 策略動能爆發修正，不影響此處的 R 計算
                 if len([s for s in hit_strategies if s in base_strats]) >= 3:
                     hit_strategies.append("R. 複式策略交集型")
                     
