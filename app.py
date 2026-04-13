@@ -47,7 +47,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 } 
 .stButton > button:hover { background: rgba(0, 242, 255, 0.15) !important; border: 1px solid rgba(0, 242, 255, 0.8) !important; box-shadow: 0 0 25px rgba(0, 242, 255, 0.35) !important; transform: translateY(-2px) !important; } 
 
-/* 🌟 策略選項 Radio Buttons (防壓扁 + 光學絕對置中版) */
+/* 🌟 策略選項 Radio Buttons (終極無壓迫留白 + 光學絕對置中版) */
 [data-testid="stRadio"] > div[role="radiogroup"] {
     display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important;
 }
@@ -59,20 +59,17 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     display: none !important; position: absolute !important; width: 0 !important; height: 0 !important; margin: 0 !important; padding: 0 !important; opacity: 0 !important; pointer-events: none !important;
 }
 
-/* 清除內層 Div 預設 Margin */
-[data-testid="stRadio"] div[role="radiogroup"] label * {
-    margin-left: 0 !important; margin-right: 0 !important; padding-left: 0 !important; padding-right: 0 !important; box-sizing: border-box !important;
+/* 🎯 徹底殺除內部第二層 Div 的原生 Margin */
+[data-testid="stRadio"] div[role="radiogroup"] label > div:nth-child(2) {
+    margin: 0 !important; padding: 0 !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;
 }
 
-/* 🎯 卡片本體防壓扁修正：加回 min-height 與上下/左右 padding，還原充裕留白 */
+/* 選項卡片本體：確保完美的幾何框架與呼吸感 */
 [data-testid="stRadio"] div[role="radiogroup"] label {
     background-color: #0b0f19 !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; border-radius: 12px !important; 
-    padding: 24px 35px !important; /* 🌟 還原豐滿的左右與上下留白，徹底解除壓迫感 */
-    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; 
-    display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; 
-    box-sizing: border-box !important; width: 100% !important; 
-    min-height: 96px !important; /* 🌟 鎖死最小高度，絕對不壓扁 */
-    overflow: hidden !important;
+    padding: 24px 35px !important; /* 🌟 增加豐滿的左右與上下留白，徹底解除壓迫感 */
+    margin: 0 !important; cursor: pointer !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; width: 100% !important; text-align: center !important; min-height: 96px !important;
+    gap: 0 !important; overflow: hidden !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label:hover {
@@ -85,14 +82,14 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     border: 1px solid #00f2ff !important; background-color: rgba(0, 242, 255, 0.08) !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.25), inset 0 0 10px rgba(0, 242, 255, 0.1) !important; 
 }
 
-/* 文字區域設定 - 🎯 徹底移除 translate 位移，交給絕對置中處理 */
+/* 文字區域設定 */
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] {
-    width: 100% !important; height: auto !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important;
+    width: 100% !important; height: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; margin: 0 !important; padding: 0 !important;
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
-    margin: 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
-    transform: translateX(-2px); /* 🌟 視覺光學補償 */
+    margin: auto 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
+    transform: translateX(-2px); /* 🌟 視覺光學補償，將重心完美拉回正中央 */
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
@@ -113,13 +110,13 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 .search-header-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-bottom: 1px dashed rgba(0, 242, 255, 0.2); padding-bottom: 16px; margin-bottom: 16px; }
 .id-name-group { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
 .search-target-id { font-family: 'JetBrains Mono', monospace; font-size: clamp(1.4rem, 6vw, 2.2rem); font-weight: 900; color: #ffffff; text-shadow: 0 0 15px rgba(0, 242, 255, 0.4); line-height: 1; margin: 0; display: inline-block; }
-.search-target-name { font-size: clamp(1rem, 4.5vw, 1.3rem); font-weight: 800; color: #e2e8f0; margin-left: 10px; letter-spacing: 2px; white-space: nowrap; word-break: keep-all; display: inline-block; }
+.search-target-name { font-size: clamp(1rem, 4.5vw, 1.3rem); font-weight: 800; color: #ffffff; margin-left: 10px; letter-spacing: 2px; white-space: nowrap; word-break: keep-all; display: inline-block; } /* 更新為純白 */
 .search-status-tag { background: rgba(0, 242, 255, 0.1); border: 1px solid rgba(0, 242, 255, 0.4); padding: 4px 10px; border-radius: 4px; color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; }
 .search-badges-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-.strat-badge-premium { background: linear-gradient(90deg, rgba(22, 27, 34, 0.9), rgba(11, 15, 25, 0.9)); border: 1px solid rgba(0, 242, 255, 0.3); border-left: 3px solid #00f2ff; padding: 8px 14px; border-radius: 6px; color: #e2e8f0; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s ease; }
+.strat-badge-premium { background: linear-gradient(90deg, rgba(22, 27, 34, 0.9), rgba(11, 15, 25, 0.9)); border: 1px solid rgba(0, 242, 255, 0.3); border-left: 3px solid #00f2ff; padding: 8px 14px; border-radius: 6px; color: #ffffff; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.3s ease; } /* 更新為純白 */
 .strat-badge-premium:hover { border-color: rgba(0, 242, 255, 0.7); box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2); transform: translateY(-2px); }
 .strat-badge-premium span { color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-weight: 800; margin-right: 6px; }
-.search-subtitle { color: #94a3b8; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; font-weight: 500; }
+.search-subtitle { color: #ffffff; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; font-weight: 600; } /* 更新為純白與加粗 */
 .search-subtitle svg { margin-right: 8px; filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.5)); flex-shrink: 0; }
 [data-testid="stForm"] { border: none !important; background: transparent !important; padding: 0 !important; margin-bottom: 10px !important; }
 [data-testid="stTextInput"] input { background-color: rgba(11, 15, 25, 0.8) !important; border: 1px solid rgba(0, 242, 255, 0.25) !important; color: #00f2ff !important; border-radius: 8px !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; padding: 10px 14px !important; }
@@ -144,104 +141,13 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 /* 🔥 策略說明卡片保留 */
 .logic-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); margin-bottom: 25px; margin-top: 10px; } @media (max-width: 1024px) { .logic-grid { grid-template-columns: repeat(2, 1fr); } } @media (max-width: 640px) { .logic-grid { grid-template-columns: 1fr; } } .logic-item { background: linear-gradient(145deg, rgba(22, 27, 34, 0.9) 0%, rgba(11, 15, 25, 0.95) 100%); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 12px; padding: 20px 16px; display: flex; flex-direction: column; position: relative; box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.02), 0 4px 12px rgba(0, 0, 0, 0.2); } .logic-header { display: flex; flex-direction: column; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); } .logic-tag-row { display: flex; align-items: center; margin-bottom: 4px; } .logic-index-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: rgba(0, 242, 255, 0.8); border: 1px solid rgba(0, 242, 255, 0.3); padding: 1px 6px; border-radius: 3px; margin-right: 10px; background: rgba(0, 242, 255, 0.05); } .logic-label-en { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: rgba(148, 163, 184, 0.7); letter-spacing: 1.2px; text-transform: uppercase; } .logic-label-zh { font-size: 1.1rem; font-weight: 700; color: #ffffff; line-height: 1.2; margin-top: 2px; } .logic-desc { font-size: 0.95rem; color: #94a3b8; line-height: 1.65; font-weight: 400; flex-grow: 1; } .highlight { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4); }
-
-/* 🔥 DataFrame 的崩潰性修正 CSS 🔥 */
-[data-testid="stDataFrame"] {
-    border: 1px solid rgba(0, 242, 255, 0.25) !important;
-    border-radius: 12px !important;
-    padding: 0 !important; /* 🌟 確保內容直接貼齊容器 */
-    background-color: #0b0f19 !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    width: 100% !important;
-}
-
-[data-testid="stDataFrame"] th, [data-testid="stDataFrame"] td {
-    text-align: center !important; /* 🌟 徹底強制置中 */
-    justify-content: center !important;
-    display: table-cell !important;
-}
-
-[data-testid="stDataFrame"] th {
-    background-color: #161b2a !important;
-    color: #94a3b8 !important;
-    border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important;
-    font-weight: 700 !important;
-}
-
-[data-testid="stDataFrame"] td {
-    background-color: #0b0f19 !important;
-    color: #ffffff !important;
-}
+[data-testid="stDataFrame"] { border: 1px solid rgba(0, 242, 255, 0.25) !important; border-radius: 12px !important; padding: 4px !important; background-color: #0b0f19 !important; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); } [data-testid="stDataFrame"] th { background-color: #161b2a !important; color: #94a3b8 !important; border-bottom: 1px solid rgba(0, 242, 255, 0.2) !important; font-weight: 700 !important; } [data-testid="stDataFrame"] td { background-color: #0b0f19 !important; color: #ffffff !important; } 
 
 /* 🌟 復原：結果統計科技框 CSS */
 .strategy-header-container { border-left: 4px solid #00f2ff; background: linear-gradient(90deg, rgba(0, 242, 255, 0.08) 0%, transparent 100%); padding: 16px 20px; margin-top: 25px; margin-bottom: 15px; border-radius: 0 8px 8px 0; display: flex; flex-direction: column; gap: 6px; animation: fadeSlideUp 0.5s ease-out forwards; } .status-tag-text { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #00f2ff; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; } .strategy-title { font-size: clamp(1.2rem, 4.5vw, 1.6rem) !important; color: #ffffff; font-weight: 800; line-height: 1.4; margin: 0; white-space: normal !important; word-break: keep-all !important; } 
 .summary-box-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; align-items: flex-start; animation: fadeSlideUp 0.6s ease-out forwards; } .result-summary, .return-summary { display: flex; align-items: center; justify-content: center; padding: 0 !important; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.35); border-radius: 6px; margin-bottom: 0px !important; width: 220px; height: 52px; box-sizing: border-box; transition: all 0.3s ease; overflow: hidden; } .result-summary:hover, .return-summary:hover { background: rgba(0, 242, 255, 0.12); border-color: rgba(0, 242, 255, 0.6); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15); } .box-left { display: flex; align-items: center; transform: translateY(1px); } .box-right { display: flex; align-items: center; padding-left: 8px; gap: 4px; transform: translateY(1px); } .box-label { font-weight: 800; font-size: 0.9rem; color: #00f2ff; letter-spacing: 0.5px; line-height: 1; margin: 0; } .box-num { font-family: 'Inter', sans-serif; font-size: 1.15rem; color: #ffffff; font-weight: 700; line-height: 1; margin: 0; } .box-unit { font-weight: 800; font-size: 0.9rem; color: #00f2ff; line-height: 1; margin: 0; } .return-val-up { color: #ff3333 !important; } .return-val-down { color: #00ff33 !important; } .return-val-zero { color: #ffffff !important; }
 
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
-
-/* 🌟 Checkbox 終極對齊與均等留白版 (安全防裁切) */
-[data-testid="stCheckbox"] { 
-    border: 1px solid rgba(255, 255, 255, 0.08) !important; 
-    border-radius: 8px !important; 
-    background-color: #0b0f19 !important; 
-    transition: all 0.3s ease !important; 
-    margin-bottom: 8px !important; 
-    padding: 12px 18px !important; /* 🌟 確保內部邊距 */
-    min-height: 60px !important; /* 🌟 使用 min-height 確保自動長高不被切斷 */
-    box-sizing: border-box !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important; 
-} 
-/* 清空內部冗餘邊距 */
-[data-testid="stCheckbox"] * {
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-}
-
-[data-testid="stCheckbox"] label {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-/* 勾選方塊 SVG 容器 */
-[data-testid="stCheckbox"] label > div:first-child {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    height: 100% !important;
-    width: auto !important;
-    transform: translateY(-2px) !important; /* 🌟 終極光學微調：強制往上拉提對齊文字 */
-}
-
-/* 文字區域容器 */
-[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] {
-    display: flex !important; 
-    align-items: center !important; 
-    justify-content: center !important; 
-    height: 100% !important;
-    margin-left: 10px !important; /* 🌟 文字與框的間距 */
-}
-
-/* 文字本體 */
-[data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { 
-    color: #94a3b8 !important; 
-    font-weight: 600 !important; 
-    display: flex !important; 
-    align-items: center !important; 
-    justify-content: center !important;
-    height: 100% !important;
-    line-height: 1.4 !important; /* 🌟 回復正常的行高避免擠壓 */
-} 
-
-[data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } 
-[data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } 
-[data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
 /* 🌟 Footer 與版權宣告 CSS */
 .disclaimer-wrapper { background-color: #0e121a; border: 1px solid rgba(0, 242, 255, 0.2) !important; border-radius: 8px; padding: 16px 16px 10px 16px !important; margin-top: 35px !important; margin-bottom: 35px !important; display: flex; flex-direction: column; gap: 10px !important; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); animation: fadeSlideUp 0.8s ease-out forwards; } .disclaimer-header { display: flex; align-items: center; margin-bottom: 0px !important; } .disclaimer-title { font-weight: 700; color: #ffffff; font-size: 14px !important; letter-spacing: 0.5px; margin: 0 !important; padding: 0 !important; line-height: 1 !important; display: flex; align-items: center; } .disclaimer-list { display: flex; flex-direction: column; gap: 6px !important; list-style: none; padding: 0 !important; padding-left: 18px !important; margin: 0 !important; } .disclaimer-item { font-size: 13px !important; color: #94a3b8; line-height: 1.4 !important; font-weight: 400; margin: 0 !important; text-align: justify !important; text-justify: inter-ideograph !important; } .footer-wrapper { margin-top: 60px; padding: 30px 10px 50px 10px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; justify-content: center !important; } .brand-copyright { color: #94a3b8; font-weight: 800 !important; font-size: 0.85rem !important; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; } .design-container { display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap; } .design-tag { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); color: #00f2ff; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; padding: 3px 8px 2px 8px; border-radius: 4px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; line-height: 1; height: 20px; box-sizing: border-box; } .design-email-tech { font-family: 'JetBrains Mono', monospace !important; color: #ffffff !important; font-size: 0.65rem !important; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.9; display: inline-flex; align-items: center; height: 20px; } @media (max-width: 768px) { .design-container { flex-direction: column; gap: 10px; } }
@@ -396,7 +302,7 @@ for idx, k in enumerate(radar_keys):
 
 # 🌟 獨立的個股反查雷達模組
 def render_search_radar(location="top"):
-    with st.expander("輸入代號或名稱", expanded=False):
+    with st.expander("❖ 輸入代號或名稱", expanded=False): # 💡 加入雙菱形符號
         c_input, c_btn = st.columns([3, 1])
         search_query = c_input.text_input("輸入股票代號或名稱：", placeholder="例如: 2330 或 台積電", key=f"input_{location}", label_visibility="collapsed").strip()
         submit_search = c_btn.button("啟動反查", key=f"btn_search_{location}", use_container_width=True)
@@ -460,7 +366,8 @@ def render_search_radar(location="top"):
 
                 if hit_strategies:
                     badge_html = "".join([f"<div class='strat-badge-premium'><span>{s.split('.')[0]}.</span>{s.split('.')[1].strip()}</div>" for s in hit_strategies])
-                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9V5h4M19 9V5h-4M5 15v4h4M19 15v4h-4M12 12h.01"/></svg>標的當前符合：</div><div class="search-badges-container">{badge_html}</div></div>"""
+                    # 💡 圖 2: 更換為白色字體、雙菱形符號，並加強字體粗細
+                    result_html = f"""<div class="search-box-glass"><div class="search-header-row"><div class="id-name-group"><span class="search-target-id">{match_info['id']}</span><span class="search-target-name">{match_info['name']}</span></div><div class="search-status-tag">MATCHED</div></div><div class="search-subtitle" style="color: #ffffff; font-weight: 700;">❖ 標的當前符合：</div><div class="search-badges-container">{badge_html}</div></div>"""
                     st.markdown(result_html, unsafe_allow_html=True)
                 else:
                     warning_html = """<div class="search-warning-glass"><div class="warning-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffaa00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>TARGET NOT MATCHED</div><p class="warning-desc"><br>該標的目前可能未符合任何策略濾網，或輸入格式有誤。</p></div>"""
@@ -526,7 +433,8 @@ if not st.session_state['scan_completed']:
         active_multi_key = extract_strategy_key(strat_multi)
         
         if active_multi_key == "T":
-            st.markdown("<div style='display: flex; align-items: center; justify-content: center; width: 100%; min-height: 60px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%); box-sizing: border-box;'><div style='display: flex; align-items: center; justify-content: center; gap: 8px; color:#00f2ff; font-weight:800; font-size:1.0rem; font-family: \"JetBrains Mono\", \"Noto Sans TC\", sans-serif; letter-spacing: 1px; margin: 0; padding: 0;'><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#00f2ff\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink: 0;\"><polyline points=\"9 11 12 14 22 4\"></polyline><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"></path></svg><span style=\"margin-top: 2px;\">請勾選欲交集之策略 (至少2項)：</span></div></div>", unsafe_allow_html=True)
+            # 💡 圖 4: 加入雙菱形符號，並加粗文字
+            st.markdown("<div style='display: flex; align-items: center; justify-content: center; width: 100%; min-height: 60px; border: 1px dashed rgba(0, 242, 255, 0.4); border-radius: 12px; margin-top: 15px; margin-bottom: 10px; background: linear-gradient(135deg, rgba(0, 242, 255, 0.03) 0%, rgba(11, 15, 25, 0.5) 100%); box-sizing: border-box;'><div style='display: flex; align-items: center; justify-content: center; gap: 8px; color:#00f2ff; font-weight:900; font-size:1.0rem; font-family: \"JetBrains Mono\", \"Noto Sans TC\", sans-serif; letter-spacing: 1px; margin: 0; padding: 0;'><span style=\"margin-top: 2px;\">❖ 請勾選欲交集之策略 (至少 2 項)：</span></div></div>", unsafe_allow_html=True)
             
             c1, c2, c3, c4 = st.columns(4)
             with c1:
@@ -704,7 +612,8 @@ else:
     </div>
     ''', unsafe_allow_html=True)
     
-    with st.expander("量子篩選結果數據", expanded=True):
+    # 💡 圖 1: 修改文字為「❖ 量化篩選結果」，加上雙菱形並加粗
+    with st.expander("❖ 量化篩選結果", expanded=True): 
         if '現價' in df.columns and '轉折值' in df.columns:
             try:
                 p = pd.to_numeric(df['現價'], errors='coerce')
