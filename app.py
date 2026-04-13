@@ -150,14 +150,14 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 [data-testid="stDataFrame"] {
     border: 1px solid rgba(0, 242, 255, 0.25) !important;
     border-radius: 12px !important;
-    padding: 0 !important; /* 🌟 確保內容直接貼齊容器 */
+    padding: 0 !important; 
     background-color: #0b0f19 !important;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     width: 100% !important;
 }
 
 [data-testid="stDataFrame"] th, [data-testid="stDataFrame"] td {
-    text-align: center !important; /* 🌟 徹底強制置中 */
+    text-align: center !important; 
     justify-content: center !important;
     display: table-cell !important;
 }
@@ -180,20 +180,22 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
 
-/* 🌟 Checkbox 終極對齊與均等留白版 */
+/* 🌟 Checkbox 終極對齊與均等留白版 (不鎖死高度，安全防裁切) */
 [data-testid="stCheckbox"] { 
     border: 1px solid rgba(255, 255, 255, 0.08) !important; 
     border-radius: 8px !important; 
     background-color: #0b0f19 !important; 
     transition: all 0.3s ease !important; 
     margin-bottom: 8px !important; 
-    padding: 0 !important;
-    height: 54px !important; /* 🌟 鎖死高度，防止內部撐開 */
+    padding: 12px 18px !important; /* 🌟 使用彈性 padding 確保不會切到文字 */
+    min-height: 60px !important; /* 🌟 確保基本高度，但允許自動長高 */
     box-sizing: border-box !important;
-    position: relative !important;
-    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important; 
 } 
-/* 強制清空所有內部的預設邊距 */
+/* 清空內部冗餘邊距 */
 [data-testid="stCheckbox"] * {
     margin: 0 !important;
     padding: 0 !important;
@@ -206,9 +208,6 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     justify-content: center !important;
     width: 100% !important;
     height: 100% !important;
-    position: absolute !important; /* 🌟 使用絕對定位完全掌握內容位置 */
-    top: 0 !important;
-    left: 0 !important;
 }
 
 /* 勾選方塊 SVG 容器 */
@@ -218,6 +217,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     justify-content: center !important;
     height: 100% !important;
     width: auto !important;
+    transform: translateY(1px) !important; /* 🌟 微微修正 SVG 本身的偏位 */
 }
 
 /* 文字區域容器 */
@@ -226,7 +226,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     align-items: center !important; 
     justify-content: center !important; 
     height: 100% !important;
-    margin-left: 8px !important; /* 🌟 方塊與文字的固定距離 */
+    margin-left: 10px !important; /* 🌟 舒適的方塊與文字間距 */
 }
 
 /* 文字本體 */
@@ -237,7 +237,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     align-items: center !important; 
     justify-content: center !important;
     height: 100% !important;
-    line-height: 1 !important; /* 🌟 鎖死行高，強迫字體基線對齊 */
+    line-height: 1.4 !important; /* 🌟 回復正常的行高避免擠壓 */
 } 
 
 [data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } 
@@ -400,7 +400,7 @@ def render_search_radar(location="top"):
     with st.expander("輸入代號或名稱", expanded=False):
         c_input, c_btn = st.columns([3, 1])
         search_query = c_input.text_input("輸入股票代號或名稱：", placeholder="例如: 2330 或 台積電", key=f"input_{location}", label_visibility="collapsed").strip()
-        submit_search = c_btn.button("啟 নিরাপ查", key=f"btn_search_{location}", use_container_width=True)
+        submit_search = c_btn.button("啟動反查", key=f"btn_search_{location}", use_container_width=True)
                 
         if submit_search and search_query:
             try:
@@ -675,6 +675,17 @@ if not st.session_state['scan_completed']:
             p_placeholder.empty()
             st.error(f"Error: {e}")
 
+    active_display_key = "A"
+    try:
+        if strat_fund: active_display_key = extract_strategy_key(strat_fund)
+        if strat_chip and st.session_state.get('btn_chip', False): active_display_key = extract_strategy_key(strat_chip)
+        if strat_tech and st.session_state.get('btn_tech', False): active_display_key = extract_strategy_key(strat_tech)
+        if strat_multi and st.session_state.get('btn_multi', False): active_display_key = extract_strategy_key(strat_multi)
+    except: pass
+    
+    st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
+    st.markdown(logic_dict.get(active_display_key, ""), unsafe_allow_html=True)
+
 else:
     df, active_key = st.session_state['temp_df'], st.session_state['selected_strategy']
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
@@ -718,7 +729,7 @@ else:
         disp_df = df[ordered_cols + remaining_cols].copy()
         
         if "代號" in disp_df.columns and "名稱" in disp_df.columns:
-            disp_df.insert(0, "代號 / 名稱", disp_df["代號"].astype(str) + " " + disp_df["名稱"])
+            disp_df.insert(0, "代號 / 名 পুনরায়", disp_df["代號"].astype(str) + " " + disp_df["名稱"])
             disp_df = disp_df.drop(columns=["代號", "名稱"]).set_index("代號 / 名稱")
         elif "代號" in disp_df.columns: 
             disp_df = disp_df.set_index("代號")
