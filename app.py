@@ -89,7 +89,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p {
     margin: auto 0 !important; padding: 0 !important; font-family: 'JetBrains Mono', 'Noto Sans TC', monospace !important; font-size: 1.15rem !important; color: #e2e8f0 !important; text-align: center !important; white-space: pre-wrap !important; line-height: 1.5 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important;
-    transform: translateX(-4px); /* 🌟 視覺光學補償，將重心完美拉回正中央 (加重推擠) */
+    transform: translateX(-2px); /* 🌟 視覺光學補償，將重心完美拉回正中央 */
 }
 
 [data-testid="stRadio"] div[role="radiogroup"] label div[data-testid="stMarkdownContainer"] > p > strong {
@@ -149,7 +149,7 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 
 [data-testid="stTabs"] { background-color: transparent !important; } [data-testid="stTabs"] button { background-color: rgba(11, 15, 25, 0.4) !important; border: 1px solid rgba(0, 242, 255, 0.1) !important; border-radius: 8px 8px 0 0 !important; color: #94a3b8 !important; font-family: 'JetBrains Mono', monospace !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 12px 20px !important; transition: all 0.3s ease !important; } [data-testid="stTabs"] button[aria-selected="true"] { background: linear-gradient(180deg, rgba(0, 242, 255, 0.15) 0%, rgba(11, 15, 25, 0) 100%) !important; border-color: #00f2ff !important; color: #00f2ff !important; } [data-testid="stTabs"] [data-baseweb="tab-highlight"] { background-color: #00f2ff !important; }
 
-/* 🌟 Checkbox 絕對垂直置中與等距留白修正 (終極光學對齊) */
+/* 🌟 Checkbox 絕對垂直置中與等距留白修正 (終極光學對齊版) */
 [data-testid="stCheckbox"] { 
     padding: 0 !important; 
     border: 1px solid rgba(255, 255, 255, 0.08) !important; 
@@ -175,21 +175,24 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
     height: 100% !important;
     box-sizing: border-box !important;
 }
+/* 🌟 修正 1：對勾選方塊(SVG容器)本體進行光學微調，使其與文字重心切齊 */
 [data-testid="stCheckbox"] label > div:first-child {
     margin: 0 !important;
     padding: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    transform: translateY(1px) !important; /* 🌟 勾選方塊微調上移 */
+    transform: translateY(1px) !important; 
 }
 [data-testid="stCheckbox"]:hover { border-color: rgba(0, 242, 255, 0.4) !important; } 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } 
+/* 🌟 修正 2：確保文字容器也是絕對居中 */
 [data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] {
     margin: 0 !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important;
 }
+/* 🌟 修正 3：對文字本體進行光學微調與精細留白 */
 [data-testid="stCheckbox"] div[data-testid="stMarkdownContainer"] > p { 
-    color: #94a3b8 !important; font-weight: 600 !important; margin: 0 0 0 8px !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; transform: translateY(1px) !important; /* 🌟 文字與勾選方塊同步對齊 */
+    color: #94a3b8 !important; font-weight: 600 !important; margin: 0 0 0 8px !important; padding: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; height: 100% !important; transform: translateY(1px) !important; 
 } 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
