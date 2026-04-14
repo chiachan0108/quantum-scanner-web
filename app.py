@@ -1,3 +1,6 @@
+# =============================================================================
+# QUANTUM TECH SCANNER - VERSION 100.1 (前端介面版 - 終極排版與純白標題修正)
+# =============================================================================
 import streamlit as st
 import pandas as pd
 import datetime
@@ -243,16 +246,19 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
-/* 🌟 st.expander 標題字體與箭頭強制純白與加粗 (終極變數覆寫版) */
-[data-testid="stExpander"] details summary p,
-[data-testid="stExpander"] details summary span { 
+/* 🌟 st.expander 標題字體與箭頭強制純白與加粗 (終極破除透明度版) */
+div[data-testid="stExpander"] details summary p,
+div[data-testid="stExpander"] details summary span { 
     color: #ffffff !important; 
-    font-weight: 900 !important; 
+    font-weight: 900 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #ffffff !important;
 }
-[data-testid="stExpander"] details summary {
+div[data-testid="stExpander"] details summary {
     color: #ffffff !important;
+    opacity: 1 !important;
 }
-[data-testid="stExpander"] details summary svg {
+div[data-testid="stExpander"] details summary svg {
     fill: #ffffff !important;
     color: #ffffff !important;
 }
@@ -719,7 +725,7 @@ else:
     </div>
     ''', unsafe_allow_html=True)
     
-    # 💡 圖 1: 修改文字為「❖ 量化篩選結果」，加上雙菱形並加強字體顯示
+    # 💡 圖 1: 標題維持雙菱形，透過 CSS 徹底破除預設灰暗
     with st.expander("❖ 量化篩選結果", expanded=True): 
         if '現價' in df.columns and '轉折值' in df.columns:
             try:
@@ -768,6 +774,8 @@ else:
         st.markdown('</div>', unsafe_allow_html=True)
 
     render_search_radar(location="bottom")
+    
+    /* 🌟 Footer 與版權宣告 CSS */
     st.markdown('<div id="disclaimer-target" class="disclaimer-wrapper"><div class="disclaimer-header"><div class="pulse-dot-small"></div><h4 class="disclaimer-title">重要免責聲明</h4></div><ul class="disclaimer-list"><li class="disclaimer-item">1.系統篩選結果均為量化模型產出，僅供研究參考不構成投資建議.</li><li class="disclaimer-item">2.過往績效不保證未來表現，請做好自身風控本系統不負法律責任.</li></ul></div>', unsafe_allow_html=True)
 
 st.markdown('<div class="footer-wrapper"><div class="brand-copyright">QUANTUM DATA SYSTEM © 2026</div><div class="design-container"><span class="design-tag">Developer / Design</span><span class="design-email-tech">WU.CHIACHAN@GMAIL.COM</span></div></div>', unsafe_allow_html=True)
