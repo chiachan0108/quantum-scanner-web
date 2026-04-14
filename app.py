@@ -411,7 +411,7 @@ for idx, k in enumerate(radar_keys):
 
 # 🌟 獨立的個股反查雷達模組
 def render_search_radar(location="top"):
-    with st.expander("❖ 輸入代號或名稱", expanded=False):
+    with st.expander("輸入代號或名稱", expanded=False):
         c_input, c_btn = st.columns([3, 1])
         search_query = c_input.text_input("輸入股票代號或名稱：", placeholder="例如: 2330 或 台積電", key=f"input_{location}", label_visibility="collapsed").strip()
         submit_search = c_btn.button("啟動反查", key=f"btn_search_{location}", use_container_width=True)
@@ -660,7 +660,7 @@ if not st.session_state['scan_completed']:
                 selected_keys = [k for k in ['A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S'] if st.session_state.get(f"chk_{k}", False)]
                 if len(selected_keys) < 2:
                     p_placeholder.empty()
-                    st.toast('⚠️ 策略 T 失敗：請至少勾選 2 個基礎策略進行交集運算！', icon='⚠️')
+                    st.toast('⚠️ 策略 T 失敗：請至少勾選2個基礎策略進行交集運算！', icon='⚠️')
                     df = pd.DataFrame()
                 else:
                     df_dict_t = {'A': s_a, 'B': s_b, 'D': s_d, 'E': s_e, 'F': s_f, 'G': s_g, 'H': s_h, 'J': s_j, 'K': s_k, 'L': s_l, 'M': s_m, 'N': s_n, 'O': s_o, 'R': df_r, 'S': df_s}
@@ -721,7 +721,7 @@ else:
     ''', unsafe_allow_html=True)
     
     # 💡 圖 1: 標題維持雙菱形，透過 CSS 徹底破除預設灰暗
-    with st.expander("❖ 量化篩選結果", expanded=True): 
+    with st.expander("量化篩選結果", expanded=True): 
         if '現價' in df.columns and '轉折值' in df.columns:
             try:
                 p = pd.to_numeric(df['現價'], errors='coerce')
