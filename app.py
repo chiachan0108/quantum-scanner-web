@@ -243,13 +243,18 @@ html, body, [class*="css"], .stApp, [data-testid="stHeader"], [data-testid="stAp
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) { border: 1px solid #00f2ff !important; background-color: #0b0f19 !important; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2), inset 0 0 8px rgba(0, 242, 255, 0.1) !important; } 
 [data-testid="stCheckbox"]:has(input[type="checkbox"]:checked) div[data-testid="stMarkdownContainer"] > p { color: #00f2ff !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(0, 242, 255, 0.4) !important; }
 
-/* 🌟 st.expander 標題字體強制純白與加粗 (徹底擊破 Streamlit 預設灰) */
-[data-testid="stExpander"] summary, 
-[data-testid="stExpander"] summary p, 
-[data-testid="stExpander"] summary span,
-[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"] p { 
+/* 🌟 st.expander 標題字體與箭頭強制純白與加粗 (終極變數覆寫版) */
+[data-testid="stExpander"] details summary p,
+[data-testid="stExpander"] details summary span { 
     color: #ffffff !important; 
     font-weight: 900 !important; 
+}
+[data-testid="stExpander"] details summary {
+    color: #ffffff !important;
+}
+[data-testid="stExpander"] details summary svg {
+    fill: #ffffff !important;
+    color: #ffffff !important;
 }
 
 /* 🌟 Footer 與版權宣告 CSS */
@@ -551,7 +556,7 @@ if not st.session_state['scan_completed']:
                 st.checkbox("R. 複式策略交集", key="chk_R") 
             with c3:
                 st.checkbox("D. 法人籌碼吃貨", key="chk_D")
-                st.checkbox("G. 中長周期轉折", key="chk_G")
+                st.checkbox("G. 中长周期转折", key="chk_G")
                 st.checkbox("M. 營收創高精選", key="chk_M")
                 st.checkbox("S. 趨勢轉折延伸", key="chk_S") 
             with c4:
