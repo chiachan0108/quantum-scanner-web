@@ -557,7 +557,7 @@ if not st.session_state['scan_completed']:
                 st.checkbox("R. 複式策略交集", key="chk_R") 
             with c3:
                 st.checkbox("D. 法人籌碼吃貨", key="chk_D")
-                st.checkbox("G. 中长周期转折", key="chk_G")
+                st.checkbox("G. 中長周期轉折", key="chk_G")
                 st.checkbox("M. 營收創高精選", key="chk_M")
                 st.checkbox("S. 趨勢轉折延伸", key="chk_S") 
             with c4:
