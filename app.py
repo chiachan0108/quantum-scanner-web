@@ -387,7 +387,7 @@ st.markdown(f'''<div class="header-group"><h1 class="main-title">QUANTUM SCANNER
 st.markdown("<div class='section-header-container'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>GLOBAL RADAR</span><span class='section-label-zh'>全域戰情總覽</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
 
 radar_keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'R', 'S']
-name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "E": "市場區間共振", "F": "左側超跌優質", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集", "S": "趨勢轉折延伸", "C": "營收股價雙能", "I": "營收財報雙能"}
+name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "E": "市場大戶進駐", "F": "左側超跌優質", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集", "S": "趨勢轉折延伸", "C": "營收股價雙能", "I": "營收財報雙能"}
 
 col_list = st.columns(4)
 for idx, k in enumerate(radar_keys):
@@ -447,7 +447,7 @@ def render_search_radar(location="top"):
                 check_hit(s_a, "A. 營收趨勢增長型")
                 check_hit(s_b, "B. 股價強勢動能型")
                 check_hit(s_d, "D. 法人籌碼吃貨型")
-                check_hit(s_e, "E. 市場區間共振型")
+                check_hit(s_e, "E. 市場大戶進駐型")
                 check_hit(s_f, "F. 左側超跌優質型")
                 check_hit(s_g, "G. 中長周期轉折型")
                 check_hit(s_h, "H. 財報三率三升型")
@@ -466,7 +466,7 @@ def render_search_radar(location="top"):
                 if hit_strategies and match_info["price"] > match_info["pivot"] and match_info["pivot"] > 0:
                     hit_strategies.append("S. 趨勢轉折延伸型")
                     
-                base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場區間共振型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "L. 股本法人鎖碼型", "M. 營收創高精選型", "N. 股本投信鎖碼型", "O. 合約負債爆發型", "S. 趨勢轉折延伸型"}
+                base_strats = {"A. 營收趨勢增長型", "B. 股價強勢動能型", "D. 法人籌碼吃貨型", "E. 市場大戶進駐型", "F. 左側超跌優質型", "G. 中長周期轉折型", "H. 財報三率三升型", "J. 指標強勢共振型", "K. 跨週期多矩陣型", "L. 股本法人鎖碼型", "M. 營收創高精選型", "N. 股本投信鎖碼型", "O. 合約負債爆發型", "S. 趨勢轉折延伸型"}
                 
                 if len([s for s in hit_strategies if s in base_strats]) >= 3:
                     hit_strategies.append("R. 複式策略交集型")
@@ -520,7 +520,7 @@ if not st.session_state['scan_completed']:
         run_fund = st.button("啟動AI量化篩選", key="btn_fund", use_container_width=True)
 
     with t_chip:
-        strat_chip = st.radio("籌碼面區", [get_strat_label("D", "法人籌碼吃貨型"), get_strat_label("E", "市場區間共振型"), get_strat_label("F", "左側超跌優質型"), get_strat_label("L", "股本法人鎖碼型"), get_strat_label("N", "股本投信鎖碼型")], label_visibility="collapsed")
+        strat_chip = st.radio("籌碼面區", [get_strat_label("D", "法人籌碼吃貨型"), get_strat_label("E", "市大戶進駐型"), get_strat_label("F", "左側超跌優質型"), get_strat_label("L", "股本法人鎖碼型"), get_strat_label("N", "股本投信鎖碼型")], label_visibility="collapsed")
         
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(extract_strategy_key(strat_chip), ""), unsafe_allow_html=True)
@@ -547,7 +547,7 @@ if not st.session_state['scan_completed']:
             c1, c2, c3, c4 = st.columns(4)
             with c1:
                 st.checkbox("A. 營收趨勢增長", key="chk_A")
-                st.checkbox("E. 市場區間共振", key="chk_E")
+                st.checkbox("E. 市場大戶進駐", key="chk_E")
                 st.checkbox("K. 跨週期多矩陣", key="chk_K")
                 st.checkbox("O. 合約負債爆發", key="chk_O") 
             with c2:
@@ -697,7 +697,7 @@ else:
     df, active_key = st.session_state['temp_df'], st.session_state['selected_strategy']
     st.button("重新選擇策略", on_click=lambda: st.session_state.update({"scan_completed": False}), use_container_width=True)
     
-    name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "I": "營收財報雙能", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "E": "市場區間共振", "F": "左側超跌優質", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集", "S": "趨勢轉折延伸", "C": "營收股價雙能", "T": "自訂策略交集"}
+    name_map = {"A": "營收趨勢增長", "H": "財報三率三升", "I": "營收財報雙能", "M": "營收創高精選", "O": "合約負債爆發", "D": "法人籌碼吃貨", "E": "市場大戶進駐", "F": "左側超跌優質", "L": "股本法人鎖碼", "N": "股本投信鎖碼", "B": "股價強勢動能", "G": "中長周期轉折", "J": "指標強勢共振", "K": "跨週期多矩陣", "R": "複式策略交集", "S": "趨勢轉折延伸", "C": "營收股價雙能", "T": "自訂策略交集"}
     
     avg_ret = pd.to_numeric(df["漲幅(%)"], errors='coerce').mean() if "漲幅(%)" in df.columns and len(df) > 0 else 0.0
     if pd.isna(avg_ret): avg_ret = 0.0
