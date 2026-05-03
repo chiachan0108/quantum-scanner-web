@@ -520,7 +520,7 @@ if not st.session_state['scan_completed']:
         run_fund = st.button("啟動AI量化篩選", key="btn_fund", use_container_width=True)
 
     with t_chip:
-        strat_chip = st.radio("籌碼面區", [get_strat_label("D", "法人籌碼吃貨型"), get_strat_label("E", "市大戶進駐型"), get_strat_label("F", "左側超跌優質型"), get_strat_label("L", "股本法人鎖碼型"), get_strat_label("N", "股本投信鎖碼型")], label_visibility="collapsed")
+        strat_chip = st.radio("籌碼面區", [get_strat_label("D", "法人籌碼吃貨型"), get_strat_label("E", "市場大戶進駐型"), get_strat_label("F", "左側超跌優質型"), get_strat_label("L", "股本法人鎖碼型"), get_strat_label("N", "股本投信鎖碼型")], label_visibility="collapsed")
         
         st.markdown("<div class='section-header-container' style='margin-top: 15px;'><div class='section-accent'></div><div class='section-header-text'><span class='section-label-en'>SYSTEM ARCHITECTURE</span><span class='section-label-zh'>策略核心邏輯</span></div><div class='section-line'></div></div>", unsafe_allow_html=True)
         st.markdown(logic_dict.get(extract_strategy_key(strat_chip), ""), unsafe_allow_html=True)
